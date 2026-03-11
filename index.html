@@ -66,7 +66,7 @@
 <body>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
-  <p class="subtitle">Q4 2025 &ndash; Q1 2026 &bull; Updated 2026-03-10</p>
+  <p class="subtitle">Q4 2025 &ndash; Q1 2026 &bull; Updated 2026-03-11</p>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
@@ -79,7 +79,7 @@
       <div><div class="kpi-val">$7.5M</div><div class="kpi-label">Total Committed</div></div>
       <div><div class="kpi-val blue">$5.7M</div><div class="kpi-label">Axiom Training</div></div>
       <div><div class="kpi-val orange">$1.8M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">46</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val">48</div><div class="kpi-label">Unique Quotes</div></div>
     </div>
 
     <div class="section">
@@ -111,8 +111,8 @@
         <table>
           <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
           <tbody>
-            <tr><td>In process</td><td class="r gray">16</td><td class="r bold">$4,598,541</td></tr>
-            <tr><td>Quote Generated</td><td class="r gray">18</td><td class="r bold">$2,274,210</td></tr>
+            <tr><td>In process</td><td class="r gray">18</td><td class="r bold">$4,598,541</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">20</td><td class="r bold">$2,274,210</td></tr>
             <tr><td>Completed</td><td class="r gray">9</td><td class="r bold">$628,045</td></tr>
             <tr><td>Quote Signed</td><td class="r gray">2</td><td class="r bold">$15,188</td></tr>
             <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
@@ -214,8 +214,10 @@ const allQuotes = [
   ["EX-001","Annotations","Clinical data","Axiom Training","Excelra",null,null,86400,"In process"],
   ["EX-002","Annotations","ADME processing (100 hours)","Axiom Training","Excelra",null,null,6250,"No Quote"],
   ["IMERIT-001","Annotations","Image Annotations Pilot","Axiom Training","iMerit","Image annotations",null,1200,"Quote Signed"],
-  ["AW-20693","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Full prod run, 2200 training compounds",2200,837807.31,"In process"],
-  ["AW-20693","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Full prod run, 2200 training compounds",2200,481319.76,"In process"],
+  ["AW-20693","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Full prod run, 2150 training compounds",2150,818766.31,"In process"],
+  ["AW-20693","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Full prod run, 2150 training compounds",2150,470380.76,"In process"],
+  ["AW-20693-ISO","Cell Assays","2D+ Truvivo (Labor + Reagents) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 2200 cmpds)",50,19041,"In process"],
+  ["AW-20693-ISO","Cell Assays","2D+ Truvivo (Cells) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 2200 cmpds)",50,10939,"In process"],
   ["PTX-TRUV-CELLS","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Cells for 8 future production runs",null,447670,"Quote Generated"],
   ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Cells)","Genentech","Partex","700 GNE compounds",700,321651.24,"In process"],
   ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Labor + Reagents)","Genentech","Partex","700 GNE compounds",700,281251.25,"In process"],
@@ -226,10 +228,12 @@ const allQuotes = [
   ["AW-20703","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Additional 250 training compounds",250,114775,"In process"],
   ["AW-20694-GNE","Cell Assays","2D PHH (Labor + Reagents)","Genentech","Partex","700 GNE compounds",700,82118.75,"In process"],
   ["AW-20706-GNE","Cell Assays","2D PHH NEW DONOR (Labor + Reagents)","Genentech","Partex","New donor PHH prod run, 700 GNE compounds",700,75118.75,"Quote Generated"],
-  ["AW-20699","Cell Assays","2D PHH (Labor + Reagents)","Axiom Training","Partex","Full prod run, 700 training compounds",700,72387.5,"Quote Generated"],
+  ["AW-20699","Cell Assays","2D PHH (Labor + Reagents)","Axiom Training","Partex","Full prod run, 650 training compounds",650,67217,"Quote Generated"],
+  ["AW-20699-ISO","Cell Assays","2D PHH (Labor + Reagents) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 700 cmpds)",50,5170.5,"Quote Generated"],
   ["AW-20694-BI","Cell Assays","2D PHH (Labor + Reagents)","BI","Partex","300 BI compounds",347,35193.75,"In process"],
   ["AW-20706-BI","Cell Assays","2D PHH NEW DONOR (Labor + Reagents)","BI","Partex","New donor PHH prod run, 300 BI compounds",300,32193.75,"Quote Generated"],
-  ["AW-20699","Cell Assays","2D PHH (Cells)","Axiom Training","Partex","Full prod run, 700 training compounds",700,24000,"Quote Generated"],
+  ["AW-20699","Cell Assays","2D PHH (Cells)","Axiom Training","Partex","Full prod run, 650 training compounds",650,22285.5,"Quote Generated"],
+  ["AW-20699-ISO","Cell Assays","2D PHH (Cells) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 700 cmpds)",50,1714.5,"Quote Generated"],
   ["AW-20694-GNE","Cell Assays","2D PHH (Cells)","Genentech","Partex","700 GNE compounds",700,17500,"In process"],
   ["AW-20705","Cell Assays","2D PHH (Test PHH lots LOC and UWM)","Axiom Training","Partex","Test PHH lots LOC and UWM",null,9985,"Quote Generated"],
   ["AW-20694-BI","Cell Assays","2D PHH (Cells)","BI","Partex","300 BI compounds",347,7500,"In process"],
@@ -315,7 +319,7 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: ['Axiom Training','Genentech','BI','Isomorphic'],
-    datasets: [{ data: [5673152,1243381,564149,41553], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9'], borderRadius: 4 }]
+    datasets: [{ data: [5636287,1243381,564149,78418], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9'], borderRadius: 4 }]
   },
   options: { indexAxis:'y', responsive:true,
     plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/7522235*100).toFixed(1)+'%)'}}},
