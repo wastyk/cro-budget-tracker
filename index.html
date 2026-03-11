@@ -60,10 +60,45 @@
   .status-qs { background: #ede9fe; color: #5b21b6; }
   .status-nq { background: #f3f4f6; color: #6a6a6a; }
   .click-hint { font-size: 11px; color: #9ca3af; font-style: italic; margin-top: 4px; }
-  @media print { body { background: #fff; } .container { padding: 16px; } }
+  @media print { body { background: #fff; } .container { padding: 16px; } .pw-overlay { display:none!important; } }
+  .pw-overlay { position:fixed; inset:0; background:#f8f8f8; z-index:9999; display:flex; align-items:center; justify-content:center; }
+  .pw-box { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:40px; max-width:360px; width:100%; text-align:center; box-shadow:0 4px 24px rgba(0,0,0,.08); }
+  .pw-box h2 { font-size:20px; font-weight:600; margin-bottom:4px; }
+  .pw-box p { font-size:13px; color:#6a6a6a; margin-bottom:20px; }
+  .pw-box input { width:100%; padding:10px 14px; font-size:14px; border:1px solid #d1d5db; border-radius:6px; outline:none; }
+  .pw-box input:focus { border-color:#0777b3; box-shadow:0 0 0 3px rgba(7,119,179,.15); }
+  .pw-box button { width:100%; margin-top:12px; padding:10px; font-size:14px; font-weight:500; background:#0777b3; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+  .pw-box button:hover { background:#065f91; }
+  .pw-error { color:#bc1200; font-size:12px; margin-top:8px; display:none; }
 </style>
 </head>
 <body>
+<div class="pw-overlay" id="pwOverlay">
+  <div class="pw-box">
+    <h2>CRO Budget Tracker</h2>
+    <p>Enter password to view dashboard</p>
+    <input type="password" id="pwInput" placeholder="Password" autocomplete="off" autofocus>
+    <button onclick="checkPw()">Unlock</button>
+    <div class="pw-error" id="pwError">Incorrect password</div>
+  </div>
+</div>
+<script>
+const PW_HASH='7244b4aa392a1b1b916fc856a9f1a1b51db83b028d7a192deed80fd52d914d10';
+async function sha256(s){const d=new TextEncoder().encode(s);const h=await crypto.subtle.digest('SHA-256',d);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+async function checkPw(){
+  const v=document.getElementById('pwInput').value;
+  if(await sha256(v)===PW_HASH){
+    document.getElementById('pwOverlay').style.display='none';
+    sessionStorage.setItem('cro_auth','1');
+  } else {
+    document.getElementById('pwError').style.display='block';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+  }
+}
+document.getElementById('pwInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPw();});
+if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay').style.display='none';
+</script>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
   <p class="subtitle">Q4 2025 &ndash; Q1 2026 &bull; Updated 2026-03-11</p>
