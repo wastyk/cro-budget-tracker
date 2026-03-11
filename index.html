@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRO Budget Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8f8f8; color: #231f20; }
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
+  h1 { font-size: 24px; font-weight: 600; }
+  .subtitle { font-size: 13px; color: #6a6a6a; margin-top: 2px; }
+  .tabs { display: flex; gap: 4px; border-bottom: 2px solid #e5e7eb; margin: 16px 0 24px; }
+  .tab { padding: 8px 16px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; background: none;
+    color: #6a6a6a; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+  .tab.active { color: #0777b3; border-bottom-color: #0777b3; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-bottom: 32px; }
+  .kpi-val { font-size: 42px; font-weight: 700; line-height: 1.1; }
+  .kpi-label { font-size: 13px; color: #6a6a6a; margin-top: 8px; }
+  .section { margin-bottom: 32px; }
+  .section-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .section-sub { font-size: 12px; color: #6a6a6a; margin-bottom: 12px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .three-col { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 4px; font-weight: 500; color: #6a6a6a; border-bottom: 2px solid #e5e7eb; }
+  th.r { text-align: right; }
+  td { padding: 6px 4px; border-bottom: 1px solid #f0f0f0; }
+  td.r { text-align: right; }
+  td.bold { font-weight: 600; }
+  td.gray { color: #6a6a6a; }
+  tr.total td { border-top: 2px solid #231f20; border-bottom: none; font-weight: 700; padding-top: 8px; }
+  .progress-bar { width: 100%; height: 10px; background: #e5e7eb; border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; }
+  .chart-wrap { position: relative; }
+  .inv-scroll { max-height: 320px; overflow-y: auto; }
+  .detail-toggle { display: flex; gap: 4px; margin-bottom: 12px; }
+  .detail-btn { padding: 4px 12px; font-size: 12px; border: none; border-radius: 4px; cursor: pointer; }
+  .detail-btn.active { background: #0777b3; color: #fff; }
+  .detail-btn:not(.active) { background: #e5e7eb; color: #6a6a6a; }
+  .hidden { display: none; }
+  .prepay-bar { width: 100%; height: 12px; background: #e5e7eb; border-radius: 99px; margin-bottom: 12px; }
+  .prepay-fill { height: 12px; border-radius: 99px; background: #0777b3; }
+  .red { color: #bc1200; }
+  .green { color: #2d7a00; }
+  .blue { color: #0777b3; }
+  .orange { color: #e18727; }
+  .drilldown { margin-top: 16px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; background: #fff; }
+  .drilldown-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .drilldown-header h3 { font-size: 15px; font-weight: 600; }
+  .drilldown-close { border: none; background: none; font-size: 18px; cursor: pointer; color: #6a6a6a; padding: 4px 8px; }
+  .drilldown-close:hover { color: #231f20; }
+  .drilldown table { font-size: 12px; }
+  .drilldown td, .drilldown th { padding: 5px 6px; }
+  .status-pill { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 10px; font-weight: 500; }
+  .status-ip { background: #dbeafe; color: #1e40af; }
+  .status-qg { background: #fef3c7; color: #92400e; }
+  .status-comp { background: #d1fae5; color: #065f46; }
+  .status-qs { background: #ede9fe; color: #5b21b6; }
+  .status-nq { background: #f3f4f6; color: #6a6a6a; }
+  .click-hint { font-size: 11px; color: #9ca3af; font-style: italic; margin-top: 4px; }
+  @media print { body { background: #fff; } .container { padding: 16px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>CRO Budget Tracker</h1>
+  <p class="subtitle">Q4 2025 &ndash; Q1 2026 &bull; Updated 2026-03-10</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
+    <button class="tab" onclick="showTab('invoices')">Invoices &amp; Payments</button>
+  </div>
+
+  <!-- ========== TAB 1: OVERVIEW ========== -->
+  <div id="tab-overview">
+    <div class="kpi-grid">
+      <div><div class="kpi-val">$7.5M</div><div class="kpi-label">Total Committed</div></div>
+      <div><div class="kpi-val blue">$5.7M</div><div class="kpi-label">Axiom Training</div></div>
+      <div><div class="kpi-val orange">$1.8M</div><div class="kpi-label">Customer Work</div></div>
+      <div><div class="kpi-val">46</div><div class="kpi-label">Unique Quotes</div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Spend by Category</h2>
+      <p class="section-sub">Horizontal bar chart</p>
+      <div class="chart-wrap"><canvas id="catChart" height="220" style="cursor:pointer"></canvas></div>
+      <p class="click-hint">Click a bar to see quotes</p>
+      <div id="catDrilldown" class="drilldown hidden">
+        <div class="drilldown-header">
+          <h3 id="catDrillTitle">—</h3>
+          <button class="drilldown-close" onclick="closeDrilldown()">&times;</button>
+        </div>
+        <div style="max-height:300px;overflow-y:auto">
+          <table>
+            <thead><tr><th>Quote ID</th><th>Assay</th><th>Compound Set</th><th>Vendor</th><th class="r">Compounds</th><th class="r">Cost</th><th>Status</th></tr></thead>
+            <tbody id="catDrillBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="section">
+        <h2 class="section-title">Spend by Compound Set</h2>
+        <div class="chart-wrap" style="max-width:320px;margin:0 auto"><canvas id="csChart" height="240"></canvas></div>
+      </div>
+      <div class="section">
+        <h2 class="section-title">Status Breakdown</h2>
+        <table>
+          <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
+          <tbody>
+            <tr><td>In process</td><td class="r gray">16</td><td class="r bold">$4,598,541</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">18</td><td class="r bold">$2,274,210</td></tr>
+            <tr><td>Completed</td><td class="r gray">9</td><td class="r bold">$628,045</td></tr>
+            <tr><td>Quote Signed</td><td class="r gray">2</td><td class="r bold">$15,188</td></tr>
+            <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TAB 2: INVOICES ========== -->
+  <div id="tab-invoices" class="hidden">
+    <div class="kpi-grid">
+      <div><div class="kpi-val">$7.5M</div><div class="kpi-label">Total Quoted</div></div>
+      <div><div class="kpi-val blue">$3.6M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
+      <div><div class="kpi-val green">$3.5M</div><div class="kpi-label">Total Payable (Net)</div></div>
+      <div><div class="kpi-val orange">47%</div><div class="kpi-label">% Invoiced</div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Quoted vs Invoiced by Vendor</h2>
+      <p class="section-sub">Stacked bar chart</p>
+      <div class="chart-wrap"><canvas id="vendorChart" height="300"></canvas></div>
+    </div>
+
+    <div class="three-col" style="margin-bottom:32px">
+      <div class="section">
+        <h2 class="section-title">Monthly Cash Flow</h2>
+        <div class="chart-wrap"><canvas id="cashChart" height="200"></canvas></div>
+      </div>
+      <div class="section">
+        <h2 class="section-title">Eurofins Prepayment</h2>
+        <div style="font-size:12px;color:#6a6a6a;display:flex;justify-content:space-between;margin-bottom:4px">
+          <span>Consumed (15%)</span><span>$68,293 / $453,569</span>
+        </div>
+        <div class="prepay-bar"><div class="prepay-fill" style="width:15%"></div></div>
+        <table>
+          <tbody>
+            <tr><td class="gray">Prepaid</td><td class="r bold">$453,569</td></tr>
+            <tr><td class="gray">Consumed</td><td class="r bold red">$68,293</td></tr>
+            <tr style="border-top:1px solid #ccc"><td class="bold">Remaining</td><td class="r bold green">$385,276</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px">
+        <h2 class="section-title" id="detailTitle">Invoice Detail</h2>
+        <div class="detail-toggle">
+          <button class="detail-btn active" id="btnInv" onclick="showDetail('invoices')">Invoices</button>
+          <button class="detail-btn" id="btnPO" onclick="showDetail('progress')">By PO</button>
+        </div>
+      </div>
+
+      <div id="detail-invoices" class="inv-scroll">
+        <table style="font-size:11px">
+          <thead><tr>
+            <th>Inv #</th><th>PO</th><th>Vendor</th><th>Date</th><th>Type</th>
+            <th class="r">Gross</th><th class="r">Credit</th><th class="r">Payable</th><th>Description</th>
+          </tr></thead>
+          <tbody id="invBody"></tbody>
+        </table>
+      </div>
+
+      <div id="detail-progress" class="inv-scroll hidden">
+        <table style="font-size:11px">
+          <thead><tr>
+            <th>PO / Ref</th><th>Vendor</th><th class="r">Quoted</th><th class="r">Invoiced</th><th class="r">%</th><th style="width:120px">Progress</th>
+          </tr></thead>
+          <tbody id="poBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const fmt = v => v >= 1e6 ? '$'+(v/1e6).toFixed(1)+'M' : v >= 1e3 ? '$'+(v/1e3).toFixed(0)+'K' : '$'+v.toFixed(0);
+const fmtFull = v => '$'+v.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+
+// Tab switching
+function showTab(t) {
+  document.getElementById('tab-overview').classList.toggle('hidden', t!=='overview');
+  document.getElementById('tab-invoices').classList.toggle('hidden', t!=='invoices');
+  document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', (i===0&&t==='overview')||(i===1&&t==='invoices')));
+  if(t==='invoices' && !window._invChartsDrawn) { drawInvCharts(); window._invChartsDrawn=true; }
+}
+
+function showDetail(v) {
+  document.getElementById('detail-invoices').classList.toggle('hidden', v!=='invoices');
+  document.getElementById('detail-progress').classList.toggle('hidden', v!=='progress');
+  document.getElementById('btnInv').classList.toggle('active', v==='invoices');
+  document.getElementById('btnPO').classList.toggle('active', v==='progress');
+  document.getElementById('detailTitle').textContent = v==='invoices' ? 'Invoice Detail' : 'Quote-to-Invoice Progress';
+}
+
+// Quotes data for drill-down [quote_id, category, assay, compound_set, vendor, description, num_compounds, total_cost, status]
+const allQuotes = [
+  ["EX-001","Annotations","Clinical data","Axiom Training","Excelra",null,null,86400,"In process"],
+  ["EX-002","Annotations","ADME processing (100 hours)","Axiom Training","Excelra",null,null,6250,"No Quote"],
+  ["IMERIT-001","Annotations","Image Annotations Pilot","Axiom Training","iMerit","Image annotations",null,1200,"Quote Signed"],
+  ["AW-20693","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Full prod run, 2200 training compounds",2200,837807.31,"In process"],
+  ["AW-20693","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Full prod run, 2200 training compounds",2200,481319.76,"In process"],
+  ["PTX-TRUV-CELLS","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Cells for 8 future production runs",null,447670,"Quote Generated"],
+  ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Cells)","Genentech","Partex","700 GNE compounds",700,321651.24,"In process"],
+  ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Labor + Reagents)","Genentech","Partex","700 GNE compounds",700,281251.25,"In process"],
+  ["PTX-1783","Cell Assays","2D PHH (Cells)","Axiom Training","Partex","Cells for 8 future production runs",null,178635.6,"Quote Generated"],
+  ["AW-20700","Cell Assays","2D+ Truvivo Donor Testing","Axiom Training","Partex","Quantification of 10 Truvivo donors + BA/LPS testing",null,137940,"In process"],
+  ["AW-20695-BI","Cell Assays","2D+ Truvivo (Cells)","BI","Partex","300 BI compounds",347,137850.53,"In process"],
+  ["AW-20695-BI","Cell Assays","2D+ Truvivo (Labor + Reagents)","BI","Partex","300 BI compounds",347,120536.25,"In process"],
+  ["AW-20703","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Additional 250 training compounds",250,114775,"In process"],
+  ["AW-20694-GNE","Cell Assays","2D PHH (Labor + Reagents)","Genentech","Partex","700 GNE compounds",700,82118.75,"In process"],
+  ["AW-20706-GNE","Cell Assays","2D PHH NEW DONOR (Labor + Reagents)","Genentech","Partex","New donor PHH prod run, 700 GNE compounds",700,75118.75,"Quote Generated"],
+  ["AW-20699","Cell Assays","2D PHH (Labor + Reagents)","Axiom Training","Partex","Full prod run, 700 training compounds",700,72387.5,"Quote Generated"],
+  ["AW-20694-BI","Cell Assays","2D PHH (Labor + Reagents)","BI","Partex","300 BI compounds",347,35193.75,"In process"],
+  ["AW-20706-BI","Cell Assays","2D PHH NEW DONOR (Labor + Reagents)","BI","Partex","New donor PHH prod run, 300 BI compounds",300,32193.75,"Quote Generated"],
+  ["AW-20699","Cell Assays","2D PHH (Cells)","Axiom Training","Partex","Full prod run, 700 training compounds",700,24000,"Quote Generated"],
+  ["AW-20694-GNE","Cell Assays","2D PHH (Cells)","Genentech","Partex","700 GNE compounds",700,17500,"In process"],
+  ["AW-20705","Cell Assays","2D PHH (Test PHH lots LOC and UWM)","Axiom Training","Partex","Test PHH lots LOC and UWM",null,9985,"Quote Generated"],
+  ["AW-20694-BI","Cell Assays","2D PHH (Cells)","BI","Partex","300 BI compounds",347,7500,"In process"],
+  ["MCE-Q4-TRAIN","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCE","Clinical labels",1600,208354,"Completed"],
+  ["MCE-Q1-MIXED","Compound Sourcing","ADME/mito tox/RM/GSH/PHH/Truvivo","Axiom Training","MCE","Benchmark + Customer + GSH validation",363,109930,"Completed"],
+  ["MCE-FDA","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCE","FDA clinical",429,51200,"Completed"],
+  ["MCULE-Q4","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCule","Clinical labels",60,25402.42,"Completed"],
+  ["SELLECK-Q4","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","Selleck","Clinical labels",94,19430,"Completed"],
+  ["WUXI-MCE-PILOT","Compound Sourcing","T1 ADME Pilot","Axiom Training","WuXi/MCE","5mg powder",191,5153,"Completed"],
+  ["PTX-1778","Instruments","2D PHH + Truvivo","Axiom Training","Partex","New liquid handler + incubator",null,275000,"Quote Generated"],
+  ["EF-ADME-SCALE","Off-the-Shelf ADME + MitoTox","T1 ADME Scale up","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB",2519,874697.56,"In process"],
+  ["EF-ADME-GNE","Off-the-Shelf ADME + MitoTox","T1 ADME","Genentech","Eurofins",null,700,243068,"Quote Generated"],
+  ["EF-ADME-BI","Off-the-Shelf ADME + MitoTox","T1 ADME","BI","Eurofins",null,347,120492.28,"In process"],
+  ["WUXI-PILOT","Off-the-Shelf ADME + MitoTox","T1 ADME Pilot","Axiom Training","WuXi",null,191,95500,"Completed"],
+  ["WUXI-ADME-PILOT2","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM assay","Axiom Training","WuXi","Sol, Caco2, LogD, Microsome Stability, PPB, RM",50,35000,"Quote Generated"],
+  ["PHAR-ADME-PILOT","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM assay","Axiom Training","Pharmaron","LogD, Sol, Stability, PPB, Caco2, MetTrap",50,37000,"Quote Generated"],
+  ["EF-BSEP-SCALE","Off-the-Shelf ADME + MitoTox","BSEP Scale up","Axiom Training","Eurofins","2 conc, n=2",400,75528,"Quote Generated"],
+  ["EF-MT-GNE","Off-the-Shelf ADME + MitoTox","Mito Tox","Genentech","Eurofins",null,700,56840,"Quote Generated"],
+  ["EF-MT-TRANS","Off-the-Shelf ADME + MitoTox","Mito Tox (Transporters/Bio)","Axiom Training","Eurofins","7 conc, n=3, HepG2",400,46000,"Quote Generated"],
+  ["EF-BSEP-PILOT","Off-the-Shelf ADME + MitoTox","BSEP Pilot (7pt dosage curve)","Axiom Training","Eurofins",null,52,41236.52,"Quote Generated"],
+  ["EF-ISO-PANEL","Off-the-Shelf ADME + MitoTox","Isomorphic Full Panel","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB, RM, BSEP",50,35803,"Quote Generated"],
+  ["EF-MITO-AUTO","Off-the-Shelf ADME + MitoTox","Mito Tox Automation Pilot","Axiom Training","Eurofins",null,null,34978,"In process"],
+  ["EF-RM-PILOT","Off-the-Shelf ADME + MitoTox","Reactive Metabolites Pilot","Axiom Training","Eurofins",null,200,34740,"Completed"],
+  ["EF-SPHEROIDS","Off-the-Shelf ADME + MitoTox","Spheroids Pilot","Axiom Training","Eurofins",null,186,33552.54,"In process"],
+  ["EF-MT-BI","Off-the-Shelf ADME + MitoTox","Mito Tox","BI","Eurofins",null,347,28176.4,"In process"],
+  ["EF-ISO-MT","Off-the-Shelf ADME + MitoTox","Mito Tox Isomorphic Pilot","Axiom Training","Eurofins","7 conc, n=3, HepG2",50,5750,"Quote Generated"],
+  ["NOMIC-SCALE","Proteomics","Nomic Scale up (77-plex)","Axiom Training","Nomic","88 plates (384wp)",null,596761.41,"In process"],
+  ["NOMIC-60EXTRA","Proteomics","Nomic (77-plex)","Axiom Training","Nomic","60 plates",null,576000,"Quote Generated"],
+  ["NOMIC-GNE","Proteomics","Nomic (77-plex)","Genentech","Nomic",null,700,165832.87,"In process"],
+  ["NOMIC-BI","Proteomics","Nomic (77-plex)","BI","Nomic",null,347,82205.72,"In process"],
+  ["NOMIC-PILOT","Proteomics","Nomic Pilot (1000-plex)","Axiom Training","Nomic","3 plates (384wp)",null,78336,"Completed"],
+  ["ALI-20704","Transcriptomics","DRUG-seq mRNA seq Pilot","Axiom Training","Alithea","2 plates (384wp)",null,13988,"Quote signed"],
+  ["AW-20711","Transcriptomics","DRUG-seq Alithea Pilot Repeat","Axiom Training","Partex","Repeat of pilot plate",null,6994,"Quote Generated"]
+];
+
+const catLabels = ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'];
+
+function statusPill(s) {
+  const cls = s==='In process'?'status-ip':s==='Quote Generated'?'status-qg':s==='Completed'?'status-comp':(s==='Quote signed'||s==='Quote Signed')?'status-qs':'status-nq';
+  return '<span class="status-pill '+cls+'">'+s+'</span>';
+}
+
+function showCatDrilldown(catName) {
+  const rows = allQuotes.filter(q => q[1] === catName);
+  const body = document.getElementById('catDrillBody');
+  const total = rows.reduce((s,r) => s + r[7], 0);
+  document.getElementById('catDrillTitle').textContent = catName + ' \u2014 ' + rows.length + ' line items \u2014 ' + fmtFull(Math.round(total));
+  body.innerHTML = '';
+  rows.forEach(r => {
+    body.innerHTML += '<tr>' +
+      '<td class="bold">'+r[0]+'</td>' +
+      '<td>'+r[2]+'</td>' +
+      '<td class="gray">'+r[3]+'</td>' +
+      '<td class="gray">'+r[4]+'</td>' +
+      '<td class="r gray">'+(r[6]!=null?r[6].toLocaleString():'\u2014')+'</td>' +
+      '<td class="r bold">'+fmtFull(r[7])+'</td>' +
+      '<td>'+statusPill(r[8])+'</td>' +
+    '</tr>';
+  });
+  document.getElementById('catDrilldown').classList.remove('hidden');
+  document.getElementById('catDrilldown').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closeDrilldown() {
+  document.getElementById('catDrilldown').classList.add('hidden');
+}
+
+// Category chart
+const catChart = new Chart(document.getElementById('catChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'],
+    datasets: [{ data: [3415434,1798362,1499136,419469,275000,93850,20982], backgroundColor: '#0777b3', borderRadius: 4 }]
+  },
+  options: { indexAxis:'y', responsive:true,
+    onClick: (evt, elements) => { if(elements.length){ showCatDrilldown(catLabels[elements[0].index]); } },
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)}}},
+    scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:11}},grid:{display:false}}} }
+});
+
+// Compound set pie
+new Chart(document.getElementById('csChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Axiom Training (76%)','Genentech (17%)','BI (8%)'],
+    datasets: [{ data: [5714705,1243381,564149], backgroundColor: ['#0777b3','#bd4e35','#2d7a00'] }]
+  },
+  options: { responsive:true, plugins:{legend:{position:'bottom',labels:{font:{size:11}}},tooltip:{callbacks:{label:c=>fmtFull(c.raw)}}} }
+});
+
+// Invoice charts (lazy)
+function drawInvCharts() {
+  // Vendor stacked bar
+  const vendors = ['Partex','Eurofins','Nomic','MCE','WuXi','Excelra','Pharmaron','MCule','Selleck','Alithea','WuXi/MCE','iMerit'];
+  const quoted = [3697428,1630862,1499136,369484,130500,92650,37000,25402,19430,13988,5153,1200];
+  const invoiced = [3038861,521862,0,0,0,0,0,0,0,0,0,0];
+  const remaining = quoted.map((q,i) => q - invoiced[i]);
+
+  new Chart(document.getElementById('vendorChart'), {
+    type: 'bar',
+    data: {
+      labels: vendors,
+      datasets: [
+        { label:'Invoiced (Gross)', data:invoiced, backgroundColor:'#0777b3', borderRadius:0 },
+        { label:'Remaining', data:remaining, backgroundColor:'#e5e7eb', borderRadius:{topLeft:0,topRight:4,bottomRight:4,bottomLeft:0} }
+      ]
+    },
+    options: { indexAxis:'y', responsive:true, scales:{x:{stacked:true,ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{stacked:true,ticks:{font:{size:12}},grid:{display:false}}},
+      plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtFull(c.raw)}},legend:{labels:{font:{size:11}}}} }
+  });
+
+  // Monthly cash flow
+  new Chart(document.getElementById('cashChart'), {
+    type: 'bar',
+    data: {
+      labels: ['2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04'],
+      datasets: [
+        { label:'Cash Out', data: [181758,1515435,589823,815742,389672,0,0], backgroundColor:'#0777b3', borderRadius:4 },
+        { label:'Gross Invoiced', data: [181758,1515435,639661,815742,408126,0,0], backgroundColor:'#e5e7eb', borderRadius:4 },
+        { label:'Projected', data: [0,0,0,0,0,0,72000], backgroundColor:'rgba(7,119,179,0.2)', borderColor:'#0777b3', borderWidth:1, borderRadius:4 }
+      ]
+    },
+    options: { responsive:true, scales:{x:{ticks:{font:{size:11}},grid:{display:false}},y:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}}},
+      plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtFull(c.raw)}},legend:{labels:{font:{size:11}}}} }
+  });
+}
+
+// Invoice detail table
+const invoices = [
+  ["1790","20704","Partex","2026-02-28","FD",6994,0,6994,"Alithea Pilot DRUG-seq"],
+  ["1791","20705","Partex","2026-02-28","FD",6985,0,6985,"Test PHH lots LOC and UWM"],
+  ["1792","20705","Partex","2026-02-28","Materials",3000,0,3000,"PHH lot testing boutique materials"],
+  ["1793","20703","Partex","2026-02-28","FD",104775,0,104775,"Truvivo additional 250 cmpds"],
+  ["1794","20703","Partex","2026-02-28","Materials",10000,0,10000,"Truvivo additional 250 boutique materials"],
+  ["1795","20695","Partex","2026-02-28","FD",195482,0,195482,"Truvivo customer compounds (57 FD)"],
+  ["1796","20695","Partex","2026-02-28","Materials",25000,0,25000,"Truvivo customer boutique materials"],
+  ["1797","20700","Partex","2026-02-28","FD",27436,0,27436,"Truvivo donor testing (8 FD)"],
+  ["1798","20700","Partex","2026-02-28","Materials",10000,0,10000,"Truvivo donor testing boutique materials"],
+  ["US034-0023098","US034-0028902-O","Eurofins","2026-02-23","Assay Services",18454,-18454,0,"RM credit + Spheroids 186 samples"],
+  ["1778","20707","Partex","2026-01-31","Materials",275000,0,275000,"Capacity expansion - liquid handler + incubator"],
+  ["1780","20693","Partex","2026-01-31","FD",260642,0,260642,"Truvivo (76 FD)"],
+  ["1781","20693","Partex","2026-01-31","Materials",32875,0,32875,"Truvivo materials"],
+  ["1782","20694","Partex","2026-01-31","FD",68590,0,68590,"2D PHH (20 FD)"],
+  ["1783","20694","Partex","2026-01-31","Materials",178636,0,178636,"PHH cells for 8 production runs"],
+  ["1776","20693","Partex","2025-12-31","FD",130321,0,130321,"Truvivo Prod Run (38 FD)"],
+  ["1777","20695","Partex","2025-12-31","Materials",459502,0,459502,"Truvivo customer run cells + boutique materials"],
+  ["US034-0022711","US034-0028902-O","Eurofins","2025-12-31","Assay Services",49838,-49838,0,"Reactive metabolite cocktail trapping, 193 samples"],
+  ["1765","20693","Partex","2025-11-30","FD",288078,0,288078,"Truvivo Full Prod Runs (84 FD)"],
+  ["1766","20693","Partex","2025-11-30","Materials",75000,0,75000,"Boutique materials"],
+  ["1767","20694","Partex","2025-11-30","FD",17148,0,17148,"2D PHH Validation (5 FD)"],
+  ["1768","20694","Partex","2025-11-30","Materials",25000,0,25000,"PHH culture medium, LDH, MT-Glo and dyes"],
+  ["1769","20695","Partex","2025-11-30","FD",130321,0,130321,"Truvivo Customer Compounds (38 FD)"],
+  ["1770","20695","Partex","2025-11-30","Materials",45000,0,45000,"Boutique materials"],
+  ["US034-0022367","US034-0028902-O","Eurofins","2025-11-13","Prepayment",453569,0,453569,"50% prepayment on ADME+MitoTox umbrella"],
+  ["1761","20693","Partex","2025-11-09","Materials",481320,0,481320,"Truvivo Prod Run cells + Nomic media"],
+  ["1757","20686","Partex","2025-10-31","FD",27770,0,27770,"Truvivo Exp 11"],
+  ["1758","20686","Partex","2025-10-31","Materials",4700,0,4700,"Truvivo Exp 11 materials"],
+  ["1759","20691","Partex","2025-10-31","FD",100000,0,100000,"Sandwich Exp 1-4"],
+  ["1760","20691","Partex","2025-10-31","Materials",22601,0,22601,"Sandwich Exp 1-4 materials"],
+  ["1754","20686","Partex","2025-10-15","Materials",26688,0,26688,"ELISA Kit, human albumin"]
+];
+
+let totalGross=0,totalCredit=0,totalPayable=0;
+const invBody = document.getElementById('invBody');
+invoices.forEach(r => {
+  totalGross+=r[5]; totalCredit+=r[6]; totalPayable+=r[7];
+  const typeColor = r[4]==='FD'?'#0777b3':r[4]==='Materials'?'#e18727':'#2d7a00';
+  invBody.innerHTML += `<tr>
+    <td>${r[0]}</td><td class="gray">${r[1]}</td><td class="gray">${r[2]}</td><td class="gray">${r[3]}</td>
+    <td style="color:${typeColor}">${r[4]}</td>
+    <td class="r bold">${fmtFull(r[5])}</td>
+    <td class="r" style="color:${r[6]?'#bc1200':'#6a6a6a'}">${r[6]?fmtFull(r[6]):'\u2014'}</td>
+    <td class="r bold">${fmtFull(r[7])}</td>
+    <td class="gray" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r[8]}</td>
+  </tr>`;
+});
+invBody.innerHTML += `<tr class="total">
+  <td colspan="5">TOTAL (${invoices.length} invoices)</td>
+  <td class="r">${fmtFull(totalGross)}</td>
+  <td class="r red">${fmtFull(totalCredit)}</td>
+  <td class="r">${fmtFull(totalPayable)}</td><td></td>
+</tr>`;
+
+// PO progress table
+const pos = [
+  ["20693","Partex",1319127,1268236,96.1],["US034-0028902-Q02","Eurofins",1306550,521862,39.9],
+  ["20695","Partex",861289,855304,99.3],["25-00704","Nomic",844800,0,0],
+  ["26-00078","Nomic",576000,0,0],["20003798","Partex",447670,0,0],
+  ["20694","Partex",320948,289373,90.2],["20707","Partex",275000,275000,100],
+  ["PIM2584696","MCE",208354,0,0],["20700","Partex",137940,37436,27.1],
+  ["20703","Partex",114775,114775,100],["2025122408609","MCE",109930,0,0],
+  ["20706","Partex",107313,0,0],["20699","Partex",96388,0,0],
+  ["AXIB-20250819-ANaJ","WuXi",95500,0,0],["US034-0028928-Q03","Eurofins",85016,0,0],
+  ["25-00690","Nomic",78336,0,0],["US034-0029837-Q01","Eurofins",75528,0,0],
+  ["M2588483","MCE",51200,0,0],["US034-0029841-Q01","Eurofins",46000,0,0],
+  ["US034-0029617-Q01","Eurofins",41237,0,0],["US034-0029576-Q04","Eurofins",35803,0,0],
+  ["US034-0029756-Q02","Eurofins",34978,0,0],["U3444","MCule",25402,0,0],
+  ["0759BC5D","Selleck",19430,0,0],["20704","Alithea",13988,6994,50],
+  ["20705","Partex",9985,9985,100],["20711","Partex",6994,0,0],
+  ["AXIB-20260306","WuXi",35000,0,0],["PH-AXIO-ADME-2026-01","Pharmaron",37000,0,0],
+  ["US034-0029862-Q01","Eurofins",5750,0,0],["SOW-1","iMerit",1200,0,0]
+];
+
+const poBody = document.getElementById('poBody');
+pos.forEach(r => {
+  const pct = r[4];
+  const barColor = pct>=100?'#2d7a00':pct>50?'#e18727':'#0777b3';
+  const pctColor = pct>=100?'#2d7a00':pct>0?'#e18727':'#6a6a6a';
+  poBody.innerHTML += `<tr>
+    <td class="bold">${r[0]}</td><td class="gray">${r[1]}</td>
+    <td class="r gray">${fmtFull(r[2])}</td><td class="r bold">${fmtFull(r[3])}</td>
+    <td class="r" style="color:${pctColor}">${pct}%</td>
+    <td><div class="progress-bar"><div class="progress-fill" style="width:${Math.min(pct,100)}%;background:${barColor}"></div></div></td>
+  </tr>`;
+});
+</script>
+</body>
+</html>
