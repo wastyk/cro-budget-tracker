@@ -59,7 +59,10 @@
   .status-comp { background: #d1fae5; color: #065f46; }
   .status-qs { background: #ede9fe; color: #5b21b6; }
   .status-nq { background: #f3f4f6; color: #6a6a6a; }
-  .click-hint { font-size: 11px; color: #9ca3af; font-style: italic; margin-top: 4px; }
+  .click-hint { display: inline-block; font-size: 11px; color: #0777b3; margin-top: 6px; padding: 3px 12px; background: #eff6ff; border-radius: 99px; font-weight: 500; letter-spacing: .01em; }
+  .drill-sum { padding: 10px 6px; font-size: 13px; border-top: 2px solid #231f20; }
+  .drill-sum .count { color: #6a6a6a; font-weight: 400; }
+  .drilldown th input[type=checkbox], .drilldown td input[type=checkbox] { width: 15px; height: 15px; cursor: pointer; accent-color: #0777b3; }
   @media print { body { background: #fff; } .container { padding: 16px; } .pw-overlay { display:none!important; } }
   .pw-overlay { position:fixed; inset:0; background:#f8f8f8; z-index:9999; display:flex; align-items:center; justify-content:center; }
   .pw-box { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:40px; max-width:360px; width:100%; text-align:center; box-shadow:0 4px 24px rgba(0,0,0,.08); }
@@ -129,10 +132,11 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
         </div>
         <div style="max-height:300px;overflow-y:auto">
           <table>
-            <thead><tr><th>Quote ID</th><th>Assay</th><th>Compound Set</th><th>Vendor</th><th class="r">Compounds</th><th class="r">Cost</th><th>Status</th></tr></thead>
+            <thead><tr><th><input type="checkbox" checked onchange="toggleAllCat(this)"></th><th>Quote ID</th><th>Assay</th><th>Compound Set</th><th>Vendor</th><th class="r">Compounds</th><th class="r">Cost</th><th>Status</th></tr></thead>
             <tbody id="catDrillBody"></tbody>
           </table>
         </div>
+        <div class="drill-sum" id="catDrillSum"></div>
       </div>
     </div>
 
@@ -164,10 +168,11 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
       </div>
       <div style="max-height:300px;overflow-y:auto">
         <table>
-          <thead><tr><th>Quote ID</th><th>Assay</th><th>Category</th><th>Vendor</th><th class="r">Compounds</th><th class="r">Cost</th><th>Status</th></tr></thead>
+          <thead><tr><th><input type="checkbox" checked onchange="toggleAllCs(this)"></th><th>Quote ID</th><th>Assay</th><th>Category</th><th>Vendor</th><th class="r">Compounds</th><th class="r">Cost</th><th>Status</th></tr></thead>
           <tbody id="csDrillBody"></tbody>
         </table>
       </div>
+      <div class="drill-sum" id="csDrillSum"></div>
     </div>
   </div>
 
@@ -328,11 +333,11 @@ function statusPill(s) {
 function showCatDrilldown(catName) {
   const rows = allQuotes.filter(q => q[1] === catName);
   const body = document.getElementById('catDrillBody');
-  const total = rows.reduce((s,r) => s + r[7], 0);
-  document.getElementById('catDrillTitle').textContent = catName + ' \u2014 ' + rows.length + ' line items \u2014 ' + fmtFull(Math.round(total));
+  document.getElementById('catDrillTitle').textContent = catName + ' \u2014 ' + rows.length + ' line items';
   body.innerHTML = '';
   rows.forEach(r => {
     body.innerHTML += '<tr>' +
+      '<td><input type="checkbox" checked data-cost="'+r[7]+'" onchange="updateCatSum()"></td>' +
       '<td class="bold">'+r[0]+'</td>' +
       '<td>'+r[2]+'</td>' +
       '<td class="gray">'+r[3]+'</td>' +
@@ -342,8 +347,22 @@ function showCatDrilldown(catName) {
       '<td>'+statusPill(r[8])+'</td>' +
     '</tr>';
   });
+  document.querySelector('#catDrilldown thead input[type=checkbox]').checked = true;
+  updateCatSum();
   document.getElementById('catDrilldown').classList.remove('hidden');
   document.getElementById('catDrilldown').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function updateCatSum() {
+  const checks = document.querySelectorAll('#catDrillBody input[type=checkbox]');
+  let sum = 0, count = 0;
+  checks.forEach(c => { if(c.checked){ sum += parseFloat(c.dataset.cost); count++; } });
+  document.getElementById('catDrillSum').innerHTML = '<strong>'+fmtFull(Math.round(sum))+'</strong> <span class="count">('+count+' of '+checks.length+' selected)</span>';
+}
+
+function toggleAllCat(master) {
+  document.querySelectorAll('#catDrillBody input[type=checkbox]').forEach(c => c.checked = master.checked);
+  updateCatSum();
 }
 
 function closeDrilldown() {
@@ -363,11 +382,11 @@ function showCsDrilldown(setName) {
     rows = allQuotes.filter(q => q[3] === setName);
   }
   const body = document.getElementById('csDrillBody');
-  const total = rows.reduce((s,r) => s + r[7], 0);
-  document.getElementById('csDrillTitle').textContent = setName + ' \u2014 ' + rows.length + ' line items \u2014 ' + fmtFull(Math.round(total));
+  document.getElementById('csDrillTitle').textContent = setName + ' \u2014 ' + rows.length + ' line items';
   body.innerHTML = '';
   rows.forEach(r => {
     body.innerHTML += '<tr>' +
+      '<td><input type="checkbox" checked data-cost="'+r[7]+'" onchange="updateCsSum()"></td>' +
       '<td class="bold">'+r[0]+'</td>' +
       '<td>'+r[2]+'</td>' +
       '<td class="gray">'+r[1]+'</td>' +
@@ -377,8 +396,22 @@ function showCsDrilldown(setName) {
       '<td>'+statusPill(r[8])+'</td>' +
     '</tr>';
   });
+  document.querySelector('#csDrilldown thead input[type=checkbox]').checked = true;
+  updateCsSum();
   document.getElementById('csDrilldown').classList.remove('hidden');
   document.getElementById('csDrilldown').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function updateCsSum() {
+  const checks = document.querySelectorAll('#csDrillBody input[type=checkbox]');
+  let sum = 0, count = 0;
+  checks.forEach(c => { if(c.checked){ sum += parseFloat(c.dataset.cost); count++; } });
+  document.getElementById('csDrillSum').innerHTML = '<strong>'+fmtFull(Math.round(sum))+'</strong> <span class="count">('+count+' of '+checks.length+' selected)</span>';
+}
+
+function toggleAllCs(master) {
+  document.querySelectorAll('#csDrillBody input[type=checkbox]').forEach(c => c.checked = master.checked);
+  updateCsSum();
 }
 
 function closeCsDrilldown() {
