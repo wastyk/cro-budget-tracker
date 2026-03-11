@@ -180,9 +180,9 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
       <div><div class="kpi-val">$7.5M</div><div class="kpi-label">Total Quoted</div></div>
-      <div><div class="kpi-val blue">$3.6M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
-      <div><div class="kpi-val green">$3.5M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">47%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val blue">$3.9M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
+      <div><div class="kpi-val green">$3.9M</div><div class="kpi-label">Total Payable (Net)</div></div>
+      <div><div class="kpi-val orange">52%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -449,7 +449,7 @@ function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ['Partex','Eurofins','Nomic','MCE','WuXi','Excelra','Pharmaron','MCule','Selleck','Alithea','WuXi/MCE','iMerit'];
   const quoted = [3697428,1630862,1499136,369484,130500,92650,37000,25402,19430,13988,5153,1200];
-  const invoiced = [3038861,521862,0,0,0,0,0,0,0,0,0,0];
+  const invoiced = [3038861,521862,0,367858,0,0,0,0,0,0,0,0];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
@@ -471,8 +471,8 @@ function drawInvCharts() {
     data: {
       labels: ['2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04'],
       datasets: [
-        { label:'Cash Out', data: [181758,1515435,589823,815742,389672,0,0], backgroundColor:'#0777b3', borderRadius:4 },
-        { label:'Gross Invoiced', data: [181758,1515435,639661,815742,408126,0,0], backgroundColor:'#e5e7eb', borderRadius:4 },
+        { label:'Cash Out', data: [181758,1721963,641023,925872,389672,0,0], backgroundColor:'#0777b3', borderRadius:4 },
+        { label:'Gross Invoiced', data: [181758,1721963,690861,925872,408126,0,0], backgroundColor:'#e5e7eb', borderRadius:4 },
         { label:'Projected', data: [0,0,0,0,0,170075,72000], backgroundColor:'rgba(7,119,179,0.2)', borderColor:'#0777b3', borderWidth:1, borderRadius:4 }
       ]
     },
@@ -498,15 +498,21 @@ const invoices = [
   ["1781","20693","Partex","2026-01-31","Materials",32875,0,32875,"Truvivo materials"],
   ["1782","20694","Partex","2026-01-31","FD",68590,0,68590,"2D PHH (20 FD)"],
   ["1783","20694","Partex","2026-01-31","Materials",178636,0,178636,"PHH cells for 8 production runs"],
+  ["M2596887","2025122408609","MCE","2026-01-13","Compound Sourcing",55335,0,55335,"363 cmpds to Eurofins"],
+  ["M2596902","2025122407730-2","MCE","2026-01-13","Compound Sourcing",54795,0,54795,"363 cmpds to Partex"],
   ["1776","20693","Partex","2025-12-31","FD",130321,0,130321,"Truvivo Prod Run (38 FD)"],
   ["1777","20695","Partex","2025-12-31","Materials",459502,0,459502,"Truvivo customer run cells + boutique materials"],
   ["US034-0022711","US034-0028902-O","Eurofins","2025-12-31","Assay Services",49838,-49838,0,"Reactive metabolite cocktail trapping, 193 samples"],
+  ["M2588483","2025110601750-11-18-1","MCE","2025-12-02","Compound Sourcing",32075,0,32075,"429 FDA cmpds to Eurofins"],
+  ["M2588484","2025110601750-11-18-2","MCE","2025-12-02","Compound Sourcing",19125,0,19125,"429 FDA cmpds to Partex"],
   ["1765","20693","Partex","2025-11-30","FD",288078,0,288078,"Truvivo Full Prod Runs (84 FD)"],
   ["1766","20693","Partex","2025-11-30","Materials",75000,0,75000,"Boutique materials"],
   ["1767","20694","Partex","2025-11-30","FD",17148,0,17148,"2D PHH Validation (5 FD)"],
   ["1768","20694","Partex","2025-11-30","Materials",25000,0,25000,"PHH culture medium, LDH, MT-Glo and dyes"],
   ["1769","20695","Partex","2025-11-30","FD",130321,0,130321,"Truvivo Customer Compounds (38 FD)"],
   ["1770","20695","Partex","2025-11-30","Materials",45000,0,45000,"Boutique materials"],
+  ["M2584696","2025110601750-2","MCE","2025-11-19","Compound Sourcing",79666,0,79666,"1600 cmpds to Partex"],
+  ["M2584452","2025110601750","MCE","2025-11-18","Compound Sourcing",126862,0,126862,"1600 cmpds to Eurofins"],
   ["US034-0022367","US034-0028902-O","Eurofins","2025-11-13","Prepayment",453569,0,453569,"50% prepayment on ADME+MitoTox umbrella"],
   ["1761","20693","Partex","2025-11-09","Materials",481320,0,481320,"Truvivo Prod Run cells + Nomic media"],
   ["1757","20686","Partex","2025-10-31","FD",27770,0,27770,"Truvivo Exp 11"],
@@ -543,12 +549,12 @@ const pos = [
   ["20695","Partex",861289,855304,99.3],["25-00704","Nomic",844800,0,0],
   ["26-00078","Nomic",576000,0,0],["20003798","Partex",447670,0,0],
   ["20694","Partex",320948,289373,90.2],["20707","Partex",275000,275000,100],
-  ["PIM2584696","MCE",208354,0,0],["20700","Partex",137940,37436,27.1],
-  ["20703","Partex",114775,114775,100],["2025122408609","MCE",109930,0,0],
+  ["PIM2584696","MCE",208354,206528,99.1],["20700","Partex",137940,37436,27.1],
+  ["20703","Partex",114775,114775,100],["2025122408609","MCE",109930,110130,100],
   ["20706","Partex",107313,0,0],["20699","Partex",96388,0,0],
   ["AXIB-20250819-ANaJ","WuXi",95500,0,0],["US034-0028928-Q03","Eurofins",85016,0,0],
   ["25-00690","Nomic",78336,0,0],["US034-0029837-Q01","Eurofins",75528,0,0],
-  ["M2588483","MCE",51200,0,0],["US034-0029841-Q01","Eurofins",46000,0,0],
+  ["M2588483","MCE",51200,51200,100],["US034-0029841-Q01","Eurofins",46000,0,0],
   ["US034-0029617-Q01","Eurofins",41237,0,0],["US034-0029576-Q04","Eurofins",35803,0,0],
   ["US034-0029756-Q02","Eurofins",34978,0,0],["U3444","MCule",25402,0,0],
   ["0759BC5D","Selleck",19430,0,0],["20704","Alithea",13988,6994,50],
