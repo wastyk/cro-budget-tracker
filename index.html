@@ -246,11 +246,11 @@ const allQuotes = [
   ["WUXI-PILOT","Off-the-Shelf ADME + MitoTox","T1 ADME Pilot","Axiom Training","WuXi",null,191,95500,"Completed"],
   ["WUXI-ADME-PILOT2","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM assay","Axiom Training","WuXi","Sol, Caco2, LogD, Microsome Stability, PPB, RM",50,35000,"Quote Generated"],
   ["PHAR-ADME-PILOT","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM assay","Axiom Training","Pharmaron","LogD, Sol, Stability, PPB, Caco2, MetTrap",50,37000,"Quote Generated"],
-  ["EF-BSEP-SCALE","Off-the-Shelf ADME + MitoTox","BSEP Scale up","Axiom Training","Eurofins","2 conc, n=2",400,75528,"Quote Generated"],
+  ["EF-BSEP-SCALE","Off-the-Shelf ADME + MitoTox","BSEP Scale up","Axiom Training","Eurofins","2 conc, n=2, 4 vehicle ATP/AMP, cyclosporine",400,75528,"Quote Generated"],
   ["EF-MT-GNE","Off-the-Shelf ADME + MitoTox","Mito Tox","Genentech","Eurofins",null,700,56840,"Quote Generated"],
   ["EF-MT-TRANS","Off-the-Shelf ADME + MitoTox","Mito Tox (Transporters/Bio)","Axiom Training","Eurofins","7 conc, n=3, HepG2",400,46000,"Quote Generated"],
   ["EF-BSEP-PILOT","Off-the-Shelf ADME + MitoTox","BSEP Pilot (7pt dosage curve)","Axiom Training","Eurofins",null,52,41236.52,"Quote Generated"],
-  ["EF-ISO-PANEL","Off-the-Shelf ADME + MitoTox","Isomorphic Full Panel","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB, RM, BSEP",50,35803,"Quote Generated"],
+  ["EF-ISO-PANEL","Off-the-Shelf ADME + MitoTox","Isomorphic Full Panel","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB, RM (GSH), BSEP",50,35803,"Quote Generated"],
   ["EF-MITO-AUTO","Off-the-Shelf ADME + MitoTox","Mito Tox Automation Pilot","Axiom Training","Eurofins",null,null,34978,"In process"],
   ["EF-RM-PILOT","Off-the-Shelf ADME + MitoTox","Reactive Metabolites Pilot","Axiom Training","Eurofins",null,200,34740,"Completed"],
   ["EF-SPHEROIDS","Off-the-Shelf ADME + MitoTox","Spheroids Pilot","Axiom Training","Eurofins",null,186,33552.54,"In process"],
@@ -262,7 +262,7 @@ const allQuotes = [
   ["NOMIC-BI","Proteomics","Nomic (77-plex)","BI","Nomic",null,347,82205.72,"In process"],
   ["NOMIC-PILOT","Proteomics","Nomic Pilot (1000-plex)","Axiom Training","Nomic","3 plates (384wp)",null,78336,"Completed"],
   ["ALI-20704","Transcriptomics","DRUG-seq mRNA seq Pilot","Axiom Training","Alithea","2 plates (384wp)",null,13988,"Quote signed"],
-  ["AW-20711","Transcriptomics","DRUG-seq Alithea Pilot Repeat","Axiom Training","Partex","Repeat of pilot plate",null,6994,"Quote Generated"]
+  ["AW-20711","Transcriptomics","DRUG-seq Alithea Pilot Repeat","Axiom Training","Partex","Repeat of pilot plate, 2x384wp DRUG-seq + NGS",null,6994,"Quote Generated"]
 ];
 
 const catLabels = ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'];
@@ -351,7 +351,7 @@ function drawInvCharts() {
       datasets: [
         { label:'Cash Out', data: [181758,1515435,589823,815742,389672,0,0], backgroundColor:'#0777b3', borderRadius:4 },
         { label:'Gross Invoiced', data: [181758,1515435,639661,815742,408126,0,0], backgroundColor:'#e5e7eb', borderRadius:4 },
-        { label:'Projected', data: [0,0,0,0,0,0,72000], backgroundColor:'rgba(7,119,179,0.2)', borderColor:'#0777b3', borderWidth:1, borderRadius:4 }
+        { label:'Projected', data: [0,0,0,0,0,170075,72000], backgroundColor:'rgba(7,119,179,0.2)', borderColor:'#0777b3', borderWidth:1, borderRadius:4 }
       ]
     },
     options: { responsive:true, scales:{x:{ticks:{font:{size:11}},grid:{display:false}},y:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}}},
