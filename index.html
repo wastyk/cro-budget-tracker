@@ -85,7 +85,7 @@
     <div class="section">
       <h2 class="section-title">Spend by Category</h2>
       <p class="section-sub">Horizontal bar chart</p>
-      <div class="chart-wrap"><canvas id="catChart" height="220" style="cursor:pointer"></canvas></div>
+      <div class="chart-wrap"><canvas id="catChart" height="160" style="cursor:pointer"></canvas></div>
       <p class="click-hint">Click a bar to see quotes</p>
       <div id="catDrilldown" class="drilldown hidden">
         <div class="drilldown-header">
@@ -104,7 +104,8 @@
     <div class="two-col">
       <div class="section">
         <h2 class="section-title">Spend by Compound Set</h2>
-        <div class="chart-wrap"><canvas id="csChart" height="160"></canvas></div>
+        <div class="chart-wrap"><canvas id="csChart" height="160" style="cursor:pointer"></canvas></div>
+        <p class="click-hint">Click a bar to see quotes</p>
       </div>
       <div class="section">
         <h2 class="section-title">Status Breakdown</h2>
@@ -117,6 +118,19 @@
             <tr><td>Quote Signed</td><td class="r gray">2</td><td class="r bold">$15,188</td></tr>
             <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
           </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="csDrilldown" class="drilldown hidden" style="margin-bottom:32px">
+      <div class="drilldown-header">
+        <h3 id="csDrillTitle">—</h3>
+        <button class="drilldown-close" onclick="closeCsDrilldown()">&times;</button>
+      </div>
+      <div style="max-height:300px;overflow-y:auto">
+        <table>
+          <thead><tr><th>Quote ID</th><th>Assay</th><th>Category</th><th>Vendor</th><th class="r">Compounds</th><th class="r">Cost</th><th>Status</th></tr></thead>
+          <tbody id="csDrillBody"></tbody>
         </table>
       </div>
     </div>
@@ -301,12 +315,47 @@ function closeDrilldown() {
   document.getElementById('catDrilldown').classList.add('hidden');
 }
 
+const csLabels = ['Axiom Training','Genentech','BI','Isomorphic'];
+const isoQuoteIds = ['EF-ISO-MT','EF-ISO-PANEL'];
+
+function showCsDrilldown(setName) {
+  let rows;
+  if (setName === 'Isomorphic') {
+    rows = allQuotes.filter(q => q[3] === 'Isomorphic' || isoQuoteIds.includes(q[0]));
+  } else if (setName === 'Axiom Training') {
+    rows = allQuotes.filter(q => q[3] === 'Axiom Training' && !isoQuoteIds.includes(q[0]));
+  } else {
+    rows = allQuotes.filter(q => q[3] === setName);
+  }
+  const body = document.getElementById('csDrillBody');
+  const total = rows.reduce((s,r) => s + r[7], 0);
+  document.getElementById('csDrillTitle').textContent = setName + ' \u2014 ' + rows.length + ' line items \u2014 ' + fmtFull(Math.round(total));
+  body.innerHTML = '';
+  rows.forEach(r => {
+    body.innerHTML += '<tr>' +
+      '<td class="bold">'+r[0]+'</td>' +
+      '<td>'+r[2]+'</td>' +
+      '<td class="gray">'+r[1]+'</td>' +
+      '<td class="gray">'+r[4]+'</td>' +
+      '<td class="r gray">'+(r[6]!=null?r[6].toLocaleString():'\u2014')+'</td>' +
+      '<td class="r bold">'+fmtFull(r[7])+'</td>' +
+      '<td>'+statusPill(r[8])+'</td>' +
+    '</tr>';
+  });
+  document.getElementById('csDrilldown').classList.remove('hidden');
+  document.getElementById('csDrilldown').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closeCsDrilldown() {
+  document.getElementById('csDrilldown').classList.add('hidden');
+}
+
 // Category chart
 const catChart = new Chart(document.getElementById('catChart'), {
   type: 'bar',
   data: {
     labels: ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'],
-    datasets: [{ data: [3415434,1798362,1499136,419469,275000,93850,20982], backgroundColor: '#0777b3', borderRadius: 4 }]
+    datasets: [{ data: [3415434,1798362,1499136,419469,275000,93850,20982], backgroundColor: '#0777b3', borderRadius: 4, barThickness: 18 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCatDrilldown(catLabels[elements[0].index]); } },
@@ -319,9 +368,10 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: ['Axiom Training','Genentech','BI','Isomorphic'],
-    datasets: [{ data: [5636287,1243381,564149,78418], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9'], borderRadius: 4 }]
+    datasets: [{ data: [5636287,1243381,564149,78418], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9'], borderRadius: 4, barThickness: 22 }]
   },
   options: { indexAxis:'y', responsive:true,
+    onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
     plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/7522235*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
