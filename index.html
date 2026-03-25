@@ -174,6 +174,16 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
       </div>
       <div class="drill-sum" id="csDrillSum"></div>
     </div>
+
+    <div class="section" style="margin-top:32px">
+      <h2 class="section-title">Cost Per Compound by Assay</h2>
+      <p class="section-sub">Axiom Training rates &bull; PHH &amp; Truvivo averages pending Partex confirmation</p>
+      <table>
+        <thead><tr><th><input type="checkbox" checked onchange="toggleAllCpc(this)"></th><th>Assay</th><th>Vendor</th><th class="r">Cost / Cmpd</th></tr></thead>
+        <tbody id="cpcBody"></tbody>
+      </table>
+      <div class="drill-sum" id="cpcSum"></div>
+    </div>
   </div>
 
   <!-- ========== TAB 2: INVOICES ========== -->
@@ -421,6 +431,38 @@ function toggleAllCs(master) {
 
 function closeCsDrilldown() {
   document.getElementById('csDrilldown').classList.add('hidden');
+}
+
+// Cost per compound table
+const cpcData = [
+  ["Tier 1 ADME (Sol, Caco2, LogD, IC, PPB)","Eurofins",347],
+  ["2D PHH (Labor + Cells)","Partex",125],
+  ["2D+ Truvivo (Labor + Cells)","Partex",756],
+  ["BSEP","Eurofins",94],
+  ["Mito Tox","Eurofins",115],
+  ["Reactive Metabolites","Eurofins",180]
+];
+const cpcBody = document.getElementById('cpcBody');
+cpcData.forEach(r => {
+  cpcBody.innerHTML += '<tr>' +
+    '<td><input type="checkbox" checked data-cost="'+r[2]+'" onchange="updateCpcSum()"></td>' +
+    '<td class="bold">'+r[0]+'</td>' +
+    '<td class="gray">'+r[1]+'</td>' +
+    '<td class="r bold">'+fmtFull(r[2])+'</td>' +
+  '</tr>';
+});
+updateCpcSum();
+
+function updateCpcSum() {
+  const checks = document.querySelectorAll('#cpcBody input[type=checkbox]');
+  let sum = 0, count = 0;
+  checks.forEach(c => { if(c.checked){ sum += parseFloat(c.dataset.cost); count++; } });
+  document.getElementById('cpcSum').innerHTML = '<strong>'+fmtFull(Math.round(sum))+'</strong> per compound <span class="count">('+count+' of '+checks.length+' assays selected)</span>';
+}
+
+function toggleAllCpc(master) {
+  document.querySelectorAll('#cpcBody input[type=checkbox]').forEach(c => c.checked = master.checked);
+  updateCpcSum();
 }
 
 // Category chart
