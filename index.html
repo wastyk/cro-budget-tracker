@@ -108,6 +108,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
+    <button class="tab" onclick="showTab('costs')">Cost Per Batch &amp; Compound</button>
     <button class="tab" onclick="showTab('invoices')">Invoices &amp; Payments</button>
   </div>
 
@@ -175,33 +176,37 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
       <div class="drill-sum" id="csDrillSum"></div>
     </div>
 
-    <div class="section" style="margin-top:32px">
+  </div>
+
+  <!-- ========== TAB 2: COSTS ========== -->
+  <div id="tab-costs" class="hidden">
+    <div class="section">
+      <h2 class="section-title">Cost Per Batch</h2>
+      <p class="section-sub">Partex 2026 rates &bull; all batch sizes</p>
+      <table>
+        <thead><tr><th>Batch Size</th><th>Plates</th><th class="r">2D+ Truvivo</th><th class="r">2D PHH</th><th class="r">Combined</th><th class="r">Truvivo / Cmpd</th><th class="r">PHH / Cmpd</th></tr></thead>
+        <tbody>
+          <tr><td class="bold">210 cmpds (Full)</td><td class="gray">17</td><td class="r">$113,358</td><td class="r">$25,963</td><td class="r bold">$139,320</td><td class="r">$540</td><td class="r">$124</td></tr>
+          <tr><td class="bold">105 cmpds (Half)</td><td class="gray">9</td><td class="r">$81,648</td><td class="r">$18,700</td><td class="r bold">$100,348</td><td class="r">$778</td><td class="r">$178</td></tr>
+          <tr><td class="bold">52 cmpds (Intermediate)</td><td class="gray">5</td><td class="r">$67,676</td><td class="r">$15,500</td><td class="r bold">$83,176</td><td class="r">$1,301</td><td class="r">$298</td></tr>
+          <tr><td class="bold">26 cmpds (Mini)</td><td class="gray">3</td><td class="r">$60,254</td><td class="r">$13,800</td><td class="r bold">$74,054</td><td class="r">$2,317</td><td class="r">$531</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px;color:#888;margin-top:6px">Full run: 19 FD labor @ $3,493/FD + $38k cells + $9k reagents (Truvivo) &bull; 5 FD + $3.5k cells + $5k reagents (PHH)</p>
+    </div>
+
+    <div class="section" style="margin-top:16px">
       <h2 class="section-title">Cost Per Compound by Assay</h2>
-      <p class="section-sub">Axiom Training rates &bull; PHH &amp; Truvivo averages pending Partex confirmation</p>
+      <p class="section-sub">Axiom Training rates &bull; full production run (210 cmpds)</p>
       <table>
         <thead><tr><th><input type="checkbox" checked onchange="toggleAllCpc(this)"></th><th>Assay</th><th>Vendor</th><th class="r">Cost / Cmpd</th></tr></thead>
         <tbody id="cpcBody"></tbody>
       </table>
       <div class="drill-sum" id="cpcSum"></div>
     </div>
-
-    <div class="section" style="margin-top:16px">
-      <h2 class="section-title">Cost Per Batch</h2>
-      <p class="section-sub">Partex 2026 rates &bull; all batch sizes</p>
-      <table>
-        <thead><tr><th>Batch Size</th><th>Plates</th><th class="r">2D+ Truvivo</th><th class="r">2D PHH</th><th class="r">Combined</th><th class="r">Per Compound</th></tr></thead>
-        <tbody>
-          <tr><td class="bold">210 cmpds (Full)</td><td class="gray">17</td><td class="r">$113,358</td><td class="r">$25,963</td><td class="r bold">$139,320</td><td class="r bold">$663</td></tr>
-          <tr><td class="bold">105 cmpds (Half)</td><td class="gray">9</td><td class="r">$81,648</td><td class="r">$18,700</td><td class="r bold">$100,348</td><td class="r bold">$956</td></tr>
-          <tr><td class="bold">52 cmpds (Intermediate)</td><td class="gray">5</td><td class="r">$67,676</td><td class="r">$15,500</td><td class="r bold">$83,176</td><td class="r bold">$1,600</td></tr>
-          <tr><td class="bold">26 cmpds (Mini)</td><td class="gray">3</td><td class="r">$60,254</td><td class="r">$13,800</td><td class="r bold">$74,054</td><td class="r bold">$2,848</td></tr>
-        </tbody>
-      </table>
-      <p style="font-size:11px;color:#888;margin-top:6px">Full run: 19 FD labor @ $3,493/FD + $38k cells + $9k reagents (Truvivo) &bull; 5 FD + $3.5k cells + $5k reagents (PHH)</p>
-    </div>
   </div>
 
-  <!-- ========== TAB 2: INVOICES ========== -->
+  <!-- ========== TAB 3: INVOICES ========== -->
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
       <div><div class="kpi-val">$7.5M</div><div class="kpi-label">Total Quoted</div></div>
@@ -275,8 +280,9 @@ const fmtFull = v => '$'+v.toLocaleString('en-US',{minimumFractionDigits:0,maxim
 // Tab switching
 function showTab(t) {
   document.getElementById('tab-overview').classList.toggle('hidden', t!=='overview');
+  document.getElementById('tab-costs').classList.toggle('hidden', t!=='costs');
   document.getElementById('tab-invoices').classList.toggle('hidden', t!=='invoices');
-  document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', (i===0&&t==='overview')||(i===1&&t==='invoices')));
+  document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', (i===0&&t==='overview')||(i===1&&t==='costs')||(i===2&&t==='invoices')));
   if(t==='invoices' && !window._invChartsDrawn) { drawInvCharts(); window._invChartsDrawn=true; }
 }
 
