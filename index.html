@@ -186,16 +186,18 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
     </div>
 
     <div class="section" style="margin-top:16px">
-      <h2 class="section-title">Cost Per Production Run</h2>
-      <p class="section-sub">~210 compounds per run &bull; Partex rates</p>
+      <h2 class="section-title">Cost Per Batch</h2>
+      <p class="section-sub">Partex 2026 rates &bull; all batch sizes</p>
       <table>
-        <thead><tr><th>Assay</th><th class="r">Cells / Run</th><th class="r">Labor / Run</th><th class="r">Total / Run</th></tr></thead>
+        <thead><tr><th>Batch Size</th><th>Plates</th><th class="r">2D+ Truvivo</th><th class="r">2D PHH</th><th class="r">Combined</th><th class="r">Per Compound</th></tr></thead>
         <tbody>
-          <tr><td class="bold">2D+ Truvivo</td><td class="r gray">$55,959</td><td class="r gray">$79,972</td><td class="r bold">$135,931</td></tr>
-          <tr><td class="bold">2D PHH</td><td class="r gray">$22,330</td><td class="r gray">$15,716</td><td class="r bold">$38,046</td></tr>
-          <tr style="border-top:1px solid #ccc"><td class="bold">Combined</td><td class="r gray">$78,289</td><td class="r gray">$95,688</td><td class="r bold">$173,977</td></tr>
+          <tr><td class="bold">210 cmpds (Full)</td><td class="gray">17</td><td class="r">$113,358</td><td class="r">$25,963</td><td class="r bold">$139,320</td><td class="r bold">$663</td></tr>
+          <tr><td class="bold">105 cmpds (Half)</td><td class="gray">9</td><td class="r">$81,648</td><td class="r">$18,700</td><td class="r bold">$100,348</td><td class="r bold">$956</td></tr>
+          <tr><td class="bold">52 cmpds (Intermediate)</td><td class="gray">5</td><td class="r">$67,676</td><td class="r">$15,500</td><td class="r bold">$83,176</td><td class="r bold">$1,600</td></tr>
+          <tr><td class="bold">26 cmpds (Mini)</td><td class="gray">3</td><td class="r">$60,254</td><td class="r">$13,800</td><td class="r bold">$74,054</td><td class="r bold">$2,848</td></tr>
         </tbody>
       </table>
+      <p style="font-size:11px;color:#888;margin-top:6px">Full run: 19 FD labor @ $3,493/FD + $38k cells + $9k reagents (Truvivo) &bull; 5 FD + $3.5k cells + $5k reagents (PHH)</p>
     </div>
   </div>
 
