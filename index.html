@@ -355,7 +355,7 @@ const allQuotes = [
   ["NOMIC-GNE","Proteomics","Nomic (77-plex)","Genentech","Nomic",null,700,165832.87,"In process"],
   ["NOMIC-BI","Proteomics","Nomic (77-plex)","BI","Nomic",null,347,82205.72,"In process"],
   ["NOMIC-PILOT","Proteomics","Nomic Pilot (1000-plex)","Axiom Training","Nomic","3 plates (384wp)",null,78336,"Completed"],
-  ["ALI-20704","Transcriptomics","DRUG-seq mRNA seq Pilot","Axiom Training","Alithea","2 plates (384wp)",null,13988,"Quote signed"],
+  ["ALI-20704","Transcriptomics","DRUG-seq mRNA seq Pilot","Axiom Training","Alithea","1 plate (384wp), 1M reads/sample",null,6994,"Quote signed"],
   ["AW-20711","Transcriptomics","DRUG-seq Alithea Pilot Repeat","Axiom Training","Partex","Repeat of pilot plate, 2x384wp DRUG-seq + NGS",null,6994,"Completed"],
   ["AW-20709","Cell Assays","2D+ Truvivo (Cells + Media)","Axiom Training","Partex","Truvivo cells + media — LifeNet Health stocking up (quote pending)",null,509010,"Quote Generated"],
   ["LNH-MEDIA-20003930","Cell Assays","Truvivo/PHH Media","Axiom Training","LifeNet Health","TruVivo feeder/culture/plating medium + supplements A/B/C",null,41195,"Quote Generated"]
@@ -493,7 +493,7 @@ const catChart = new Chart(document.getElementById('catChart'), {
   type: 'bar',
   data: {
     labels: ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'],
-    datasets: [{ data: [3371434,1828003,1499136,434699,275000,117710,20982], backgroundColor: '#0777b3', borderRadius: 4, barThickness: 18 }]
+    datasets: [{ data: [3371434,1828003,1499136,434699,275000,117710,13988], backgroundColor: '#0777b3', borderRadius: 4, barThickness: 18 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCatDrilldown(catLabels[elements[0].index]); } },
@@ -518,7 +518,7 @@ new Chart(document.getElementById('csChart'), {
 function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ['Partex','Eurofins','Nomic','MCE','WuXi','Excelra','Pharmaron','MCule','Selleck','Cyprotex','micro1','Alithea','WuXi/MCE','Mercor','iMerit'];
-  const quoted = [3653428,1638853,1499136,384714,130500,92650,37400,25402,19430,21250,22060,13988,5153,1800,1200];
+  const quoted = [3653428,1638853,1499136,384714,130500,92650,37400,25402,19430,21250,22060,6994,5153,1800,1200];
   const invoiced = [3607253,1015760,566400,385570,0,0,0,0,0,0,0,0,0,0,1200];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
@@ -646,7 +646,7 @@ const pos = [
   ["M2616664","MCE",1952,4284,100],
   ["US034-0029617-Q01","Eurofins",41237,41234,100],["US034-0029576-Q04","Eurofins",35803,0,0],
   ["US034-0029756-Q02","Eurofins",27726,27726,100],["U3444","MCule",25402,0,0],
-  ["0759BC5D","Selleck",19430,0,0],["20704","Alithea",13988,6994,50],
+  ["0759BC5D","Selleck",19430,0,0],["20704","Alithea",6994,6994,100],
   ["20705","Partex",9985,9985,100],["20711","Partex",6994,6994,100],
   ["AXIB-20260306","WuXi",35000,0,0],["PH-AXIO-ADME-2026-01","Pharmaron",37400,0,0],
   ["US034-0029862-Q01","Eurofins",5750,5520,96.0],["US034-0029939-Q03","Eurofins",80500,0,0],
