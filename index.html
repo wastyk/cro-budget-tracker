@@ -133,7 +133,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
         </div>
         <div style="max-height:300px;overflow-y:auto">
           <table>
-            <thead><tr><th><input type="checkbox" checked onchange="toggleAllCat(this)"></th><th>Quote ID</th><th>Assay</th><th>Compound Set</th><th>Vendor</th><th class="r">Compounds</th><th class="r">Cost</th><th>Status</th></tr></thead>
+            <thead><tr><th><input type="checkbox" checked onchange="toggleAllCat(this)"></th><th>Quote ID</th><th>Assay</th><th>Compound Set</th><th>Allocation</th><th>Vendor</th><th class="r">Compounds</th><th class="r">Cost</th><th>Status</th></tr></thead>
             <tbody id="catDrillBody"></tbody>
           </table>
         </div>
@@ -169,7 +169,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
       </div>
       <div style="max-height:300px;overflow-y:auto">
         <table>
-          <thead><tr><th><input type="checkbox" checked onchange="toggleAllCs(this)"></th><th>Quote ID</th><th>Assay</th><th>Category</th><th>Vendor</th><th class="r">Compounds</th><th class="r">Cost</th><th>Status</th></tr></thead>
+          <thead><tr><th><input type="checkbox" checked onchange="toggleAllCs(this)"></th><th>Quote ID</th><th>Assay</th><th>Category</th><th>Allocation</th><th>Vendor</th><th class="r">Compounds</th><th class="r">Cost</th><th>Status</th></tr></thead>
           <tbody id="csDrillBody"></tbody>
         </table>
       </div>
@@ -294,78 +294,78 @@ function showDetail(v) {
   document.getElementById('detailTitle').textContent = v==='invoices' ? 'Invoice Detail' : 'Quote-to-Invoice Progress';
 }
 
-// Quotes data for drill-down [quote_id, category, assay, compound_set, vendor, description, num_compounds, total_cost, status]
+// Quotes data for drill-down [quote_id, category, assay, compound_set, vendor, description, num_compounds, total_cost, status, allocation]
 const allQuotes = [
-  ["EX-001","Annotations","Clinical data","Axiom Training","Excelra",null,null,86400,"In process"],
-  ["EX-002","Annotations","ADME processing (100 hours)","Axiom Training","Excelra",null,null,6250,"No Quote"],
-  ["IMERIT-001","Annotations","Image Annotations Pilot","Axiom Training","iMerit","Image annotations",null,1200,"Quote Signed"],
-  ["MICRO1-ANNOT-PILOT","Annotations","Image Annotation Pilot (Pathologist)","Axiom Training","micro1","Expert pathologist annotation of fluorescence microscopy images",null,20000,"Quote signed"],
-  ["MICRO1-ANNOT-INTRO","Annotations","Chromatogram Annotation Intro Campaign","Axiom Training","micro1","Expert sourcing, training, test annotation of chromatograms",null,2060,"Quote Generated"],
-  ["MERCOR-MS","Annotations","Mass Spectrometry Specialist","Axiom Training","Mercor","Expert services via Mercor platform, $120/hr, $1,800 cap",null,1800,"In process"],
-  ["AW-20693","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Full prod run, 2150 training compounds",2150,818766.31,"In process"],
-  ["AW-20693","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Full prod run, 2150 training compounds",2150,470380.76,"In process"],
-  ["AW-20693-ISO","Cell Assays","2D+ Truvivo (Labor + Reagents) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 2200 cmpds)",50,19041,"In process"],
-  ["AW-20693-ISO","Cell Assays","2D+ Truvivo (Cells) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 2200 cmpds)",50,10939,"In process"],
-  ["PTX-TRUV-CELLS","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Cells for PO 20709 (LNH quote 20003798 $447,670 + $61,340 additional per Partex)",null,509010,"Completed"],
-  ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Cells)","Genentech","Partex","700 GNE compounds",700,321651.24,"In process"],
-  ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Labor + Reagents)","Genentech","Partex","700 GNE compounds",700,281251.25,"In process"],
-  ["PTX-1783","Cell Assays","2D PHH (Cells)","Axiom Training","Partex","Cells for 8 future production runs",null,178635.6,"Quote Generated"],
-  ["AW-20700","Cell Assays","2D+ Truvivo Donor Testing","Axiom Training","Partex","Quantification of 10 Truvivo donors + BA/LPS testing",null,137940,"In process"],
-  ["AW-20695-BI","Cell Assays","2D+ Truvivo (Cells)","BI","Partex","300 BI compounds",347,137850.53,"In process"],
-  ["AW-20695-BI","Cell Assays","2D+ Truvivo (Labor + Reagents)","BI","Partex","300 BI compounds",347,120536.25,"In process"],
-  ["AW-20703","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Additional 250 training compounds",250,114775,"In process"],
-  ["AW-20694-GNE","Cell Assays","2D PHH (Labor + Reagents)","Genentech","Partex","700 GNE compounds",700,82118.75,"In process"],
-  ["AW-20706-GNE","Cell Assays","2D PHH NEW DONOR (Labor + Reagents)","Genentech","Partex","New donor PHH prod run, 700 GNE compounds",700,75118.75,"Quote Generated"],
-  ["AW-20699","Cell Assays","2D PHH (Labor + Reagents)","Axiom Training","Partex","Full prod run, 650 training compounds",650,48645.54,"In process"],
-  ["AW-20699-ISO","Cell Assays","2D PHH (Labor + Reagents) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 700 cmpds)",50,3741.96,"In process"],
-  ["AW-20694-BI","Cell Assays","2D PHH (Labor + Reagents)","BI","Partex","300 BI compounds",347,35193.75,"In process"],
-  ["AW-20706-BI","Cell Assays","2D PHH NEW DONOR (Labor + Reagents)","BI","Partex","New donor PHH prod run, 300 BI compounds",300,32193.75,"Quote Generated"],
-  ["AW-20694-GNE","Cell Assays","2D PHH (Cells)","Genentech","Partex","700 GNE compounds",700,17500,"In process"],
-  ["AW-20705","Cell Assays","2D PHH (Test PHH lots LOC and UWM)","Axiom Training","Partex","Test PHH lots LOC and UWM",null,9985,"Quote Generated"],
-  ["AW-20694-BI","Cell Assays","2D PHH (Cells)","BI","Partex","300 BI compounds",347,7500,"In process"],
-  ["MCE-Q4-TRAIN","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCE","Clinical labels",1600,208354,"Completed"],
-  ["MCE-Q1-MIXED","Compound Sourcing","ADME/mito tox/RM/GSH/PHH/Truvivo","Axiom Training","MCE","Benchmark + Customer + GSH validation",363,109930,"Completed"],
-  ["MCE-FDA","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCE","FDA clinical",429,51200,"Completed"],
-  ["MCE-BTK","Compound Sourcing","BTK + Obesity","Axiom Training","MCE","BTK+Obesity 43 liquid + 5 solid",48,13278,"Quote Generated"],
-  ["MCE-EXTRA","Compound Sourcing","Replacement compounds","Axiom Training","MCE","40 liquid + 10 solid — Partex",50,1952,"Quote Generated"],
-  ["MCULE-Q4","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCule","Clinical labels",60,25402.42,"Completed"],
-  ["SELLECK-Q4","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","Selleck","Clinical labels",94,19430,"Completed"],
-  ["WUXI-MCE-PILOT","Compound Sourcing","T1 ADME Pilot","Axiom Training","WuXi/MCE","5mg powder",191,5153,"Completed"],
-  ["PTX-1778","Instruments","2D PHH + Truvivo","Axiom Training","Partex","New liquid handler + incubator",null,275000,"Quote Generated"],
-  ["EF-ADME-SCALE","Off-the-Shelf ADME + MitoTox","T1 ADME Scale up","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB",2519,874697.56,"In process"],
-  ["EF-ADME-GNE","Off-the-Shelf ADME + MitoTox","T1 ADME","Genentech","Eurofins",null,700,243068,"Quote Generated"],
-  ["EF-ADME-BI","Off-the-Shelf ADME + MitoTox","T1 ADME","BI","Eurofins",null,347,120492.28,"In process"],
-  ["WUXI-PILOT","Off-the-Shelf ADME + MitoTox","T1 ADME Pilot","Axiom Training","WuXi",null,191,95500,"Completed"],
-  ["WUXI-ADME-PILOT2","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM assay","Axiom Training","WuXi","Sol, Caco2, LogD, Microsome Stability, PPB, RM",50,35000,"Quote signed"],
-  ["PHAR-ADME-PILOT","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM + UV Purity","Axiom Training","Pharmaron","LogD, Sol, Stability, PPB, Caco2, MetTrap, UV Purity",50,37400,"Quote signed"],
-  ["CYP-ADME-PILOT","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM assay","Axiom Training","Cyprotex","LogD, Sol, Caco2, Microsome Stability, PPB, RM",50,21250,"Quote Generated"],
-  ["EF-BSEP-SCALE","Off-the-Shelf ADME + MitoTox","BSEP Scale up (Phase 1)","Axiom Training","Eurofins","BSEP inhibition, 252 cmpds first tranche",252,23791,"Quote signed"],
-  ["EF-MT-GNE","Off-the-Shelf ADME + MitoTox","Mito Tox","Genentech","Eurofins",null,700,56840,"Quote Generated"],
-  ["EF-MT-TRAIN","Off-the-Shelf ADME + MitoTox","Custom Mito Tox (HepG2)","Axiom Training","Eurofins","7 conc, n=3, HepG2",700,80500,"Quote Generated"],
-  ["EF-BSEP-PILOT","Off-the-Shelf ADME + MitoTox","BSEP Pilot (7pt dosage curve)","Axiom Training","Eurofins",null,52,41236.52,"Quote Generated"],
-  ["EF-ISO-PANEL","Off-the-Shelf ADME + MitoTox","Isomorphic Full Panel","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB, RM (GSH), BSEP",50,35803,"Quote Generated"],
-  ["EF-MITO-AUTO","Off-the-Shelf ADME + MitoTox","Mito Tox Automation Pilot","Axiom Training","Eurofins",null,null,27726,"Completed"],
-  ["EF-RM-PILOT","Off-the-Shelf ADME + MitoTox","Reactive Metabolites Pilot","Axiom Training","Eurofins",null,200,34740,"Completed"],
-  ["EF-SPHEROIDS","Off-the-Shelf ADME + MitoTox","Spheroids Pilot","Axiom Training","Eurofins",null,186,33552.54,"In process"],
-  ["EF-MT-BI","Off-the-Shelf ADME + MitoTox","Mito Tox","BI","Eurofins",null,347,28176.4,"In process"],
-  ["EF-MITO-TOX","Off-the-Shelf ADME + MitoTox","Mito Tox","Axiom Training","Eurofins","Reduced scope from original 2519 cmpds",null,32480,"Completed"],
-  ["EF-ISO-MT","Off-the-Shelf ADME + MitoTox","Mito Tox Isomorphic Pilot","Axiom Training","Eurofins","7 conc, n=3, HepG2",50,5750,"Quote Generated"],
-  ["NOMIC-SCALE","Proteomics","Nomic Scale up (77-plex)","Axiom Training","Nomic","88 plates (384wp)",null,596761.41,"In process"],
-  ["NOMIC-60EXTRA","Proteomics","Nomic (77-plex)","Axiom Training","Nomic","60 plates",null,576000,"In process"],
-  ["NOMIC-GNE","Proteomics","Nomic (77-plex)","Genentech","Nomic",null,700,165832.87,"In process"],
-  ["NOMIC-BI","Proteomics","Nomic (77-plex)","BI","Nomic",null,347,82205.72,"In process"],
-  ["NOMIC-PILOT","Proteomics","Nomic Pilot (1000-plex)","Axiom Training","Nomic","3 plates (384wp)",null,78336,"Completed"],
-  ["ALI-20704","Transcriptomics","DRUG-seq mRNA seq Pilot","Axiom Training","Alithea","1 plate (384wp), 1M reads/sample",null,6994,"Quote signed"],
-  ["AW-20711","Transcriptomics","DRUG-seq Alithea Pilot Repeat","Axiom Training","Partex","Repeat of pilot plate, 2x384wp DRUG-seq + NGS",null,6994,"Completed"],
-  ["LNH-MEDIA-20003930","Cell Assays","Truvivo/PHH Media","Axiom Training","LifeNet Health","TruVivo feeder/culture/plating medium + supplements A/B/C",null,41195,"PO Issued"],
-  ["AW-20717","Cell Assays","2D+ Truvivo (Labor + Reagents)","Isomorphic","Partex","10 compounds (3 donors) + 40 Isomorphic compounds (2 donors); 8 FD",50,27940,"Quote Generated"],
-  ["AW-20718","Cell Assays","2D+ Truvivo (Assay Dev)","Axiom Training","Partex","Truvivo Assay Dev Exp-13 — LNH/Pfizer collaboration, 11-day assay; 6 FD",null,19200,"Quote Generated"],
-  ["AW-20719","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Mini Truvivo run, 26 compounds, 2 plates + 1 reference; 3 FD",26,9600,"Quote Generated"],
-  ["MCE-Q2-PARTEX","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) — ships to Partex",20,902,"Quote Generated"],
-  ["MCE-Q2-EF","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) — ships to Eurofins",20,902,"Quote Generated"],
-  ["MCE-Q3-PHARMARON","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) — ships to Pharmaron",50,1475,"Quote Generated"],
-  ["MCE-Q3-WUXI","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) — ships to WuXi",50,1475,"Quote Generated"],
-  ["LNH-HEPS-20003952","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","LifeNet Health","7 TruVivo-qualified human hepatocyte vials (batch 2113352-01)",7,9779,"PO Issued"]
+  ["EX-001","Annotations","Clinical data","Axiom Training","Excelra",null,null,86400,"In process","Internal R&D"],
+  ["EX-002","Annotations","ADME processing (100 hours)","Axiom Training","Excelra",null,null,6250,"No Quote","Internal R&D"],
+  ["IMERIT-001","Annotations","Image Annotations Pilot","Axiom Training","iMerit","Image annotations",null,1200,"Quote Signed","Internal R&D"],
+  ["MICRO1-ANNOT-PILOT","Annotations","Image Annotation Pilot (Pathologist)","Axiom Training","micro1","Expert pathologist annotation of fluorescence microscopy images",null,20000,"Quote signed","Internal R&D"],
+  ["MICRO1-ANNOT-INTRO","Annotations","Chromatogram Annotation Intro Campaign","Axiom Training","micro1","Expert sourcing, training, test annotation of chromatograms",null,2060,"Quote Generated","Internal R&D"],
+  ["MERCOR-MS","Annotations","Mass Spectrometry Specialist","Axiom Training","Mercor","Expert services via Mercor platform, $120/hr, $1,800 cap",null,1800,"In process","Internal R&D"],
+  ["AW-20693","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Full prod run, 2150 training compounds",2150,818766.31,"In process","Internal R&D"],
+  ["AW-20693","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Full prod run, 2150 training compounds",2150,470380.76,"In process","Internal R&D"],
+  ["AW-20693-ISO","Cell Assays","2D+ Truvivo (Labor + Reagents) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 2200 cmpds)",50,19041,"In process","Customer"],
+  ["AW-20693-ISO","Cell Assays","2D+ Truvivo (Cells) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 2200 cmpds)",50,10939,"In process","Customer"],
+  ["PTX-TRUV-CELLS","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Cells for PO 20709 (LNH quote 20003798 $447,670 + $61,340 additional per Partex)",null,509010,"Completed","Internal R&D"],
+  ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Cells)","Genentech","Partex","700 GNE compounds",700,321651.24,"In process","Customer"],
+  ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Labor + Reagents)","Genentech","Partex","700 GNE compounds",700,281251.25,"In process","Customer"],
+  ["PTX-1783","Cell Assays","2D PHH (Cells)","Axiom Training","Partex","Cells for 8 future production runs",null,178635.6,"Quote Generated","Internal R&D"],
+  ["AW-20700","Cell Assays","2D+ Truvivo Donor Testing","Axiom Training","Partex","Quantification of 10 Truvivo donors + BA/LPS testing",null,137940,"In process","Internal R&D"],
+  ["AW-20695-BI","Cell Assays","2D+ Truvivo (Cells)","BI","Partex","300 BI compounds",347,137850.53,"In process","Customer"],
+  ["AW-20695-BI","Cell Assays","2D+ Truvivo (Labor + Reagents)","BI","Partex","300 BI compounds",347,120536.25,"In process","Customer"],
+  ["AW-20703","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Additional 250 training compounds",250,114775,"In process","Internal R&D"],
+  ["AW-20694-GNE","Cell Assays","2D PHH (Labor + Reagents)","Genentech","Partex","700 GNE compounds",700,82118.75,"In process","Customer"],
+  ["AW-20706-GNE","Cell Assays","2D PHH NEW DONOR (Labor + Reagents)","Genentech","Partex","New donor PHH prod run, 700 GNE compounds",700,75118.75,"Quote Generated","Customer"],
+  ["AW-20699","Cell Assays","2D PHH (Labor + Reagents)","Axiom Training","Partex","Full prod run, 650 training compounds",650,48645.54,"In process","Internal R&D"],
+  ["AW-20699-ISO","Cell Assays","2D PHH (Labor + Reagents) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 700 cmpds)",50,3741.96,"In process","Customer"],
+  ["AW-20694-BI","Cell Assays","2D PHH (Labor + Reagents)","BI","Partex","300 BI compounds",347,35193.75,"In process","Customer"],
+  ["AW-20706-BI","Cell Assays","2D PHH NEW DONOR (Labor + Reagents)","BI","Partex","New donor PHH prod run, 300 BI compounds",300,32193.75,"Quote Generated","Customer"],
+  ["AW-20694-GNE","Cell Assays","2D PHH (Cells)","Genentech","Partex","700 GNE compounds",700,17500,"In process","Customer"],
+  ["AW-20705","Cell Assays","2D PHH (Test PHH lots LOC and UWM)","Axiom Training","Partex","Test PHH lots LOC and UWM",null,9985,"Quote Generated","Internal R&D"],
+  ["AW-20694-BI","Cell Assays","2D PHH (Cells)","BI","Partex","300 BI compounds",347,7500,"In process","Customer"],
+  ["MCE-Q4-TRAIN","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCE","Clinical labels",1600,208354,"Completed","Internal R&D"],
+  ["MCE-Q1-MIXED","Compound Sourcing","ADME/mito tox/RM/GSH/PHH/Truvivo","Axiom Training","MCE","Benchmark + Customer + GSH validation",363,109930,"Completed","Internal R&D"],
+  ["MCE-FDA","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCE","FDA clinical",429,51200,"Completed","Internal R&D"],
+  ["MCE-BTK","Compound Sourcing","BTK + Obesity","Axiom Training","MCE","BTK+Obesity 43 liquid + 5 solid",48,13278,"Quote Generated","Internal R&D"],
+  ["MCE-EXTRA","Compound Sourcing","Replacement compounds","Axiom Training","MCE","40 liquid + 10 solid — Partex",50,1952,"Quote Generated","Internal R&D"],
+  ["MCULE-Q4","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCule","Clinical labels",60,25402.42,"Completed","Internal R&D"],
+  ["SELLECK-Q4","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","Selleck","Clinical labels",94,19430,"Completed","Internal R&D"],
+  ["WUXI-MCE-PILOT","Compound Sourcing","T1 ADME Pilot","Axiom Training","WuXi/MCE","5mg powder",191,5153,"Completed","Internal R&D"],
+  ["PTX-1778","Instruments","2D PHH + Truvivo","Axiom Training","Partex","New liquid handler + incubator",null,275000,"Quote Generated","Internal R&D"],
+  ["EF-ADME-SCALE","Off-the-Shelf ADME + MitoTox","T1 ADME Scale up","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB",2519,874697.56,"In process","Internal R&D"],
+  ["EF-ADME-GNE","Off-the-Shelf ADME + MitoTox","T1 ADME","Genentech","Eurofins",null,700,243068,"Quote Generated","Customer"],
+  ["EF-ADME-BI","Off-the-Shelf ADME + MitoTox","T1 ADME","BI","Eurofins",null,347,120492.28,"In process","Customer"],
+  ["WUXI-PILOT","Off-the-Shelf ADME + MitoTox","T1 ADME Pilot","Axiom Training","WuXi",null,191,95500,"Completed","Internal R&D"],
+  ["WUXI-ADME-PILOT2","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM assay","Axiom Training","WuXi","Sol, Caco2, LogD, Microsome Stability, PPB, RM",50,35000,"Quote signed","Internal R&D"],
+  ["PHAR-ADME-PILOT","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM + UV Purity","Axiom Training","Pharmaron","LogD, Sol, Stability, PPB, Caco2, MetTrap, UV Purity",50,37400,"Quote signed","Internal R&D"],
+  ["CYP-ADME-PILOT","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM assay","Axiom Training","Cyprotex","LogD, Sol, Caco2, Microsome Stability, PPB, RM",50,21250,"Quote Generated","Internal R&D"],
+  ["EF-BSEP-SCALE","Off-the-Shelf ADME + MitoTox","BSEP Scale up (Phase 1)","Axiom Training","Eurofins","BSEP inhibition, 252 cmpds first tranche",252,23791,"Quote signed","Internal R&D"],
+  ["EF-MT-GNE","Off-the-Shelf ADME + MitoTox","Mito Tox","Genentech","Eurofins",null,700,56840,"Quote Generated","Customer"],
+  ["EF-MT-TRAIN","Off-the-Shelf ADME + MitoTox","Custom Mito Tox (HepG2)","Axiom Training","Eurofins","7 conc, n=3, HepG2",700,80500,"Quote Generated","Internal R&D"],
+  ["EF-BSEP-PILOT","Off-the-Shelf ADME + MitoTox","BSEP Pilot (7pt dosage curve)","Axiom Training","Eurofins",null,52,41236.52,"Quote Generated","Internal R&D"],
+  ["EF-ISO-PANEL","Off-the-Shelf ADME + MitoTox","Isomorphic Full Panel","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB, RM (GSH), BSEP",50,35803,"Quote Generated","Internal R&D"],
+  ["EF-MITO-AUTO","Off-the-Shelf ADME + MitoTox","Mito Tox Automation Pilot","Axiom Training","Eurofins",null,null,27726,"Completed","Internal R&D"],
+  ["EF-RM-PILOT","Off-the-Shelf ADME + MitoTox","Reactive Metabolites Pilot","Axiom Training","Eurofins",null,200,34740,"Completed","Internal R&D"],
+  ["EF-SPHEROIDS","Off-the-Shelf ADME + MitoTox","Spheroids Pilot","Axiom Training","Eurofins",null,186,33552.54,"In process","Internal R&D"],
+  ["EF-MT-BI","Off-the-Shelf ADME + MitoTox","Mito Tox","BI","Eurofins",null,347,28176.4,"In process","Customer"],
+  ["EF-MITO-TOX","Off-the-Shelf ADME + MitoTox","Mito Tox","Axiom Training","Eurofins","Reduced scope from original 2519 cmpds",null,32480,"Completed","Internal R&D"],
+  ["EF-ISO-MT","Off-the-Shelf ADME + MitoTox","Mito Tox Isomorphic Pilot","Axiom Training","Eurofins","7 conc, n=3, HepG2",50,5750,"Quote Generated","Internal R&D"],
+  ["NOMIC-SCALE","Proteomics","Nomic Scale up (77-plex)","Axiom Training","Nomic","88 plates (384wp)",null,596761.41,"In process","Internal R&D"],
+  ["NOMIC-60EXTRA","Proteomics","Nomic (77-plex)","Axiom Training","Nomic","60 plates",null,576000,"In process","Internal R&D"],
+  ["NOMIC-GNE","Proteomics","Nomic (77-plex)","Genentech","Nomic",null,700,165832.87,"In process","Customer"],
+  ["NOMIC-BI","Proteomics","Nomic (77-plex)","BI","Nomic",null,347,82205.72,"In process","Customer"],
+  ["NOMIC-PILOT","Proteomics","Nomic Pilot (1000-plex)","Axiom Training","Nomic","3 plates (384wp)",null,78336,"Completed","Internal R&D"],
+  ["ALI-20704","Transcriptomics","DRUG-seq mRNA seq Pilot","Axiom Training","Alithea","1 plate (384wp), 1M reads/sample",null,6994,"Quote signed","Internal R&D"],
+  ["AW-20711","Transcriptomics","DRUG-seq Alithea Pilot Repeat","Axiom Training","Partex","Repeat of pilot plate, 2x384wp DRUG-seq + NGS",null,6994,"Completed","Internal R&D"],
+  ["LNH-MEDIA-20003930","Cell Assays","Truvivo/PHH Media","Axiom Training","LifeNet Health","TruVivo feeder/culture/plating medium + supplements A/B/C",null,41195,"PO Issued","Internal R&D"],
+  ["AW-20717","Cell Assays","2D+ Truvivo (Labor + Reagents)","Isomorphic","Partex","10 compounds (3 donors) + 40 Isomorphic compounds (2 donors); 8 FD",50,27940,"Quote Generated","Customer"],
+  ["AW-20718","Cell Assays","2D+ Truvivo (Assay Dev)","Axiom Training","Partex","Truvivo Assay Dev Exp-13 — LNH/Pfizer collaboration, 11-day assay; 6 FD",null,19200,"Quote Generated","Internal R&D"],
+  ["AW-20719","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Mini Truvivo run, 26 compounds, 2 plates + 1 reference; 3 FD",26,9600,"Quote Generated","Internal R&D"],
+  ["MCE-Q2-PARTEX","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) — ships to Partex",20,902,"Quote Generated","Internal R&D"],
+  ["MCE-Q2-EF","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) — ships to Eurofins",20,902,"Quote Generated","Internal R&D"],
+  ["MCE-Q3-PHARMARON","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) — ships to Pharmaron",50,1475,"Quote Generated","Internal R&D"],
+  ["MCE-Q3-WUXI","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) — ships to WuXi",50,1475,"Quote Generated","Internal R&D"],
+  ["LNH-HEPS-20003952","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","LifeNet Health","7 TruVivo-qualified human hepatocyte vials (batch 2113352-01)",7,9779,"PO Issued","Internal R&D"]
 ];
 
 const catLabels = ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'];
@@ -386,6 +386,7 @@ function showCatDrilldown(catName) {
       '<td class="bold">'+r[0]+'</td>' +
       '<td>'+r[2]+'</td>' +
       '<td class="gray">'+r[3]+'</td>' +
+      '<td class="gray">'+(r[9]||'')+'</td>' +
       '<td class="gray">'+r[4]+'</td>' +
       '<td class="r gray">'+(r[6]!=null?r[6].toLocaleString():'\u2014')+'</td>' +
       '<td class="r bold">'+fmtFull(r[7])+'</td>' +
@@ -435,6 +436,7 @@ function showCsDrilldown(setName) {
       '<td class="bold">'+r[0]+'</td>' +
       '<td>'+r[2]+'</td>' +
       '<td class="gray">'+r[1]+'</td>' +
+      '<td class="gray">'+(r[9]||'')+'</td>' +
       '<td class="gray">'+r[4]+'</td>' +
       '<td class="r gray">'+(r[6]!=null?r[6].toLocaleString():'\u2014')+'</td>' +
       '<td class="r bold">'+fmtFull(r[7])+'</td>' +
