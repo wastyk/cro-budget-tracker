@@ -104,7 +104,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 </script>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
-  <p class="subtitle">Q4 2025 &ndash; Q1 2026 &bull; Updated 2026-04-02</p>
+  <p class="subtitle">Q4 2025 &ndash; Q1 2026 &bull; Updated 2026-04-07</p>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
@@ -118,7 +118,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
       <div><div class="kpi-val">$7.2M</div><div class="kpi-label">Total Committed</div></div>
       <div><div class="kpi-val blue">$5.3M</div><div class="kpi-label">Axiom Training</div></div>
       <div><div class="kpi-val orange">$1.9M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">62</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val">64</div><div class="kpi-label">Unique Quotes</div></div>
     </div>
 
     <div class="section">
@@ -152,8 +152,8 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
         <table>
           <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
           <tbody>
-            <tr><td>In process</td><td class="r gray">19</td><td class="r bold">$4,593,089</td></tr>
-            <tr><td>Quote Generated</td><td class="r gray">22</td><td class="r bold">$1,226,170</td></tr>
+            <tr><td>In process</td><td class="r gray">20</td><td class="r bold">$5,169,089</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">23</td><td class="r bold">$653,120</td></tr>
             <tr><td>Completed</td><td class="r gray">11</td><td class="r bold">$1,169,535</td></tr>
             <tr><td>Quote Signed</td><td class="r gray">6</td><td class="r bold">$131,379</td></tr>
             <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
@@ -186,7 +186,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
       <table>
         <thead><tr><th>Batch Size</th><th>Plates</th><th class="r">2D+ Truvivo</th><th class="r">2D PHH</th><th class="r">Combined</th><th class="r">Truvivo / Cmpd</th><th class="r">PHH / Cmpd</th></tr></thead>
         <tbody>
-          <tr><td class="bold">210 cmpds (Full)</td><td class="gray">17</td><td class="r">$113,358</td><td class="r">$25,963</td><td class="r bold">$139,320</td><td class="r">$540</td><td class="r">$124</td></tr>
+          <tr><td class="bold">230 cmpds (Full)</td><td class="gray">17</td><td class="r">$113,358</td><td class="r">$25,963</td><td class="r bold">$139,320</td><td class="r">$493</td><td class="r">$113</td></tr>
           <tr><td class="bold">105 cmpds (Half)</td><td class="gray">9</td><td class="r">$81,648</td><td class="r">$18,700</td><td class="r bold">$100,348</td><td class="r">$778</td><td class="r">$178</td></tr>
           <tr><td class="bold">52 cmpds (Intermediate)</td><td class="gray">5</td><td class="r">$67,676</td><td class="r">$15,500</td><td class="r bold">$83,176</td><td class="r">$1,301</td><td class="r">$298</td></tr>
           <tr><td class="bold">26 cmpds (Mini)</td><td class="gray">3</td><td class="r">$60,254</td><td class="r">$13,800</td><td class="r bold">$74,054</td><td class="r">$2,317</td><td class="r">$531</td></tr>
@@ -197,7 +197,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 
     <div class="section" style="margin-top:16px">
       <h2 class="section-title">Cost Per Compound by Assay</h2>
-      <p class="section-sub">Axiom Training rates &bull; full production run (210 cmpds)</p>
+      <p class="section-sub">Axiom Training rates &bull; full production run (230 cmpds)</p>
       <table>
         <thead><tr><th><input type="checkbox" checked onchange="toggleAllCpc(this)"></th><th>Assay</th><th>Vendor</th><th class="r">Cost / Cmpd</th></tr></thead>
         <tbody id="cpcBody"></tbody>
@@ -210,9 +210,9 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
       <div><div class="kpi-val">$7.5M</div><div class="kpi-label">Total Quoted</div></div>
-      <div><div class="kpi-val blue">$5.6M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
-      <div><div class="kpi-val green">$5.1M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">74%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val blue">$6.0M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
+      <div><div class="kpi-val green">$5.5M</div><div class="kpi-label">Total Payable (Net)</div></div>
+      <div><div class="kpi-val orange">80%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -351,7 +351,7 @@ const allQuotes = [
   ["EF-MITO-TOX","Off-the-Shelf ADME + MitoTox","Mito Tox","Axiom Training","Eurofins","Reduced scope from original 2519 cmpds",null,32480,"Completed"],
   ["EF-ISO-MT","Off-the-Shelf ADME + MitoTox","Mito Tox Isomorphic Pilot","Axiom Training","Eurofins","7 conc, n=3, HepG2",50,5750,"Quote Generated"],
   ["NOMIC-SCALE","Proteomics","Nomic Scale up (77-plex)","Axiom Training","Nomic","88 plates (384wp)",null,596761.41,"In process"],
-  ["NOMIC-60EXTRA","Proteomics","Nomic (77-plex)","Axiom Training","Nomic","60 plates",null,576000,"Quote Generated"],
+  ["NOMIC-60EXTRA","Proteomics","Nomic (77-plex)","Axiom Training","Nomic","60 plates",null,576000,"In process"],
   ["NOMIC-GNE","Proteomics","Nomic (77-plex)","Genentech","Nomic",null,700,165832.87,"In process"],
   ["NOMIC-BI","Proteomics","Nomic (77-plex)","BI","Nomic",null,347,82205.72,"In process"],
   ["NOMIC-PILOT","Proteomics","Nomic Pilot (1000-plex)","Axiom Training","Nomic","3 plates (384wp)",null,78336,"Completed"],
@@ -363,7 +363,9 @@ const allQuotes = [
   ["AW-20719","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Mini Truvivo run, 26 compounds, 2 plates + 1 reference; 3 FD",26,9600,"Quote Generated"],
   ["MCE-Q2-PARTEX","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) — ships to Partex",20,902,"Quote Generated"],
   ["MCE-Q2-EF","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) — ships to Eurofins",20,902,"Quote Generated"],
-  ["LNH-HEPS-20003952","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","LifeNet Health","7 TruVivo-qualified human hepatocyte vials (batch 2113352-01)",7,9779,"Quote Generated"]
+  ["MCE-Q3-PHARMARON","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) — ships to Pharmaron",50,1475,"Quote Generated"],
+  ["MCE-Q3-WUXI","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) — ships to WuXi",50,1475,"Quote Generated"],
+  ["LNH-HEPS-20003952","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","LifeNet Health","7 TruVivo-qualified human hepatocyte vials (batch 2113352-01)",7,9779,"PO Issued"]
 ];
 
 const catLabels = ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'];
@@ -464,8 +466,8 @@ function closeCsDrilldown() {
 // Cost per compound table
 const cpcData = [
   ["Tier 1 ADME (Sol, Caco2, LogD, IC, PPB)","Eurofins",347],
-  ["2D PHH (Labor + Cells)","Partex",124],
-  ["2D+ Truvivo (Labor + Cells)","Partex",540],
+  ["2D PHH (Labor + Cells)","Partex",113],
+  ["2D+ Truvivo (Labor + Cells)","Partex",493],
   ["BSEP","Eurofins",94],
   ["Mito Tox","Eurofins",115],
   ["Reactive Metabolites","Eurofins",180]
@@ -498,7 +500,7 @@ const catChart = new Chart(document.getElementById('catChart'), {
   type: 'bar',
   data: {
     labels: ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'],
-    datasets: [{ data: [2990283,1828003,1499136,436503,275000,117710,13988], backgroundColor: '#0777b3', borderRadius: 4, barThickness: 18 }]
+    datasets: [{ data: [2990283,1828003,1499136,439453,275000,117710,13988], backgroundColor: '#0777b3', borderRadius: 4, barThickness: 18 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCatDrilldown(catLabels[elements[0].index]); } },
@@ -511,11 +513,11 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: ['Axiom Training','Genentech','BI','Isomorphic'],
-    datasets: [{ data: [5256874,1243381,564149,103215], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9'], borderRadius: 4, barThickness: 22 }]
+    datasets: [{ data: [5259824,1243381,564149,103215], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9'], borderRadius: 4, barThickness: 22 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/7167619*100).toFixed(1)+'%)'}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/7170569*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
 
@@ -523,8 +525,8 @@ new Chart(document.getElementById('csChart'), {
 function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ['Partex','Eurofins','Nomic','MCE','WuXi','Excelra','Pharmaron','MCule','Selleck','Cyprotex','micro1','Alithea','WuXi/MCE','Mercor','iMerit','LifeNet Health'];
-  const quoted = [3771508,1638853,1499136,386518,130500,92650,37400,25402,19430,21250,22060,6994,5153,1800,1200,50974];
-  const invoiced = [3607253,1015760,566400,385570,0,0,0,0,0,0,0,0,0,0,1200,0];
+  const quoted = [3771508,1638853,1499136,389468,130500,92650,37400,25402,19430,21250,22060,6994,5153,1800,1200,50974];
+  const invoiced = [3607253,1015760,1008000,385570,0,0,0,0,0,0,0,0,0,400,1200,0];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
@@ -546,7 +548,7 @@ function drawInvCharts() {
     data: {
       labels: ['2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04'],
       datasets: [
-        { label:'Cash Out', data: [181758,1721963,641023,925872,957272,693584,0], backgroundColor:'#0777b3', borderRadius:4 },
+        { label:'Cash Out', data: [181758,1721963,641023,925872,957272,1135584,0], backgroundColor:'#0777b3', borderRadius:4 },
         { label:'Gross Invoiced', data: [181758,1721963,690861,925872,975726,1080002,0], backgroundColor:'#e5e7eb', borderRadius:4 },
         { label:'Projected', data: [0,0,0,0,0,0,72000], backgroundColor:'rgba(7,119,179,0.2)', borderColor:'#0777b3', borderWidth:1, borderRadius:4 }
       ]
@@ -563,15 +565,18 @@ const invoices = [
   ["1801","20711","Partex","2026-03-31","FD",6994,0,6994,"Alithea Pilot reproducibility plate (repeat of PO20704)"],
   ["US034-0023370","US034-0029756-O","Eurofins","2026-03-31","Assay Services",14412,0,14412,"Mito Tox Automation Pilot \u2013 Milestone 2 (final; quote fully invoiced)"],
   ["US034-0023386","US034-0028902-O","Eurofins","2026-03-31","Assay Services",370698,-370178,520,"Q02 umbrella prepayment draw \u2013 high-vol discount applied (scope TBD)"],
+  ["INV000000241","MSA-4129","Mercor","2026-03-31","Assay Services",400,0,400,"Mass Spectrometry \u2013 March 2026"],
   ["US034-0023304","US034-0029862-O","Eurofins","2026-03-25","Assay Services",5520,0,5520,"Isomorphic Mito Tox Pilot - 50 cmpds"],
   ["M2619561","2026021952225-5","MCE","2026-03-20","Compound Sourcing",6384,0,6384,"BTK+Obesity 43 liquid + 5 solid to Partex"],
   ["US034-0023266","US034-0029756-O","Eurofins","2026-03-19","Assay Services",13314,0,13314,"Mito Tox Automation Pilot - Milestone 1"],
   ["US034-0023262","US034-0028902-O","Eurofins","2026-03-19","Assay Services",16240,-16240,0,"ADME assay services (applied against Q02 prepayment)"],
   ["US034-0023239","US034-0028928-O","Eurofins","2026-03-17","Assay Services",32480,0,32480,"Mito Tox assay services"],
+  ["INV-NB-616","25-00704","Nomic","2026-03-12","Assay Services",153600,0,153600,"Nomic Scale-up 6,144 Flex In vitro wells (UCID 25-00704.5)"],
   ["M2619565","2026022046100-5","MCE","2026-03-10","Compound Sourcing",7044,0,7044,"BTK+Obesity 48 cmpds to Eurofins"],
   ["US034-0023199","US034-0029617-O","Eurofins","2026-03-09","Assay Services",41234,0,41234,"BSEP Pilot 52 cmpds 7-conc"],
   ["M2616664","2026021942801-2","MCE","2026-03-04","Compound Sourcing",2027,0,2027,"Replacement 50 cmpds to Partex"],
   ["M2616665","2026021943470-2","MCE","2026-03-04","Compound Sourcing",2257,0,2257,"Replacement 50 cmpds to Eurofins"],
+  ["INV-NB-623","26-00078","Nomic","2026-03-02","Assay Services",288000,0,288000,"Nomic 60-plate extension upfront payment \u2013 Flex 77 Plex, Cell Sup (UCID 26-00078.0)"],
   ["IN6255","SOW-1","iMerit","2026-02-28","Annotations",1200,0,1200,"Image annotations 50 hrs"],
   ["1790","20704","Partex","2026-02-28","FD",6994,0,6994,"Alithea Pilot DRUG-seq"],
   ["1791","20705","Partex","2026-02-28","FD",6985,0,6985,"Test PHH lots LOC and UWM"],
@@ -639,8 +644,8 @@ invBody.innerHTML += `<tr class="total">
 const pos = [
   ["20003798","Partex",509010,509010,100],
   ["20693","Partex",1319127,1268236,96.1],["US034-0028902-Q02","Eurofins",1306550,908800,69.6],
-  ["20695","Partex",861289,855304,99.3],["25-00704","Nomic",844800,566400,67.0],
-  ["26-00078","Nomic",576000,0,0],
+  ["20695","Partex",861289,855304,99.3],["25-00704","Nomic",844800,720000,85.2],
+  ["26-00078","Nomic",576000,288000,50.0],
   ["20694","Partex",320948,289373,90.2],["20707","Partex",275000,275000,100],
   ["M2584452/M2584696","MCE",208354,206528,99.1],["20700","Partex",137940,37436,27.1],
   ["20703","Partex",114775,114775,100],["2025122408609","MCE",109930,110130,100],
@@ -658,11 +663,12 @@ const pos = [
   ["SOW-1","iMerit",1200,1200,100],
   ["SOW-2","micro1",20000,0,0],
   ["SOW-1","micro1",2060,0,0],
-  ["MSA-4129","Mercor",1800,0,0],
+  ["MSA-4129","Mercor",1800,400,22.2],
   ["20717","Partex",27940,0,0],
   ["20718","Partex",19200,0,0],
   ["20719","Partex",9600,0,0],
   ["2026040151947","MCE",1804,0,0],
+  ["2026040953787/4087","MCE",2950,0,0],
   ["20003952","LifeNet Health",9779,0,0]
 ];
 
