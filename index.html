@@ -104,7 +104,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 </script>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
-  <p class="subtitle">Q4 2025 &ndash; Q2 2026 &bull; Updated 2026-04-23</p>
+  <p class="subtitle">Q4 2025 &ndash; Q2 2026 &bull; Updated 2026-04-28</p>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
@@ -115,10 +115,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 1: OVERVIEW ========== -->
   <div id="tab-overview">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$7.3M</div><div class="kpi-label">Total Committed</div></div>
-      <div><div class="kpi-val blue">$5.3M</div><div class="kpi-label">Axiom Training</div></div>
-      <div><div class="kpi-val orange">$1.9M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">69</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val">$7.6M</div><div class="kpi-label">Total Committed</div></div>
+      <div><div class="kpi-val blue">$5.6M</div><div class="kpi-label">Axiom Training</div></div>
+      <div><div class="kpi-val orange">$2.0M</div><div class="kpi-label">Customer Work</div></div>
+      <div><div class="kpi-val">76</div><div class="kpi-label">Unique Quotes</div></div>
     </div>
 
     <div class="section">
@@ -153,9 +153,9 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
           <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
           <tbody>
             <tr><td>In process</td><td class="r gray">22</td><td class="r bold">$5,170,893</td></tr>
-            <tr><td>Quote Generated</td><td class="r gray">25</td><td class="r bold">$712,116</td></tr>
-            <tr><td>Completed</td><td class="r gray">11</td><td class="r bold">$1,169,535</td></tr>
-            <tr><td>Quote Signed</td><td class="r gray">7</td><td class="r bold">$164,670</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">28</td><td class="r bold">$884,015</td></tr>
+            <tr><td>Completed</td><td class="r gray">13</td><td class="r bold">$1,277,520</td></tr>
+            <tr><td>Quote Signed</td><td class="r gray">9</td><td class="r bold">$205,882</td></tr>
             <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
           </tbody>
         </table>
@@ -341,7 +341,7 @@ const allQuotes = [
   ["CYP-ADME-PILOT","Off-the-Shelf ADME + MitoTox","Tier 1 ADME pilot + RM assay","Axiom Training","Cyprotex","LogD, Sol, Caco2, Microsome Stability, PPB, RM",50,21250,"Quote Generated","Internal R&D",""],
   ["EF-BSEP-SCALE","Off-the-Shelf ADME + MitoTox","BSEP Scale up (Phase 1)","Axiom Training","Eurofins","BSEP inhibition, 252 cmpds first tranche",252,23791,"Quote signed","Internal R&D",""],
   ["EF-MT-GNE","Off-the-Shelf ADME + MitoTox","Mito Tox","Genentech","Eurofins",null,700,56840,"Quote Generated","Customer",""],
-  ["EF-MT-TRAIN","Off-the-Shelf ADME + MitoTox","Custom Mito Tox (HepG2)","Axiom Training","Eurofins","7 conc, n=3, HepG2",700,80500,"Quote Generated","Internal R&D",""],
+  ["EF-MT-TRAIN","Off-the-Shelf ADME + MitoTox","Custom Mito Tox (HepG2)","Axiom Training","Eurofins","7 conc, n=3, HepG2",700,80500,"Completed","Internal R&D",""],
   ["EF-BSEP-PILOT","Off-the-Shelf ADME + MitoTox","BSEP Pilot (7pt dosage curve)","Axiom Training","Eurofins",null,52,41236.52,"Quote Generated","Internal R&D","March 2026"],
   ["EF-ISO-PANEL","Off-the-Shelf ADME + MitoTox","Isomorphic Full Panel","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB, RM (GSH), BSEP",50,35803,"Quote Generated","Internal R&D","March 2026"],
   ["EF-MITO-AUTO","Off-the-Shelf ADME + MitoTox","Mito Tox Automation Pilot","Axiom Training","Eurofins",null,null,27726,"Completed","Internal R&D",""],
@@ -370,7 +370,14 @@ const allQuotes = [
   ["PTX-00755-LOR","Cell Assays","TruVivo (Full Prod)","L\u2019Or\u00e9al","Partex","TruVivo full production run – 20 compounds (L\u2019Or\u00e9al)",20,5286.96,"Quote Generated","Customer",""],
   ["PTX-00755-RVM","Cell Assays","TruVivo (Full Prod)","RevMed","Partex","TruVivo full production run – 14 compounds (RevMed)",14,3700.87,"Quote Generated","Customer",""],
   ["PTX-00755-AXI","Cell Assays","TruVivo (Full Prod)","Axiom Training","Partex","TruVivo full production run – 147 compounds (Axiom Training)",147,38859.30,"Quote Generated","Internal R&D",""],
-  ["EF-GSH-VALIDATION","Off-the-Shelf ADME + MitoTox","GSH Depletion","Axiom Training","Eurofins","GSH depletion validation – 40 reference agents",40,33291,"Quote Signed","Internal R&D",""]
+  ["EF-GSH-VALIDATION","Off-the-Shelf ADME + MitoTox","GSH Depletion","Axiom Training","Eurofins","GSH depletion validation – 40 reference agents",40,33291,"Quote Signed","Internal R&D",""],
+  ["EF-MT-TRAIN-2","Off-the-Shelf ADME + MitoTox","Custom Mito Tox (HepG2)","Axiom Training","Eurofins","Custom MitoTox HepG2, 7 conc n=3 – 239 cmpds",239,27485,"Completed","Internal R&D",""],
+  ["PTX-00786","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","3\u00d7 TruVivo full prod runs w/ brightfield, 630 cmpds N=3 (9 FDi + consumables/shipment)",630,94400,"Quote Generated","Internal R&D",""],
+  ["PTX-00786-ALI","Transcriptomics","DRUG-seq mRNA seq (Alithea)","Axiom Training","Partex","DRUG-seq library prep + 1M reads/sample, 3 plates via Partex (MERCURIUS)",630,156328.70,"Quote Generated","Internal R&D",""],
+  ["EF-TRANS-LOR","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP + MitoTox","L\u2019Or\u00e9al","Eurofins","Sol, Caco-2, LogD, IC, PPB, BSEP, MitoTox \u2013 20 cmpds",20,12227,"Quote Signed","Customer",""],
+  ["EF-TRANS-SHN","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP + MitoTox","Shionogi","Eurofins","Sol, Caco-2, LogD, IC, PPB, BSEP, MitoTox \u2013 48 cmpds",48,28984.80,"Quote Signed","Customer",""],
+  ["MCE-GSH-PHARMARON","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","27-item blinded set incl. shipping \u2013 ships to Pharmaron (GSH validation)",27,835,"Quote Generated","Internal R&D",""],
+  ["MCE-GSH-WUXI","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","27-item blinded set incl. shipping \u2013 ships to WuXi (GSH validation)",27,835,"Quote Generated","Internal R&D",""]
 ];
 
 const catLabels = ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'];
@@ -545,11 +552,11 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: csLabels,
-    datasets: [{ data: [5331974,1243381,564149,103215,12953,5287,3701], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#b45309','#db2777','#0f766e'], borderRadius: 4, barThickness: 22 }]
+    datasets: [{ data: [5611858,1243381,564149,103215,41938,17514,3701], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#b45309','#db2777','#0f766e'], borderRadius: 4, barThickness: 22 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/7264660*100).toFixed(1)+'%)'}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/7585756*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
 
@@ -592,6 +599,8 @@ function drawInvCharts() {
 
 // Invoice detail table
 const invoices = [
+  ["US034-0023550","US034-0029841-O","Eurofins","2026-04-27","Assay Services",27485,0,27485,"Custom MitoTox HepG2 \u2013 239 Axiom Training cmpds, Milestone 1 (EF-MT-TRAIN-2)"],
+  ["US034-0023503","US034-0029939-O","Eurofins","2026-04-22","Assay Services",80500,0,80500,"Custom MitoTox HepG2 \u2013 700 Axiom Training cmpds, full study (EF-MT-TRAIN)"],
   ["M2630521","2026040151947-3","MCE","2026-04-13","Compound Sourcing",937,0,937,"MCE Q2 compounds \u2013 20-compound blinded set to Eurofins (MCE-Q2-EF)"],
   ["M2630520","2026040151947-2","MCE","2026-04-10","Compound Sourcing",977,0,977,"MCE Q2 compounds \u2013 20-compound blinded set to Partex (MCE-Q2-PARTEX)"],
   ["1799","20003798","Partex","2026-03-31","Materials",509010,0,509010,"Truvivo cells + media \u2013 LifeNet Health PO 20709 (PTX-TRUV-CELLS; +$61,340 above LNH quote)"],
