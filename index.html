@@ -152,9 +152,9 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
         <table>
           <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
           <tbody>
-            <tr><td>In process</td><td class="r gray">22</td><td class="r bold">$5,170,893</td></tr>
-            <tr><td>Quote Generated</td><td class="r gray">28</td><td class="r bold">$884,015</td></tr>
-            <tr><td>Completed</td><td class="r gray">13</td><td class="r bold">$1,277,520</td></tr>
+            <tr><td>In process</td><td class="r gray">23</td><td class="r bold">$5,198,833</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">25</td><td class="r bold">$827,275</td></tr>
+            <tr><td>Completed</td><td class="r gray">15</td><td class="r bold">$1,306,320</td></tr>
             <tr><td>Quote Signed</td><td class="r gray">9</td><td class="r bold">$205,882</td></tr>
             <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
           </tbody>
@@ -358,9 +358,9 @@ const allQuotes = [
   ["ALI-20704","Transcriptomics","DRUG-seq mRNA seq Pilot","Axiom Training","Alithea","1 plate (384wp), 1M reads/sample",null,6994,"Quote signed","Internal R&D",""],
   ["AW-20711","Transcriptomics","DRUG-seq Alithea Pilot Repeat","Axiom Training","Partex","Repeat of pilot plate, 2x384wp DRUG-seq + NGS",null,6994,"Completed","Internal R&D","March 2026"],
   ["LNH-MEDIA-20003930","Cell Assays","Truvivo/PHH Media","Axiom Training","LifeNet Health","TruVivo feeder/culture/plating medium + supplements A/B/C",null,41195,"PO Issued","Internal R&D",""],
-  ["AW-20717","Cell Assays","2D+ Truvivo (Labor + Reagents)","Isomorphic","Partex","10 compounds (3 donors) + 40 Isomorphic compounds (2 donors); 8 FD",50,27940,"Quote Generated","Customer",""],
-  ["AW-20718","Cell Assays","2D+ Truvivo (Assay Dev)","Axiom Training","Partex","Truvivo Assay Dev Exp-13 — LNH/Pfizer collaboration, 11-day assay; 6 FD",null,19200,"Quote Generated","Internal R&D",""],
-  ["AW-20719","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Mini Truvivo run, 26 compounds, 2 plates + 1 reference; 3 FD",26,9600,"Quote Generated","Internal R&D",""],
+  ["AW-20717","Cell Assays","2D+ Truvivo (Labor + Reagents)","Isomorphic","Partex","10 compounds (3 donors) + 40 Isomorphic compounds (2 donors); 8 FD",50,27940,"In process","Customer",""],
+  ["AW-20718","Cell Assays","2D+ Truvivo (Assay Dev)","Axiom Training","Partex","Truvivo Assay Dev Exp-13 — LNH/Pfizer collaboration, 11-day assay; 6 FD",null,19200,"Completed","Internal R&D",""],
+  ["AW-20719","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Mini Truvivo run, 26 compounds, 2 plates + 1 reference; 3 FD",26,9600,"Completed","Internal R&D",""],
   ["MCE-Q2-PARTEX","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) — ships to Partex",20,902,"In process","Internal R&D",""],
   ["MCE-Q2-EF","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) — ships to Eurofins",20,902,"In process","Internal R&D",""],
   ["MCE-Q3-PHARMARON","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) — ships to Pharmaron",50,1475,"Quote Generated","Internal R&D",""],
@@ -608,6 +608,11 @@ function drawInvCharts() {
 
 // Invoice detail table
 const invoices = [
+  ["US034-0023586","US034-0028902-Q02","Eurofins","2026-04-29","Assay Services",70587.66,0,70587.66,"ADME Scale-up assay services \u2013 EF-ADME-SCALE"],
+  ["US034-0023575","US034-0029576-Q04","Eurofins","2026-04-29","Assay Services",34370.88,0,34370.88,"Isomorphic Full Panel (Sol, Caco-2, LogD, IC, PPB, RM, BSEP) \u2013 50 cmpds (EF-ISO-PANEL)"],
+  ["100-2026-20717","AW-20717","Partex","2026-04-28","Assay Services",25600,0,25600,"Truvivo Isomorphic with new donors \u2013 8 FD (AW-20717, partial)"],
+  ["101-2026-20719","AW-20719","Partex","2026-04-28","Assay Services",9600,0,9600,"Truvivo Mini Prod run experiment \u2013 3 FD (AW-20719)"],
+  ["102-2026-20718","AW-20718","Partex","2026-04-28","Assay Services",19200,0,19200,"Truvivo assay development experiment #14 \u2013 6 FD (AW-20718)"],
   ["US034-0023550","US034-0029841-O","Eurofins","2026-04-27","Assay Services",27485,0,27485,"Custom MitoTox HepG2 \u2013 239 Axiom Training cmpds, Milestone 1 (EF-MT-TRAIN-2)"],
   ["US034-0023503","US034-0029939-O","Eurofins","2026-04-22","Assay Services",80500,0,80500,"Custom MitoTox HepG2 \u2013 700 Axiom Training cmpds, full study (EF-MT-TRAIN)"],
   ["M2630521","2026040151947-3","MCE","2026-04-13","Compound Sourcing",937,0,937,"MCE Q2 compounds \u2013 20-compound blinded set to Eurofins (MCE-Q2-EF)"],
