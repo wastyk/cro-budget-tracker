@@ -115,10 +115,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 1: OVERVIEW ========== -->
   <div id="tab-overview">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$7.6M</div><div class="kpi-label">Total Committed</div></div>
-      <div><div class="kpi-val blue">$5.6M</div><div class="kpi-label">Axiom Training</div></div>
-      <div><div class="kpi-val orange">$2.0M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">76</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val">$8.7M</div><div class="kpi-label">Total Committed</div></div>
+      <div><div class="kpi-val blue">$6.8M</div><div class="kpi-label">Axiom Training</div></div>
+      <div><div class="kpi-val orange">$1.9M</div><div class="kpi-label">Customer Work</div></div>
+      <div><div class="kpi-val">78</div><div class="kpi-label">Unique Quotes</div></div>
     </div>
 
     <div class="section">
@@ -152,10 +152,11 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
         <table>
           <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
           <tbody>
-            <tr><td>In process</td><td class="r gray">23</td><td class="r bold">$5,198,833</td></tr>
-            <tr><td>Quote Generated</td><td class="r gray">25</td><td class="r bold">$827,275</td></tr>
-            <tr><td>Completed</td><td class="r gray">15</td><td class="r bold">$1,306,320</td></tr>
-            <tr><td>Quote Signed</td><td class="r gray">9</td><td class="r bold">$205,882</td></tr>
+            <tr><td>In process</td><td class="r gray">31</td><td class="r bold">$5,777,338</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">24</td><td class="r bold">$1,308,319</td></tr>
+            <tr><td>Completed</td><td class="r gray">17</td><td class="r bold">$1,341,040</td></tr>
+            <tr><td>Quote Signed</td><td class="r gray">9</td><td class="r bold">$198,888</td></tr>
+            <tr><td>PO Issued</td><td class="r gray">2</td><td class="r bold">$50,974</td></tr>
             <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
           </tbody>
         </table>
@@ -209,10 +210,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 3: INVOICES ========== -->
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$7.5M</div><div class="kpi-label">Total Quoted</div></div>
-      <div><div class="kpi-val blue">$6.0M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
-      <div><div class="kpi-val green">$5.5M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">80%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val">$8.7M</div><div class="kpi-label">Total Quoted</div></div>
+      <div><div class="kpi-val blue">$6.5M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
+      <div><div class="kpi-val green">$6.1M</div><div class="kpi-label">Total Payable (Net)</div></div>
+      <div><div class="kpi-val orange">75%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -333,6 +334,8 @@ const allQuotes = [
   ["WUXI-MCE-PILOT","Compound Sourcing","T1 ADME Pilot","Axiom Training","WuXi/MCE","5mg powder",191,5153,"Completed","Internal R&D",""],
   ["PTX-1778","Instruments","2D PHH + Truvivo","Axiom Training","Partex","New liquid handler + incubator",null,275000,"Quote Generated","Internal R&D",""],
   ["EF-ADME-SCALE","Off-the-Shelf ADME + MitoTox","T1 ADME Scale up","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB",2519,874697.56,"In process","Internal R&D",""],
+  ["EF-ADME-SCALE2","Off-the-Shelf ADME + MitoTox","T1 ADME + MitoTox Scale up","Axiom Training","Eurofins","Sol, HLM, Caco-2, LogD, PPB, MitoTox (CellTiter-Glo) \u2013 1,194 cmpds",1194,511557.36,"In process","Internal R&D",""],
+  ["EF-ADME-SCALE3","Off-the-Shelf ADME + MitoTox","T1 ADME sub-study","Axiom Training","Eurofins","MCE cmpds split from US034-0029447 \u2013 priority list, milestone billing",null,42286.78,"In process","Internal R&D",""],
   ["EF-ADME-GNE","Off-the-Shelf ADME + MitoTox","T1 ADME","Genentech","Eurofins",null,700,243068,"Quote Generated","Customer",""],
   ["EF-ADME-BI","Off-the-Shelf ADME + MitoTox","T1 ADME","BI","Eurofins",null,347,120492.28,"In process","Customer",""],
   ["WUXI-PILOT","Off-the-Shelf ADME + MitoTox","T1 ADME Pilot","Axiom Training","WuXi",null,191,95500,"Completed","Internal R&D",""],
@@ -552,11 +555,11 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: csLabels,
-    datasets: [{ data: [5611858,1243381,564149,103215,41938,17514,3701], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#b45309','#db2777','#0f766e'], borderRadius: 4, barThickness: 22 }]
+    datasets: [{ data: [6750466,1243381,564149,61662,41938,17514,3701], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#b45309','#db2777','#0f766e'], borderRadius: 4, barThickness: 22 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/7585756*100).toFixed(1)+'%)'}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/8682810*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
 
@@ -608,6 +611,8 @@ function drawInvCharts() {
 
 // Invoice detail table
 const invoices = [
+  ["US034-0023587","US034-0029192-Q02","Eurofins","2026-04-29","Assay Services",218204,0,218204,"ADME + MitoTox milestone invoice \u2013 EF-ADME-SCALE2"],
+  ["US034-0023589","US034-0030157-Q01","Eurofins","2026-04-29","Assay Services",10434.20,0,10434.20,"ADME sub-study milestone invoice \u2013 EF-ADME-SCALE3 (split from US034-0029447)"],
   ["US034-0023586","US034-0028902-Q02","Eurofins","2026-04-29","Assay Services",70587.66,0,70587.66,"ADME Scale-up assay services \u2013 EF-ADME-SCALE"],
   ["US034-0023575","US034-0029576-Q04","Eurofins","2026-04-29","Assay Services",34370.88,0,34370.88,"Isomorphic Full Panel (Sol, Caco-2, LogD, IC, PPB, RM, BSEP) \u2013 50 cmpds (EF-ISO-PANEL)"],
   ["100-2026-20717","AW-20717","Partex","2026-04-28","Assay Services",25600,0,25600,"Truvivo Isomorphic with new donors \u2013 8 FD (AW-20717, partial)"],
