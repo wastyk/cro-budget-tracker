@@ -74,12 +74,6 @@
   .pw-box button:hover { background:#065f91; }
   .pw-error { color:#bc1200; font-size:12px; margin-top:8px; display:none; }
   /* ── Cost Builder ── */
-  .cb-batch-row { display:flex; align-items:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
-  .cb-batch-label { font-size:13px; font-weight:500; color:#6a6a6a; min-width:72px; }
-  .cb-batch-opts { display:flex; gap:4px; }
-  .cb-batch-btn { padding:5px 13px; font-size:12px; border:1px solid #d1d5db; border-radius:6px; background:#fff; cursor:pointer; color:#374151; white-space:nowrap; }
-  .cb-batch-btn.cb-batch-sel { background:#0777b3; color:#fff; border-color:#0777b3; }
-  .cb-batch-hint { font-size:11px; color:#9ca3af; }
   .cb-bucket { margin-bottom:18px; }
   .cb-bucket-hdr { display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:2px solid #e5e7eb; margin-bottom:2px; }
   .cb-bucket-name { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#6a6a6a; }
@@ -305,16 +299,6 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
     <div class="section">
       <h2 class="section-title">Cost Builder</h2>
       <p class="section-sub">Select assays and protocols to build a per-compound cost profile</p>
-      <div class="cb-batch-row">
-        <span class="cb-batch-label">Batch size</span>
-        <div class="cb-batch-opts">
-          <button class="cb-batch-btn cb-batch-sel" data-batch="full"         onclick="cbSetBatch('full')">Full &middot; 230 cmpds</button>
-          <button class="cb-batch-btn"              data-batch="half"         onclick="cbSetBatch('half')">Half &middot; 105 cmpds</button>
-          <button class="cb-batch-btn"              data-batch="intermediate" onclick="cbSetBatch('intermediate')">Intermediate &middot; 52 cmpds</button>
-          <button class="cb-batch-btn"              data-batch="mini"         onclick="cbSetBatch('mini')">Mini &middot; 26 cmpds</button>
-        </div>
-        <span class="cb-batch-hint">applies to Partex cell assays</span>
-      </div>
     </div>
 
     <div class="two-col" style="align-items:start">
@@ -852,7 +836,7 @@ cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes]) => 
 });
 
 // State
-const cbState = { batchSize:'full', checked:{}, optIdx:{} };
+const cbState = { checked:{}, optIdx:{} };
 cbBucketOrder.forEach(b => {
   Object.values(cbBuckets[b]).forEach(({detail}) => {
     if (cbState.checked[detail] === undefined) cbState.checked[detail] = true;
@@ -861,12 +845,7 @@ cbBucketOrder.forEach(b => {
 });
 
 function cbEffective(detail, options) {
-  if (options[0].batch) {
-    // Partex batch-variable: use global batch size
-    return options.find(o => o.batch === cbState.batchSize) || options[0];
-  }
   if (options.length > 1) {
-    // Multi conc/rep: use per-assay selection
     return options[Math.min(cbState.optIdx[detail] || 0, options.length-1)];
   }
   return options[0];
@@ -897,21 +876,19 @@ function cbRender() {
     details.forEach(({detail, cro, options}) => {
       const on  = cbState.checked[detail];
       const opt = cbEffective(detail, options);
-      const hasBatch    = options[0].batch != null;
-      const hasMultiOpt = !hasBatch && options.length > 1;
+      const batchLabel = {full:'Full',half:'Half',intermediate:'Int',mini:'Mini'};
 
       let optHtml = '';
-      if (hasMultiOpt) {
+      if (options.length > 1) {
+        const hasBatch = options[0].batch != null;
         optHtml = `<span class="cb-opts">` +
           options.map((o,i) => {
             const sel = cbState.optIdx[detail] === i;
-            return `<button class="cb-opt-btn${sel?' sel':''}" onclick="cbSelOpt('${detail}',${i});event.preventDefault()">${o.conc}c/${o.reps}r</button>`;
+            const label = hasBatch ? batchLabel[o.batch] : `${o.conc}c/${o.reps}r`;
+            return `<button class="cb-opt-btn${sel?' sel':''}" onclick="cbSelOpt('${detail}',${i});event.preventDefault()">${label}</button>`;
           }).join('') + `</span>`;
       } else {
-        const tag = hasBatch
-          ? `${opt.conc}c/${opt.reps}r &middot; ${cbState.batchSize} (${opt.batchN})`
-          : `${opt.conc}c/${opt.reps}r`;
-        optHtml = `<span class="cb-tag">${tag}</span>`;
+        optHtml = `<span class="cb-tag">${opt.conc}c/${opt.reps}r</span>`;
       }
 
       const noteHtml = opt.notes ? `<span class="cb-note">${opt.notes}</span>` : '';
@@ -935,13 +912,6 @@ function cbRender() {
   document.getElementById('cb-assays').innerHTML = assaysHtml;
   document.getElementById('cb-summary-body').innerHTML = summaryHtml;
   document.getElementById('cb-total').innerHTML = '<strong>'+fmtCpc(grandTotal)+'</strong>';
-}
-
-function cbSetBatch(b) {
-  cbState.batchSize = b;
-  document.querySelectorAll('.cb-batch-btn').forEach(btn =>
-    btn.classList.toggle('cb-batch-sel', btn.dataset.batch === b));
-  cbRender();
 }
 
 function cbToggle(detail) {
