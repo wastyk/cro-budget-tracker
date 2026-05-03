@@ -73,6 +73,32 @@
   .pw-box button { width:100%; margin-top:12px; padding:10px; font-size:14px; font-weight:500; background:#0777b3; color:#fff; border:none; border-radius:6px; cursor:pointer; }
   .pw-box button:hover { background:#065f91; }
   .pw-error { color:#bc1200; font-size:12px; margin-top:8px; display:none; }
+  /* ── Cost Builder ── */
+  .cb-batch-row { display:flex; align-items:center; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+  .cb-batch-label { font-size:13px; font-weight:500; color:#6a6a6a; min-width:72px; }
+  .cb-batch-opts { display:flex; gap:4px; }
+  .cb-batch-btn { padding:5px 13px; font-size:12px; border:1px solid #d1d5db; border-radius:6px; background:#fff; cursor:pointer; color:#374151; white-space:nowrap; }
+  .cb-batch-btn.cb-batch-sel { background:#0777b3; color:#fff; border-color:#0777b3; }
+  .cb-batch-hint { font-size:11px; color:#9ca3af; }
+  .cb-bucket { margin-bottom:18px; }
+  .cb-bucket-hdr { display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:2px solid #e5e7eb; margin-bottom:2px; }
+  .cb-bucket-name { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#6a6a6a; }
+  .cb-bucket-sub { font-size:13px; font-weight:700; color:#0777b3; }
+  .cb-bucket-sub.dim { color:#d1d5db; }
+  .cb-per { font-size:10px; font-weight:400; color:#9ca3af; margin-left:2px; }
+  .cb-row { display:flex; align-items:center; gap:8px; padding:5px 4px; border-radius:4px; cursor:pointer; font-size:13px; }
+  .cb-row:hover { background:#f9fafb; }
+  .cb-row.off { opacity:.38; }
+  .cb-det { flex:1; font-weight:500; }
+  .cb-cro { font-size:11px; color:#9ca3af; width:52px; flex-shrink:0; }
+  .cb-tag { font-size:11px; background:#f3f4f6; color:#6b7280; padding:2px 6px; border-radius:4px; white-space:nowrap; }
+  .cb-note { font-size:10px; color:#d97706; font-style:italic; }
+  .cb-opts { display:flex; gap:2px; flex-shrink:0; }
+  .cb-opt-btn { padding:2px 8px; font-size:11px; border:1px solid #d1d5db; border-radius:4px; background:#fff; cursor:pointer; color:#6b7280; }
+  .cb-opt-btn.sel { background:#0777b3; color:#fff; border-color:#0777b3; }
+  .cb-cpc { font-weight:700; font-size:13px; width:68px; text-align:right; flex-shrink:0; }
+  .cb-summary-wrap { position:sticky; top:24px; }
+  .cb-total-row td { border-top:2px solid #231f20; font-weight:700; padding-top:10px; font-size:15px; }
 </style>
 </head>
 <body>
@@ -110,6 +136,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
     <button class="tab" onclick="showTab('costs')">Cost Per Batch &amp; Compound</button>
     <button class="tab" onclick="showTab('invoices')">Invoices &amp; Payments</button>
+    <button class="tab" onclick="showTab('builder')">Cost Builder</button>
   </div>
 
   <!-- ========== TAB 1: OVERVIEW ========== -->
@@ -272,6 +299,36 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
       </div>
     </div>
   </div>
+
+  <!-- ========== TAB 4: COST BUILDER ========== -->
+  <div id="tab-builder" class="hidden">
+    <div class="section">
+      <h2 class="section-title">Cost Builder</h2>
+      <p class="section-sub">Select assays and protocols to build a per-compound cost profile</p>
+      <div class="cb-batch-row">
+        <span class="cb-batch-label">Batch size</span>
+        <div class="cb-batch-opts">
+          <button class="cb-batch-btn cb-batch-sel" data-batch="full"         onclick="cbSetBatch('full')">Full &middot; 230 cmpds</button>
+          <button class="cb-batch-btn"              data-batch="half"         onclick="cbSetBatch('half')">Half &middot; 105 cmpds</button>
+          <button class="cb-batch-btn"              data-batch="intermediate" onclick="cbSetBatch('intermediate')">Intermediate &middot; 52 cmpds</button>
+          <button class="cb-batch-btn"              data-batch="mini"         onclick="cbSetBatch('mini')">Mini &middot; 26 cmpds</button>
+        </div>
+        <span class="cb-batch-hint">applies to Partex cell assays</span>
+      </div>
+    </div>
+
+    <div class="two-col" style="align-items:start">
+      <div id="cb-assays"></div>
+      <div class="cb-summary-wrap">
+        <div class="section-title" style="margin-bottom:12px">Summary</div>
+        <table>
+          <thead><tr><th>Assay Group</th><th class="r">$/cmpd</th></tr></thead>
+          <tbody id="cb-summary-body"></tbody>
+          <tbody><tr class="cb-total-row"><td><strong>Total</strong></td><td class="r" id="cb-total">—</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -283,8 +340,11 @@ function showTab(t) {
   document.getElementById('tab-overview').classList.toggle('hidden', t!=='overview');
   document.getElementById('tab-costs').classList.toggle('hidden', t!=='costs');
   document.getElementById('tab-invoices').classList.toggle('hidden', t!=='invoices');
-  document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', (i===0&&t==='overview')||(i===1&&t==='costs')||(i===2&&t==='invoices')));
+  document.getElementById('tab-builder').classList.toggle('hidden', t!=='builder');
+  document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active',
+    (i===0&&t==='overview')||(i===1&&t==='costs')||(i===2&&t==='invoices')||(i===3&&t==='builder')));
   if(t==='invoices' && !window._invChartsDrawn) { drawInvCharts(); window._invChartsDrawn=true; }
+  if(t==='builder') cbRender();
 }
 
 function showDetail(v) {
@@ -746,6 +806,153 @@ pos.forEach(r => {
     <td><div class="progress-bar"><div class="progress-fill" style="width:${Math.min(pct,100)}%;background:${barColor}"></div></div></td>
   </tr>`;
 });
+
+// ── COST BUILDER ──────────────────────────────────────────────────────────────
+// Data sourced from cost_per_compound sheet tab
+// [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes]
+const cbRaw = [
+  ['Standard PHH',       'Standard PHH',    'Partex',  8,3,'full',         230, 112.88, ''],
+  ['Standard PHH',       'Standard PHH',    'Partex',  8,3,'half',         105, 178.10, ''],
+  ['Standard PHH',       'Standard PHH',    'Partex',  8,3,'intermediate',  52, 298.08, ''],
+  ['Standard PHH',       'Standard PHH',    'Partex',  8,3,'mini',          26, 530.77, ''],
+  ['Standard Truvivo',   'Standard Truvivo','Partex',  8,3,'full',         230, 492.86, ''],
+  ['Standard Truvivo',   'Standard Truvivo','Partex',  8,3,'half',         105, 777.60, ''],
+  ['Standard Truvivo',   'Standard Truvivo','Partex',  8,3,'intermediate',  52,1301.46, ''],
+  ['Standard Truvivo',   'Standard Truvivo','Partex',  8,3,'mini',          26,2317.46, ''],
+  ['Truvivo + BF',       'Transcriptomics', 'Partex',  8,3,'full',         230, 125.22, ''],
+  ['Alithea DRUG-seq',   'Transcriptomics', 'Alithea', 8,3,'full',         230, 226.56, ''],
+  ['Nomic 77-plex',      'Proteomics',      'Nomic',   8,1, null,  null,   259.05, ''],
+  ['PPB',                'ADME',            'Eurofins',1,1, null,  null,    86.28, ''],
+  ['CLint (HLM)',        'ADME',            'Eurofins',1,1, null,  null,    40.60, ''],
+  ['LogD',               'ADME',            'Eurofins',1,1, null,  null,    27.44, ''],
+  ['Caco-2',             'ADME',            'Eurofins',1,2, null,  null,   182.70, ''],
+  ['Aq Sol',             'ADME',            'Eurofins',1,1, null,  null,    35.53, ''],
+  ['GSH Consumption',    'RM - GSH',        'Eurofins',7,3, null,  null,   170.00, 'estimate – pre-validation'],
+  ['RM Complex Trapping','RM - Complex',    'Eurofins',1,1, null,  null,   180.00, ''],
+  ['BSEP',               'Transporters',    'Eurofins',1,3, null,  null,   141.61, ''],
+  ['BSEP',               'Transporters',    'Eurofins',8,2, null,  null,   581.12, ''],
+  ['MRP2',               'Transporters',    'Eurofins',1,3, null,  null,   141.61, 'assume same as BSEP'],
+  ['MRP3',               'Transporters',    'Eurofins',1,3, null,  null,   141.61, 'assume same as BSEP'],
+  ['OATP1B1',            'Transporters',    'Eurofins',1,3, null,  null,   141.61, 'assume same as BSEP'],
+  ['OATP1B3',            'Transporters',    'Eurofins',1,3, null,  null,   141.61, 'assume same as BSEP'],
+  ['MRP2',               'Transporters',    'Eurofins',8,2, null,  null,   581.12, 'unofficial quote'],
+  ['MRP3',               'Transporters',    'Eurofins',8,2, null,  null,   581.12, 'unofficial quote'],
+  ['OATP1B1',            'Transporters',    'Eurofins',8,2, null,  null,   581.12, 'unofficial quote'],
+  ['OATP1B3',            'Transporters',    'Eurofins',8,2, null,  null,   581.12, 'unofficial quote'],
+];
+
+const cbBucketOrder = ['Standard PHH','Standard Truvivo','Transcriptomics','Proteomics','ADME','RM - GSH','RM - Complex','Transporters'];
+
+// Build grouped structure: bucket → { detail → {detail, cro, options[]} }
+const cbBuckets = {};
+cbBucketOrder.forEach(b => { cbBuckets[b] = {}; });
+cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes]) => {
+  if (!cbBuckets[bucket][detail]) cbBuckets[bucket][detail] = {detail, bucket, cro, options:[]};
+  cbBuckets[bucket][detail].options.push({conc, reps, batch, batchN, cpc, notes});
+});
+
+// State
+const cbState = { batchSize:'full', checked:{}, optIdx:{} };
+cbBucketOrder.forEach(b => {
+  Object.values(cbBuckets[b]).forEach(({detail}) => {
+    if (cbState.checked[detail] === undefined) cbState.checked[detail] = true;
+    if (cbState.optIdx[detail]  === undefined) cbState.optIdx[detail]  = 0;
+  });
+});
+
+function cbEffective(detail, options) {
+  if (options[0].batch) {
+    // Partex batch-variable: use global batch size
+    return options.find(o => o.batch === cbState.batchSize) || options[0];
+  }
+  if (options.length > 1) {
+    // Multi conc/rep: use per-assay selection
+    return options[Math.min(cbState.optIdx[detail] || 0, options.length-1)];
+  }
+  return options[0];
+}
+
+function cbRender() {
+  const fmtCpc = v => '$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  let assaysHtml = '', summaryHtml = '', grandTotal = 0;
+
+  cbBucketOrder.forEach(bucket => {
+    const details = Object.values(cbBuckets[bucket]);
+    if (!details.length) return;
+
+    let bucketTotal = 0;
+    details.forEach(({detail, options}) => {
+      if (cbState.checked[detail]) bucketTotal += cbEffective(detail, options).cpc;
+    });
+    grandTotal += bucketTotal;
+
+    assaysHtml += `<div class="cb-bucket">
+      <div class="cb-bucket-hdr">
+        <span class="cb-bucket-name">${bucket}</span>
+        <span class="cb-bucket-sub${bucketTotal===0?' dim':''}">
+          ${bucketTotal > 0 ? fmtCpc(bucketTotal) : '—'}<span class="cb-per">/ cmpd</span>
+        </span>
+      </div>`;
+
+    details.forEach(({detail, cro, options}) => {
+      const on  = cbState.checked[detail];
+      const opt = cbEffective(detail, options);
+      const hasBatch    = options[0].batch != null;
+      const hasMultiOpt = !hasBatch && options.length > 1;
+
+      let optHtml = '';
+      if (hasMultiOpt) {
+        optHtml = `<span class="cb-opts">` +
+          options.map((o,i) => {
+            const sel = cbState.optIdx[detail] === i;
+            return `<button class="cb-opt-btn${sel?' sel':''}" onclick="cbSelOpt('${detail}',${i});event.preventDefault()">${o.conc}c/${o.reps}r</button>`;
+          }).join('') + `</span>`;
+      } else {
+        const tag = hasBatch
+          ? `${opt.conc}c/${opt.reps}r &middot; ${cbState.batchSize} (${opt.batchN})`
+          : `${opt.conc}c/${opt.reps}r`;
+        optHtml = `<span class="cb-tag">${tag}</span>`;
+      }
+
+      const noteHtml = opt.notes ? `<span class="cb-note">${opt.notes}</span>` : '';
+
+      assaysHtml += `<label class="cb-row${on?'':' off'}">
+        <input type="checkbox" ${on?'checked':''} onchange="cbToggle('${detail}')">
+        <span class="cb-det">${detail}</span>
+        <span class="cb-cro">${cro}</span>
+        ${optHtml}${noteHtml}
+        <span class="cb-cpc">${fmtCpc(opt.cpc)}</span>
+      </label>`;
+    });
+
+    assaysHtml += `</div>`;
+    summaryHtml += `<tr>
+      <td>${bucket}</td>
+      <td class="r bold${bucketTotal===0?' gray':''}">${bucketTotal>0?fmtCpc(bucketTotal):'—'}</td>
+    </tr>`;
+  });
+
+  document.getElementById('cb-assays').innerHTML = assaysHtml;
+  document.getElementById('cb-summary-body').innerHTML = summaryHtml;
+  document.getElementById('cb-total').innerHTML = '<strong>'+fmtCpc(grandTotal)+'</strong>';
+}
+
+function cbSetBatch(b) {
+  cbState.batchSize = b;
+  document.querySelectorAll('.cb-batch-btn').forEach(btn =>
+    btn.classList.toggle('cb-batch-sel', btn.dataset.batch === b));
+  cbRender();
+}
+
+function cbToggle(detail) {
+  cbState.checked[detail] = !cbState.checked[detail];
+  cbRender();
+}
+
+function cbSelOpt(detail, idx) {
+  cbState.optIdx[detail] = idx;
+  cbRender();
+}
 </script>
 </body>
 </html>
