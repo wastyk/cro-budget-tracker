@@ -131,7 +131,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 </script>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
-  <p class="subtitle">Q4 2025 &ndash; Q2 2026 &bull; Updated 2026-04-28</p>
+  <p class="subtitle">Q4 2025 &ndash; Q2 2026 &bull; Updated 2026-05-11</p>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
@@ -143,9 +143,9 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <div id="tab-overview">
     <div class="kpi-grid">
       <div><div class="kpi-val">$8.7M</div><div class="kpi-label">Total Committed</div></div>
-      <div><div class="kpi-val blue">$6.8M</div><div class="kpi-label">Axiom Training</div></div>
-      <div><div class="kpi-val orange">$1.9M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">78</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val blue">$6.7M</div><div class="kpi-label">Axiom Training</div></div>
+      <div><div class="kpi-val orange">$2.0M</div><div class="kpi-label">Customer Work</div></div>
+      <div><div class="kpi-val">77</div><div class="kpi-label">Unique Quotes</div></div>
     </div>
 
     <div class="section">
@@ -181,7 +181,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
           <tbody>
             <tr><td>In process</td><td class="r gray">31</td><td class="r bold">$5,777,338</td></tr>
             <tr><td>Quote Generated</td><td class="r gray">24</td><td class="r bold">$1,308,319</td></tr>
-            <tr><td>Completed</td><td class="r gray">17</td><td class="r bold">$1,341,040</td></tr>
+            <tr><td>Completed</td><td class="r gray">16</td><td class="r bold">$1,321,610</td></tr>
             <tr><td>Quote Signed</td><td class="r gray">9</td><td class="r bold">$198,888</td></tr>
             <tr><td>PO Issued</td><td class="r gray">2</td><td class="r bold">$50,974</td></tr>
             <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
@@ -361,7 +361,6 @@ const allQuotes = [
   ["MCE-BTK","Compound Sourcing","BTK + Obesity","Axiom Training","MCE","BTK+Obesity 43 liquid + 5 solid",48,13278,"Quote Generated","Internal R&D",""],
   ["MCE-EXTRA","Compound Sourcing","Replacement compounds","Axiom Training","MCE","40 liquid + 10 solid — Partex",50,1952,"Quote Generated","Internal R&D",""],
   ["MCULE-Q4","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCule","Clinical labels",60,25402.42,"Completed","Internal R&D",""],
-  ["SELLECK-Q4","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","Selleck","Clinical labels",94,19430,"Completed","Internal R&D",""],
   ["WUXI-MCE-PILOT","Compound Sourcing","T1 ADME Pilot","Axiom Training","WuXi/MCE","5mg powder",191,5153,"Completed","Internal R&D",""],
   ["PTX-1778","Instruments","2D PHH + Truvivo","Axiom Training","Partex","New liquid handler + incubator",null,275000,"Quote Generated","Internal R&D",""],
   ["EF-ADME-SCALE","Off-the-Shelf ADME + MitoTox","T1 ADME Scale up","Axiom Training","Eurofins","Sol, Caco2, LogD, IC, PPB",2519,874697.56,"In process","Internal R&D",""],
@@ -554,20 +553,20 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: csLabels,
-    datasets: [{ data: [6750466,1243381,564149,61662,41938,17514,3701], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#b45309','#db2777','#0f766e'], borderRadius: 4, barThickness: 22 }]
+    datasets: [{ data: [6689483,1243381,564149,103215,41938,17514,3701], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#b45309','#db2777','#0f766e'], borderRadius: 4, barThickness: 22 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/8682810*100).toFixed(1)+'%)'}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/8663380*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
 
 // Invoice charts (lazy)
 function drawInvCharts() {
   // Vendor stacked bar
-  const vendors = ['Partex','Eurofins','Nomic','MCE','WuXi','Excelra','Pharmaron','MCule','Selleck','Cyprotex','micro1','Alithea','WuXi/MCE','Mercor','iMerit','LifeNet Health'];
-  const quoted = [3771508,1638853,1499136,389468,130500,92650,37400,25402,19430,21250,22060,6994,5153,1800,1200,50974];
-  const invoiced = [3607253,1015760,1008000,385570,0,0,0,0,0,0,0,0,0,400,1200,0];
+  const vendors = ['Partex','Eurofins','Nomic','MCE','WuXi','Excelra','Pharmaron','MCule','Cyprotex','micro1','Alithea','WuXi/MCE','Mercor','iMerit','LifeNet Health'];
+  const quoted = [3771508,1638853,1499136,389468,130500,92650,37400,25402,21250,22060,6994,5153,1800,1200,50974];
+  const invoiced = [3607253,1015760,1008000,385570,0,0,0,0,0,0,0,0,400,1200,0];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
