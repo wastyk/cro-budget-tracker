@@ -577,7 +577,7 @@ function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ['Partex','Eurofins','Nomic','MCE','WuXi','Excelra','Pharmaron','MCule','Selleck','Cyprotex','micro1','Alithea','WuXi/MCE','Mercor','iMerit','LifeNet Health'];
   const quoted = [3970708,1678115,1499136,389398,130500,92650,37400,25402,19430,21250,22060,6994,5153,1800,1200,50974];
-  const invoiced = [3607253,1015760,1008000,387170,0,0,0,0,0,0,0,0,0,400,1200,0];
+  const invoiced = [3661656,1457341,1008000,389084,0,0,0,0,0,0,0,0,0,400,1200,0];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
