@@ -131,7 +131,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 </script>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
-  <p class="subtitle">Q4 2025 &ndash; Q2 2026 &bull; Updated 2026-05-14</p>
+  <p class="subtitle">Q4 2025 &ndash; Q2 2026 &bull; Updated 2026-05-27</p>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
@@ -145,7 +145,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
       <div><div class="kpi-val">$9.0M</div><div class="kpi-label">Total Committed</div></div>
       <div><div class="kpi-val blue">$6.8M</div><div class="kpi-label">Axiom Training</div></div>
       <div><div class="kpi-val orange">$2.2M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">90</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val">92</div><div class="kpi-label">Unique Quotes</div></div>
     </div>
 
     <div class="section">
@@ -179,10 +179,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
         <table>
           <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
           <tbody>
-            <tr><td>In process</td><td class="r gray">33</td><td class="r bold">$5,816,601</td></tr>
-            <tr><td>Quote Generated</td><td class="r gray">30</td><td class="r bold">$1,505,849</td></tr>
+            <tr><td>In process</td><td class="r gray">35</td><td class="r bold">$5,857,812</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">31</td><td class="r bold">$1,507,344</td></tr>
             <tr><td>Completed</td><td class="r gray">19</td><td class="r bold">$1,342,640</td></tr>
-            <tr><td>Quote Signed</td><td class="r gray">11</td><td class="r bold">$252,043</td></tr>
+            <tr><td>Quote Signed</td><td class="r gray">10</td><td class="r bold">$231,585</td></tr>
             <tr><td>PO Issued</td><td class="r gray">2</td><td class="r bold">$50,974</td></tr>
             <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
           </tbody>
@@ -209,10 +209,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 2: INVOICES ========== -->
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$8.9M</div><div class="kpi-label">Total Quoted</div></div>
-      <div><div class="kpi-val blue">$6.5M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
+      <div><div class="kpi-val">$9.0M</div><div class="kpi-label">Total Quoted</div></div>
+      <div><div class="kpi-val blue">$6.6M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
       <div><div class="kpi-val green">$6.1M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">75%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val orange">73%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -408,8 +408,8 @@ const allQuotes = [
   ["EF-MT-TRAIN-2","Off-the-Shelf ADME + MitoTox","Custom Mito Tox (HepG2)","Axiom Training","Eurofins","Custom MitoTox HepG2, 7 conc n=3 – 239 cmpds",239,27485,"Completed","Internal R&D",""],
   ["PTX-00786","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","3\u00d7 TruVivo full prod runs w/ brightfield, 630 cmpds N=3 (9 FDi + consumables/shipment)",630,94400,"Quote Generated","Internal R&D",""],
   ["PTX-00786-ALI","Transcriptomics","DRUG-seq mRNA seq (Alithea)","Axiom Training","Partex","DRUG-seq library prep + 1M reads/sample, 3 plates via Partex (MERCURIUS)",630,156328.70,"Quote Generated","Internal R&D",""],
-  ["EF-TRANS-LOR","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP + MitoTox","L\u2019Or\u00e9al","Eurofins","Sol, Caco-2, LogD, IC, PPB, BSEP, MitoTox \u2013 20 cmpds",20,12227,"Quote Signed","Customer",""],
-  ["EF-TRANS-SHN","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP + MitoTox","Shionogi","Eurofins","Sol, Caco-2, LogD, IC, PPB, BSEP, MitoTox \u2013 48 cmpds",48,28984.80,"Quote Signed","Customer",""],
+  ["EF-TRANS-LOR","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP + MitoTox","L\u2019Or\u00e9al","Eurofins","Sol, Caco-2, LogD, IC, PPB, BSEP, MitoTox \u2013 20 cmpds",20,12227,"In process","Customer",""],
+  ["EF-TRANS-SHN","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP + MitoTox","Shionogi","Eurofins","Sol, Caco-2, LogD, IC, PPB, BSEP, MitoTox \u2013 48 cmpds",48,28984.80,"In process","Customer",""],
   ["MCE-GSH-PHARMARON","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","27-item blinded set incl. shipping \u2013 ships to Pharmaron (GSH validation)",27,800,"Completed","Internal R&D",""],
   ["MCE-GSH-WUXI","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","27-item blinded set incl. shipping \u2013 ships to WuXi (GSH validation)",27,800,"Completed","Internal R&D",""],
   ["PTX-00789-LOR","Cell Assays","2D PHH (Labor + Reagents)","L\u2019Or\u00e9al","Partex","2D PHH half production run \u2013 20 L\u2019Or\u00e9al compounds (PTX-00789)",20,4144.58,"Quote Generated","Customer",""],
@@ -423,6 +423,8 @@ const allQuotes = [
   ["EF-REVMED-001","Off-the-Shelf ADME + MitoTox","T1 ADME + MitoTox + RM","RevMed","Eurofins","Sol, Caco-2, LogD, HLM, PPB, BSEP, custom MitoTox HepG2, RM \u2013 14 RevMed compounds",14,15797.46,"In process","Customer",""],
   ["EF-BTK-ADME","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP","Axiom Training","Eurofins","Sol, Caco-2, LogD, HLM, PPB, BSEP \u2013 BTK+Obesity 48 compounds (MCE HY-L001)",48,23464.80,"In process","Internal R&D",""],
   ["EF-ISO-TOX","Off-the-Shelf ADME + MitoTox","T1 ADME + RM + Transporters","Isomorphic","Eurofins","Sol, Caco-2, LogD, HLM, PPB, RM (cocktail), BSEP, MRP2, MRP3, OATP1B1, OATP1B3 \u2013 13 Isomorphic cmpds",13,27043.64,"Quote signed","Customer",""],
+  ["EF-TRANSPORTER-TRAIN","Off-the-Shelf ADME + MitoTox","Transporter panel","Axiom Training","Eurofins","MRP2/MRP3/OATP1B1/OATP1B3 transporter antagonist assays",16,20753.28,"Quote Signed","Internal R&D",""],
+  ["EF-ISO-MT-2","Off-the-Shelf ADME + MitoTox","Custom Mito Tox (HepG2)","Isomorphic","Eurofins","Custom Mitochondrial Toxicity Assay in HepG2 Cells",13,1495,"Quote Generated","Customer",""],
   ["NOMIC-OMNI-25-00735","Proteomics","Nomic Omni 1000 (Pilot)","Axiom Training","Nomic","1 plate (384wp), Omni 1000 In vitro, 384 samples (UCID 25-00735.1)",null,26112,"Quote signed","Internal R&D",""]
 ];
 
@@ -566,11 +568,11 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: csLabels,
-    datasets: [{ data: [6758420,1243381,564149,206459,76200,69565,28791,27394], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e'], borderRadius: 4, barThickness: 22 }]
+    datasets: [{ data: [6779173,1243381,564149,207954,76200,69565,28791,27394], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e'], borderRadius: 4, barThickness: 22 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/8974359*100).toFixed(1)+'%)'}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/8996607*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
 
@@ -578,8 +580,8 @@ new Chart(document.getElementById('csChart'), {
 function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ['Partex','Eurofins','Nomic','MCE','WuXi','Excelra','Pharmaron','MCule','Selleck','Cyprotex','micro1','Alithea','WuXi/MCE','Mercor','iMerit','LifeNet Health'];
-  const quoted = [3970708,1705159,1525248,389398,130500,92650,37400,25402,19430,21250,22060,6994,5153,1800,1200,50974];
-  const invoiced = [3661656,1474463,1034112,389084,0,0,0,0,0,0,0,0,0,1600,1200,0];
+  const quoted = [4282237,2383239,1525248,391068,130500,92650,37400,25402,19430,21250,22060,6994,5153,1800,1200,50974];
+  const invoiced = [3661656,1483893,1034112,389084,0,0,0,0,0,0,0,0,0,1600,1200,0];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
@@ -622,6 +624,9 @@ function drawInvCharts() {
 
 // Invoice detail table
 const invoices = [
+  ["US034-0023786","US034-0030261-O","Eurofins","2026-05-27","Assay Services",1610,0,1610,"T1 ADME + MitoTox + RM milestone invoice (EF-REVMED-001)"],
+  ["US034-0023785","US034-0030241-O","Eurofins","2026-05-27","Assay Services",5520,0,5520,"T1 ADME + BSEP + MitoTox milestone invoice (EF-TRANS-SHN)"],
+  ["US034-0023783","US034-0030159-O","Eurofins","2026-05-27","Assay Services",2300,0,2300,"T1 ADME + BSEP + MitoTox milestone invoice (EF-TRANS-LOR)"],
   ["INV000000329","MSA-4129","Mercor","2026-05-13","Assay Services",1200,0,1200,"Mass Spectrometry – April 2026 (MERCOR-MS)"],
   ["US034-0023692","US034-0030130-O","Eurofins","2026-05-12","Assay Services",17122,0,17122,"GSH depletion validation – milestone invoice (EF-GSH-VALIDATION)"],
   ["US034-0023587","US034-0029192-Q02","Eurofins","2026-04-29","Assay Services",218204,0,218204,"ADME + MitoTox milestone invoice \u2013 EF-ADME-SCALE2"],
@@ -748,7 +753,12 @@ const pos = [
   ["20719","Partex",9600,0,0],
   ["2026040151947","MCE",1804,0,0],
   ["2026040953787/4087","MCE",2950,0,0],
-  ["20003952","LifeNet Health",9779,0,0]
+  ["20003952","LifeNet Health",9779,0,0],
+  ["US034-0030464-Q01","Eurofins",20753,0,0],
+  ["US034-0030500-Q01","Eurofins",1495,0,0],
+  ["US034-0030159-Q01","Eurofins",12227,2300,18.8],
+  ["US034-0030241-Q02","Eurofins",28985,5520,19.0],
+  ["US034-0030261-Q03","Eurofins",15797,1610,10.2]
 ];
 
 const poBody = document.getElementById('poBody');
