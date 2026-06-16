@@ -131,7 +131,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 </script>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
-  <p class="subtitle">Q4 2025 &ndash; Q2 2026 &bull; Updated 2026-05-28</p>
+  <p class="subtitle">Q4 2025 &ndash; Q2 2026 &bull; Updated 2026-06-16</p>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
@@ -142,10 +142,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 1: OVERVIEW ========== -->
   <div id="tab-overview">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$9.0M</div><div class="kpi-label">Total Committed</div></div>
-      <div><div class="kpi-val blue">$6.8M</div><div class="kpi-label">Axiom Training</div></div>
+      <div><div class="kpi-val">$9.2M</div><div class="kpi-label">Total Committed</div></div>
+      <div><div class="kpi-val blue">$6.9M</div><div class="kpi-label">Axiom Training</div></div>
       <div><div class="kpi-val orange">$2.2M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">94</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val">100</div><div class="kpi-label">Unique Quotes</div></div>
     </div>
 
     <div class="section">
@@ -180,9 +180,9 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
           <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
           <tbody>
             <tr><td>In process</td><td class="r gray">35</td><td class="r bold">$5,857,812</td></tr>
-            <tr><td>Quote Generated</td><td class="r gray">30</td><td class="r bold">$1,505,849</td></tr>
-            <tr><td>Completed</td><td class="r gray">19</td><td class="r bold">$1,342,640</td></tr>
-            <tr><td>Quote Signed</td><td class="r gray">13</td><td class="r bold">$242,466</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">33</td><td class="r bold">$1,697,108</td></tr>
+            <tr><td>Completed</td><td class="r gray">20</td><td class="r bold">$1,349,930</td></tr>
+            <tr><td>Quote Signed</td><td class="r gray">15</td><td class="r bold">$249,876</td></tr>
             <tr><td>PO Issued</td><td class="r gray">2</td><td class="r bold">$50,974</td></tr>
             <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
           </tbody>
@@ -209,10 +209,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 2: INVOICES ========== -->
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$9.0M</div><div class="kpi-label">Total Quoted</div></div>
-      <div><div class="kpi-val blue">$6.6M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
-      <div><div class="kpi-val green">$6.1M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">73%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val">$9.2M</div><div class="kpi-label">Total Quoted</div></div>
+      <div><div class="kpi-val blue">$6.9M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
+      <div><div class="kpi-val green">$6.4M</div><div class="kpi-label">Total Payable (Net)</div></div>
+      <div><div class="kpi-val orange">75%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -336,8 +336,8 @@ const allQuotes = [
   ["MERCOR-MS","Annotations","Mass Spectrometry Specialist","Axiom Training","Mercor","Expert services via Mercor platform, $120/hr, $1,800 cap",null,1800,"In process","Internal R&D",""],
   ["AW-20693","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Full prod run, 2150 training compounds",2150,818766.31,"In process","Internal R&D",""],
   ["AW-20693","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Full prod run, 2150 training compounds",2150,470380.76,"In process","Internal R&D",""],
-  ["AW-20693-ISO","Cell Assays","2D+ Truvivo (Labor + Reagents) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 2200 cmpds)",50,19041,"In process","Customer","March 2026"],
-  ["AW-20693-ISO","Cell Assays","2D+ Truvivo (Cells) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 2200 cmpds)",50,10939,"In process","Customer",""],
+  ["AW-20693-ISO","Cell Assays","2D+ Truvivo (Labor + Reagents) \u2014 ISO","Isomorphic","Partex","Isomorphic allocation (50 of 2200 cmpds)",50,19041,"In process","Customer","March 2026"],
+  ["AW-20693-ISO","Cell Assays","2D+ Truvivo (Cells) \u2014 ISO","Isomorphic","Partex","Isomorphic allocation (50 of 2200 cmpds)",50,10939,"In process","Customer",""],
   ["PTX-TRUV-CELLS","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Cells for PO 20709 (LNH quote 20003798 $447,670 + $61,340 additional per Partex)",null,509010,"Completed","Internal R&D",""],
   ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Cells)","Genentech","Partex","700 GNE compounds",700,321651.24,"In process","Customer",""],
   ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Labor + Reagents)","Genentech","Partex","700 GNE compounds",700,281251.25,"In process","Customer",""],
@@ -349,7 +349,7 @@ const allQuotes = [
   ["AW-20694-GNE","Cell Assays","2D PHH (Labor + Reagents)","Genentech","Partex","700 GNE compounds",700,82118.75,"In process","Customer",""],
   ["AW-20706-GNE","Cell Assays","2D PHH NEW DONOR (Labor + Reagents)","Genentech","Partex","New donor PHH prod run, 700 GNE compounds",700,75118.75,"Quote Generated","Customer",""],
   ["AW-20699","Cell Assays","2D PHH (Labor + Reagents)","Axiom Training","Partex","Full prod run, 650 training compounds",650,48645.54,"In process","Internal R&D","March 2026"],
-  ["AW-20699-ISO","Cell Assays","2D PHH (Labor + Reagents) — ISO","Isomorphic","Partex","Isomorphic allocation (50 of 700 cmpds)",50,3741.96,"In process","Customer",""],
+  ["AW-20699-ISO","Cell Assays","2D PHH (Labor + Reagents) \u2014 ISO","Isomorphic","Partex","Isomorphic allocation (50 of 700 cmpds)",50,3741.96,"In process","Customer",""],
   ["AW-20694-BI","Cell Assays","2D PHH (Labor + Reagents)","BI","Partex","300 BI compounds",347,35193.75,"In process","Customer","March 2026"],
   ["AW-20706-BI","Cell Assays","2D PHH NEW DONOR (Labor + Reagents)","BI","Partex","New donor PHH prod run, 300 BI compounds",300,32193.75,"Quote Generated","Customer",""],
   ["AW-20694-GNE","Cell Assays","2D PHH (Cells)","Genentech","Partex","700 GNE compounds",700,17500,"In process","Customer",""],
@@ -359,7 +359,7 @@ const allQuotes = [
   ["MCE-Q1-MIXED","Compound Sourcing","ADME/mito tox/RM/GSH/PHH/Truvivo","Axiom Training","MCE","Benchmark + Customer + GSH validation",363,109930,"Completed","Internal R&D",""],
   ["MCE-FDA","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCE","FDA clinical",429,51200,"Completed","Internal R&D",""],
   ["MCE-BTK","Compound Sourcing","BTK + Obesity","Axiom Training","MCE","BTK+Obesity 43 liquid + 5 solid",48,13278,"Quote Generated","Internal R&D",""],
-  ["MCE-EXTRA","Compound Sourcing","Replacement compounds","Axiom Training","MCE","40 liquid + 10 solid — Partex",50,1952,"Quote Generated","Internal R&D",""],
+  ["MCE-EXTRA","Compound Sourcing","Replacement compounds","Axiom Training","MCE","40 liquid + 10 solid \u2014 Partex",50,1952,"Quote Generated","Internal R&D",""],
   ["MCULE-Q4","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","MCule","Clinical labels",60,25402.42,"Completed","Internal R&D",""],
   ["SELLECK-Q4","Compound Sourcing","ADME/mito tox/spheroids/RM/PHH/Truvivo","Axiom Training","Selleck","Clinical labels",94,19430,"Completed","Internal R&D",""],
   ["WUXI-MCE-PILOT","Compound Sourcing","T1 ADME Pilot","Axiom Training","WuXi/MCE","5mg powder",191,5153,"Completed","Internal R&D",""],
@@ -393,23 +393,23 @@ const allQuotes = [
   ["AW-20711","Transcriptomics","DRUG-seq Alithea Pilot Repeat","Axiom Training","Partex","Repeat of pilot plate, 2x384wp DRUG-seq + NGS",null,6994,"Completed","Internal R&D","March 2026"],
   ["LNH-MEDIA-20003930","Cell Assays","Truvivo/PHH Media","Axiom Training","LifeNet Health","TruVivo feeder/culture/plating medium + supplements A/B/C",null,41195,"PO Issued","Internal R&D",""],
   ["AW-20717","Cell Assays","2D+ Truvivo (Labor + Reagents)","Isomorphic","Partex","10 compounds (3 donors) + 40 Isomorphic compounds (2 donors); 8 FD",50,27940,"In process","Customer",""],
-  ["AW-20718","Cell Assays","2D+ Truvivo (Assay Dev)","Axiom Training","Partex","Truvivo Assay Dev Exp-13 — LNH/Pfizer collaboration, 11-day assay; 6 FD",null,19200,"Completed","Internal R&D",""],
+  ["AW-20718","Cell Assays","2D+ Truvivo (Assay Dev)","Axiom Training","Partex","Truvivo Assay Dev Exp-13 \u2014 LNH/Pfizer collaboration, 11-day assay; 6 FD",null,19200,"Completed","Internal R&D",""],
   ["AW-20719","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Mini Truvivo run, 26 compounds, 2 plates + 1 reference; 3 FD",26,9600,"Completed","Internal R&D",""],
-  ["MCE-Q2-PARTEX","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) — ships to Partex",20,902,"In process","Internal R&D",""],
-  ["MCE-Q2-EF","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) — ships to Eurofins",20,902,"In process","Internal R&D",""],
-  ["MCE-Q3-PHARMARON","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) — ships to Pharmaron",50,1475,"Quote Generated","Internal R&D",""],
-  ["MCE-Q3-WUXI","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) — ships to WuXi",50,1475,"Quote Generated","Internal R&D",""],
+  ["MCE-Q2-PARTEX","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) \u2014 ships to Partex",20,902,"In process","Internal R&D",""],
+  ["MCE-Q2-EF","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","20-item custom compound list (blinded) \u2014 ships to Eurofins",20,902,"In process","Internal R&D",""],
+  ["MCE-Q3-PHARMARON","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) \u2014 ships to Pharmaron",50,1475,"Quote Generated","Internal R&D",""],
+  ["MCE-Q3-WUXI","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","50-compound blinded set (48 liquid + 2 solid) \u2014 ships to WuXi",50,1475,"Quote Generated","Internal R&D",""],
   ["LNH-HEPS-20003952","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","LifeNet Health","7 TruVivo-qualified human hepatocyte vials (batch 2113352-01)",7,9779,"PO Issued","Internal R&D",""],
-  ["PTX-00755-SHN","Cell Assays","TruVivo (Full Prod)","Shionogi","Partex","TruVivo full production run – 49 compounds (Shionogi)",49,12952.87,"Quote Generated","Customer",""],
-  ["PTX-00755-LOR","Cell Assays","TruVivo (Full Prod)","L\u2019Or\u00e9al","Partex","TruVivo full production run – 20 compounds (L\u2019Or\u00e9al)",20,5286.96,"Quote Generated","Customer",""],
-  ["PTX-00755-RVM","Cell Assays","TruVivo (Full Prod)","RevMed","Partex","TruVivo full production run – 14 compounds (RevMed)",14,3700.87,"Quote Generated","Customer",""],
-  ["PTX-00755-AXI","Cell Assays","TruVivo (Full Prod)","Axiom Training","Partex","TruVivo full production run – 147 compounds (Axiom Training)",147,38859.30,"Quote Generated","Internal R&D",""],
-  ["EF-GSH-VALIDATION","Off-the-Shelf ADME + MitoTox","GSH Depletion","Axiom Training","Eurofins","GSH depletion validation – 40 reference agents",40,33291,"Quote Signed","Internal R&D",""],
-  ["EF-MT-TRAIN-2","Off-the-Shelf ADME + MitoTox","Custom Mito Tox (HepG2)","Axiom Training","Eurofins","Custom MitoTox HepG2, 7 conc n=3 – 239 cmpds",239,27485,"Completed","Internal R&D",""],
+  ["PTX-00755-SHN","Cell Assays","TruVivo (Full Prod)","Shionogi","Partex","TruVivo full production run \u2013 49 compounds (Shionogi)",49,12952.87,"Quote Generated","Customer",""],
+  ["PTX-00755-LOR","Cell Assays","TruVivo (Full Prod)","L\u2019Or\u00e9al","Partex","TruVivo full production run \u2013 20 compounds (L\u2019Or\u00e9al)",20,5286.96,"Quote Generated","Customer",""],
+  ["PTX-00755-RVM","Cell Assays","TruVivo (Full Prod)","RevMed","Partex","TruVivo full production run \u2013 14 compounds (RevMed)",14,3700.87,"Quote Generated","Customer",""],
+  ["PTX-00755-AXI","Cell Assays","TruVivo (Full Prod)","Axiom Training","Partex","TruVivo full production run \u2013 147 compounds (Axiom Training)",147,38859.3,"Quote Generated","Internal R&D",""],
+  ["EF-GSH-VALIDATION","Off-the-Shelf ADME + MitoTox","GSH Depletion","Axiom Training","Eurofins","GSH depletion validation \u2013 40 reference agents",40,33291,"Quote Signed","Internal R&D",""],
+  ["EF-MT-TRAIN-2","Off-the-Shelf ADME + MitoTox","Custom Mito Tox (HepG2)","Axiom Training","Eurofins","Custom MitoTox HepG2, 7 conc n=3 \u2013 239 cmpds",239,27485,"Completed","Internal R&D",""],
   ["PTX-00786","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","3\u00d7 TruVivo full prod runs w/ brightfield, 630 cmpds N=3 (9 FDi + consumables/shipment)",630,94400,"Quote Generated","Internal R&D",""],
-  ["PTX-00786-ALI","Transcriptomics","DRUG-seq mRNA seq (Alithea)","Axiom Training","Partex","DRUG-seq library prep + 1M reads/sample, 3 plates via Partex (MERCURIUS)",630,156328.70,"Quote Generated","Internal R&D",""],
+  ["PTX-00786-ALI","Transcriptomics","DRUG-seq mRNA seq (Alithea)","Axiom Training","Partex","DRUG-seq library prep + 1M reads/sample, 3 plates via Partex (MERCURIUS)",630,156328.7,"Quote Generated","Internal R&D",""],
   ["EF-TRANS-LOR","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP + MitoTox","L\u2019Or\u00e9al","Eurofins","Sol, Caco-2, LogD, IC, PPB, BSEP, MitoTox \u2013 20 cmpds",20,12227,"In process","Customer",""],
-  ["EF-TRANS-SHN","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP + MitoTox","Shionogi","Eurofins","Sol, Caco-2, LogD, IC, PPB, BSEP, MitoTox \u2013 48 cmpds",48,28984.80,"In process","Customer",""],
+  ["EF-TRANS-SHN","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP + MitoTox","Shionogi","Eurofins","Sol, Caco-2, LogD, IC, PPB, BSEP, MitoTox \u2013 48 cmpds",48,28984.8,"In process","Customer",""],
   ["MCE-GSH-PHARMARON","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","27-item blinded set incl. shipping \u2013 ships to Pharmaron (GSH validation)",27,800,"Completed","Internal R&D",""],
   ["MCE-GSH-WUXI","Compound Sourcing","Custom blinded compounds","Axiom Training","MCE","27-item blinded set incl. shipping \u2013 ships to WuXi (GSH validation)",27,800,"Completed","Internal R&D",""],
   ["PTX-00789-LOR","Cell Assays","2D PHH (Labor + Reagents)","L\u2019Or\u00e9al","Partex","2D PHH half production run \u2013 20 L\u2019Or\u00e9al compounds (PTX-00789)",20,4144.58,"Quote Generated","Customer",""],
@@ -417,17 +417,23 @@ const allQuotes = [
   ["PTX-00789-RVM","Cell Assays","2D PHH (Labor + Reagents)","RevMed","Partex","2D PHH half production run \u2013 14 RevMed compounds (PTX-00789)",14,2902.41,"Quote Generated","Customer",""],
   ["PTX-00793-BMS","Cell Assays","2D+ Truvivo + Transcriptomics","BMS","Partex","2D+ Truvivo imaging/biochem + transcriptomics, 7-day and 14-day timepoints \u2013 12 BMS compounds",12,76200,"Quote Generated","Customer",""],
   ["PTX-00793-ISO","Cell Assays","2D+ Truvivo + Transcriptomics","Isomorphic","Partex","2D+ Truvivo imaging/biochem + transcriptomics, 7-day and 14-day timepoints \u2013 13 Isomorphic compounds",13,76200,"Quote Generated","Customer",""],
-  ["PTX-00794-SHN","Transcriptomics","TruVivo Brightfield + Transcriptomics","Shionogi","Partex","7-day 2D+ Truvivo brightfield + Alithea transcriptomics \u2013 49 Shionogi compounds",49,17474.70,"Quote Generated","Customer",""],
+  ["PTX-00794-SHN","Transcriptomics","TruVivo Brightfield + Transcriptomics","Shionogi","Partex","7-day 2D+ Truvivo brightfield + Alithea transcriptomics \u2013 49 Shionogi compounds",49,17474.7,"Quote Generated","Customer",""],
   ["PTX-00794-LOR","Transcriptomics","TruVivo Brightfield + Transcriptomics","L\u2019Or\u00e9al","Partex","7-day 2D+ Truvivo brightfield + Alithea transcriptomics \u2013 20 L\u2019Or\u00e9al compounds",20,7132.53,"Quote Generated","Customer",""],
   ["PTX-00794-RVM","Transcriptomics","TruVivo Brightfield + Transcriptomics","RevMed","Partex","7-day 2D+ Truvivo brightfield + Alithea transcriptomics \u2013 14 RevMed compounds",14,4992.77,"Quote Generated","Customer",""],
   ["EF-REVMED-001","Off-the-Shelf ADME + MitoTox","T1 ADME + MitoTox + RM","RevMed","Eurofins","Sol, Caco-2, LogD, HLM, PPB, BSEP, custom MitoTox HepG2, RM \u2013 14 RevMed compounds",14,15797.46,"In process","Customer",""],
-  ["EF-BTK-ADME","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP","Axiom Training","Eurofins","Sol, Caco-2, LogD, HLM, PPB, BSEP \u2013 BTK+Obesity 48 compounds (MCE HY-L001)",48,23464.80,"In process","Internal R&D",""],
+  ["EF-BTK-ADME","Off-the-Shelf ADME + MitoTox","T1 ADME + BSEP","Axiom Training","Eurofins","Sol, Caco-2, LogD, HLM, PPB, BSEP \u2013 BTK+Obesity 48 compounds (MCE HY-L001)",48,23464.8,"In process","Internal R&D",""],
   ["EF-ISO-TOX","Off-the-Shelf ADME + MitoTox","T1 ADME + RM + Transporters","Isomorphic","Eurofins","Sol, Caco-2, LogD, HLM, PPB, RM (cocktail), BSEP, MRP2, MRP3, OATP1B1, OATP1B3 \u2013 13 Isomorphic cmpds",13,27043.64,"Quote signed","Customer",""],
   ["EF-TRANSPORTER-TRAIN","Off-the-Shelf ADME + MitoTox","Transporter panel","Axiom Training","Eurofins","MRP2/MRP3/OATP1B1/OATP1B3 transporter antagonist assays",16,20753.28,"Quote Signed","Internal R&D",""],
   ["EF-ISO-MT-2","Off-the-Shelf ADME + MitoTox","Custom Mito Tox (HepG2)","Isomorphic","Eurofins","Custom Mitochondrial Toxicity Assay in HepG2 Cells",13,1495,"Quote signed","Customer",""],
   ["EF-GSH-LDH-TRAIN","Off-the-Shelf ADME + MitoTox","GSH Consumption + LDH Cytotoxicity","Axiom Training","Eurofins","GSH Consumption + LDH Cytotoxicity Assay - 24 Axiom Training compounds",24,5928,"Quote signed","Internal R&D",""],
   ["EF-GSH-LDH-RVM","Off-the-Shelf ADME + MitoTox","GSH Consumption + LDH Cytotoxicity","RevMed","Eurofins","GSH Consumption + LDH Cytotoxicity Assay - 14 RevMed compounds",14,3458,"Quote signed","Customer",""],
-  ["NOMIC-OMNI-25-00735","Proteomics","Nomic Omni 1000 (Pilot)","Axiom Training","Nomic","1 plate (384wp), Omni 1000 In vitro, 384 samples (UCID 25-00735.1)",null,26112,"Quote signed","Internal R&D",""]
+  ["NOMIC-OMNI-25-00735","Proteomics","Nomic Omni 1000 (Pilot)","Axiom Training","Nomic","1 plate (384wp), Omni 1000 In vitro, 384 samples (UCID 25-00735.1)",null,26112,"Quote signed","Internal R&D",""],
+  ["PTX-00810","Cell Assays","TruVivo (Full Prod)","Axiom Training","Partex","TruVivo full production run with brightfield, 210 compounds n=3; includes consumables/shipment",210,31400,"Quote Generated","Internal R&D",""],
+  ["PTX-00810-ALI","Transcriptomics","DRUG-seq mRNA seq (Alithea)","Axiom Training","Partex","DRUG-seq library prep + 1M reads/sample, 210 compounds via Partex/Alithea",210,62700,"Quote Generated","Internal R&D",""],
+  ["EF-GSH-LDH-TRAIN-2","Off-the-Shelf ADME + MitoTox","GSH Consumption + LDH Cytotoxicity","Axiom Training","Eurofins","GSH Consumption + LDH Cytotoxicity Assay - 17 Axiom Training compounds",17,4199,"Quote Signed","Internal R&D",""],
+  ["EF-GSH-LDH-ISO-2","Off-the-Shelf ADME + MitoTox","GSH Consumption + LDH Cytotoxicity","Isomorphic","Eurofins","GSH Consumption + LDH Cytotoxicity Assay - 13 Isomorphic compounds",13,3211,"Quote Signed","Customer",""],
+  ["LNH-HEPS-20004094","Cell Assays","2D+ Truvivo (Cells)","","LifeNet Health","HEP-AD-PL-MT hepatocytes (63 ea) plus TruVivo media/supplements/freight",null,97158.75,"Quote Generated","",""],
+  ["WUXI-GSH-CHANGE-1","Off-the-Shelf ADME + MitoTox","GSH Consumption","Axiom Training","WuXi","Change Order 1: add 27 compounds for GSH",27,7290,"Completed","Internal R&D",""]
 ];
 
 const catLabels = ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'];
@@ -478,7 +484,7 @@ function closeDrilldown() {
   document.getElementById('catDrilldown').classList.add('hidden');
 }
 
-const csLabels = ['Axiom Training','Genentech','BI','Isomorphic','BMS','Shionogi','L\u2019Or\u00e9al','RevMed'];
+const csLabels = ["Axiom Training","Genentech","BI","Isomorphic","BMS","Shionogi","L\u2019Or\u00e9al","RevMed","Unallocated"];
 const isoQuoteIds = ['EF-ISO-MT','EF-ISO-PANEL'];
 
 function showCsDrilldown(setName) {
@@ -487,6 +493,8 @@ function showCsDrilldown(setName) {
     rows = allQuotes.filter(q => q[3] === 'Isomorphic' || isoQuoteIds.includes(q[0]));
   } else if (setName === 'Axiom Training') {
     rows = allQuotes.filter(q => q[3] === 'Axiom Training' && !isoQuoteIds.includes(q[0]));
+  } else if (setName === 'Unallocated') {
+    rows = allQuotes.filter(q => !q[3]);
   } else {
     rows = allQuotes.filter(q => q[3] === setName);
   }
@@ -531,17 +539,19 @@ function closeCsDrilldown() {
 
 // Category chart
 // Compute Internal R&D vs Customer spend per category from allQuotes
-const _catRD = {}, _catCust = {};
-catLabels.forEach(c => { _catRD[c] = 0; _catCust[c] = 0; });
+const _catRD = {}, _catCust = {}, _catUnalloc = {};
+catLabels.forEach(c => { _catRD[c] = 0; _catCust[c] = 0; _catUnalloc[c] = 0; });
 allQuotes.forEach(q => {
   const cat = q[1], cost = q[7], alloc = q[9];
   if (_catRD[cat] !== undefined) {
     if (alloc === 'Internal R&D') _catRD[cat] += cost;
-    else _catCust[cat] += cost;
+    else if (alloc === 'Customer') _catCust[cat] += cost;
+    else _catUnalloc[cat] += cost;
   }
 });
 const catRDData = catLabels.map(c => Math.round(_catRD[c]));
 const catCustData = catLabels.map(c => Math.round(_catCust[c]));
+const catUnallocData = catLabels.map(c => Math.round(_catUnalloc[c]));
 
 const catChart = new Chart(document.getElementById('catChart'), {
   type: 'bar',
@@ -549,7 +559,8 @@ const catChart = new Chart(document.getElementById('catChart'), {
     labels: catLabels,
     datasets: [
       { label: 'Internal R&D', data: catRDData, backgroundColor: '#0777b3', borderRadius: 4, barThickness: 18 },
-      { label: 'Customer', data: catCustData, backgroundColor: '#e18727', borderRadius: 4, barThickness: 18 }
+      { label: 'Customer', data: catCustData, backgroundColor: '#e18727', borderRadius: 4, barThickness: 18 },
+      { label: 'Unallocated', data: catUnallocData, backgroundColor: '#9ca3af', borderRadius: 4, barThickness: 18 }
     ]
   },
   options: { indexAxis:'y', responsive:true,
@@ -570,20 +581,20 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: csLabels,
-    datasets: [{ data: [6785101,1243381,564149,207954,76200,69565,28791,30852], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e'], borderRadius: 4, barThickness: 22 }]
+    datasets: [{ data: [6890690,1243381,564149,211165,76200,69565,28791,30852,97159], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e','#9ca3af'], borderRadius: 4, barThickness: 22 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/9005992*100).toFixed(1)+'%)'}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/9211951*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
 
 // Invoice charts (lazy)
 function drawInvCharts() {
   // Vendor stacked bar
-  const vendors = ['Partex','Eurofins','Nomic','MCE','WuXi','Excelra','Pharmaron','MCule','Selleck','Cyprotex','micro1','Alithea','WuXi/MCE','Mercor','iMerit','LifeNet Health'];
-  const quoted = [4282237,2392625,1525248,391068,130500,92650,37400,25402,19430,21250,22060,6994,5153,1800,1200,50974];
-  const invoiced = [3661656,1639677,1034112,389084,0,0,0,0,0,0,0,0,0,1600,1200,0];
+  const vendors = ["Partex","Eurofins","Nomic","MCE","WuXi","Excelra","Pharmaron","MCule","Selleck","Cyprotex","micro1","Alithea","WuXi/MCE","Mercor","iMerit","LifeNet Health"];
+  const quoted = [4376337,2400035,1525248,391068,137790,92650,37400,25402,19430,21250,22060,6994,5153,1800,1200,148133];
+  const invoiced = [3739656,1655846,1082112,389084,24790,0,0,0,0,0,0,0,0,1600,1200,0];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
@@ -600,7 +611,7 @@ function drawInvCharts() {
   });
 
   // Monthly cash flow — computed dynamically from invoices array
-  const cashMonths = ['2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04','2026-05'];
+  const cashMonths = ['2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04','2026-05','2026-06'];
   const _mGross = {}, _mPay = {};
   cashMonths.forEach(m => { _mGross[m] = 0; _mPay[m] = 0; });
   invoices.forEach(inv => {
@@ -626,33 +637,38 @@ function drawInvCharts() {
 
 // Invoice detail table
 const invoices = [
-  ["US034-0023815","US034-0028902-Q02","Eurofins","2026-05-28","Assay Services",121792,0,121792,"ADME Scale-up assay services - milestone invoice (EF-ADME-SCALE)"],
-  ["US034-0023817","US034-0029192-Q02","Eurofins","2026-05-28","Assay Services",24864,0,24864,"ADME + MitoTox milestone invoice (EF-ADME-SCALE2)"],
+  ["D29260605028C","AXIB-20260306","WuXi","2026-06-05","Assay Services",24790,0,24790,"ADME study 50% balance ($17,500) + GSH Change Order 1 add 27 compounds ($7,290)"],
+  ["INV-NB-690","26-00078","Nomic","2026-06-04","Assay Services",48000,0,48000,"Nomic Flex in vitro, 1,920 wells (UCID 26-00078.3)"],
+  ["115-2026-00789","PTX-00789","Partex","2026-05-31","Assay Services",17200,0,17200,"2D PHH half production run - Shionogi, L'Oreal, and RevMed"],
+  ["114-2026-00755","PTX-00755","Partex","2026-05-31","FD",60800,-28300,32500,"TruVivo full production run with Shionogi, L'Oreal, RevMed, and internal training set"],
+  ["US034-0023821","US034-0030130-O","Eurofins","2026-05-29","Assay Services",16169,0,16169,"GSH depletion validation - final milestone invoice (EF-GSH-VALIDATION)"],
   ["US034-0023818","US034-0030157-Q01","Eurofins","2026-05-28","Assay Services",9128.64,0,9128.64,"ADME sub-study milestone invoice - EF-ADME-SCALE3 (split from US034-0029447)"],
+  ["US034-0023817","US034-0029192-Q02","Eurofins","2026-05-28","Assay Services",24864,0,24864,"ADME + MitoTox milestone invoice (EF-ADME-SCALE2)"],
+  ["US034-0023815","US034-0028902-Q02","Eurofins","2026-05-28","Assay Services",121792,0,121792,"ADME Scale-up assay services - milestone invoice (EF-ADME-SCALE)"],
   ["US034-0023786","US034-0030261-O","Eurofins","2026-05-27","Assay Services",1610,0,1610,"T1 ADME + MitoTox + RM milestone invoice (EF-REVMED-001)"],
   ["US034-0023785","US034-0030241-O","Eurofins","2026-05-27","Assay Services",5520,0,5520,"T1 ADME + BSEP + MitoTox milestone invoice (EF-TRANS-SHN)"],
   ["US034-0023783","US034-0030159-O","Eurofins","2026-05-27","Assay Services",2300,0,2300,"T1 ADME + BSEP + MitoTox milestone invoice (EF-TRANS-LOR)"],
-  ["INV000000329","MSA-4129","Mercor","2026-05-13","Assay Services",1200,0,1200,"Mass Spectrometry – April 2026 (MERCOR-MS)"],
-  ["US034-0023692","US034-0030130-O","Eurofins","2026-05-12","Assay Services",17122,0,17122,"GSH depletion validation – milestone invoice (EF-GSH-VALIDATION)"],
+  ["INV000000329","MSA-4129","Mercor","2026-05-13","Assay Services",1200,0,1200,"Mass Spectrometry \u2013 April 2026 (MERCOR-MS)"],
+  ["US034-0023692","US034-0030130-O","Eurofins","2026-05-12","Assay Services",17122,0,17122,"GSH depletion validation \u2013 milestone invoice (EF-GSH-VALIDATION)"],
+  ["M2640394","MCE-GSH-WUXI","MCE","2026-05-07","Compound Sourcing",800,0,800,"MCE HY-L001 27 items \u2013 ships to WuXi (MCE-GSH-WUXI)"],
+  ["M2640393","MCE-GSH-PHARMARON","MCE","2026-05-07","Compound Sourcing",800,0,800,"MCE HY-L001 27 items \u2013 ships to Pharmaron (MCE-GSH-PHARMARON)"],
+  ["US034-0023589","US034-0030157-Q01","Eurofins","2026-04-29","Assay Services",10434.2,0,10434.2,"ADME sub-study milestone invoice \u2013 EF-ADME-SCALE3 (split from US034-0029447)"],
   ["US034-0023587","US034-0029192-Q02","Eurofins","2026-04-29","Assay Services",218204,0,218204,"ADME + MitoTox milestone invoice \u2013 EF-ADME-SCALE2"],
-  ["US034-0023589","US034-0030157-Q01","Eurofins","2026-04-29","Assay Services",10434.20,0,10434.20,"ADME sub-study milestone invoice \u2013 EF-ADME-SCALE3 (split from US034-0029447)"],
   ["US034-0023586","US034-0028902-Q02","Eurofins","2026-04-29","Assay Services",70587.66,0,70587.66,"ADME Scale-up assay services \u2013 EF-ADME-SCALE"],
   ["US034-0023575","US034-0029576-Q04","Eurofins","2026-04-29","Assay Services",34370.88,0,34370.88,"Isomorphic Full Panel (Sol, Caco-2, LogD, IC, PPB, RM, BSEP) \u2013 50 cmpds (EF-ISO-PANEL)"],
-  ["100-2026-20717","AW-20717","Partex","2026-04-28","Assay Services",25600,0,25600,"Truvivo Isomorphic with new donors \u2013 8 FD (AW-20717, partial)"],
-  ["101-2026-20719","AW-20719","Partex","2026-04-28","Assay Services",9600,0,9600,"Truvivo Mini Prod run experiment \u2013 3 FD (AW-20719)"],
   ["102-2026-20718","AW-20718","Partex","2026-04-28","Assay Services",19200,0,19200,"Truvivo assay development experiment #14 \u2013 6 FD (AW-20718)"],
+  ["101-2026-20719","AW-20719","Partex","2026-04-28","Assay Services",9600,0,9600,"Truvivo Mini Prod run experiment \u2013 3 FD (AW-20719)"],
+  ["100-2026-20717","AW-20717","Partex","2026-04-28","Assay Services",25600,0,25600,"Truvivo Isomorphic with new donors \u2013 8 FD (AW-20717, partial)"],
   ["US034-0023550","US034-0029841-O","Eurofins","2026-04-27","Assay Services",27485,0,27485,"Custom MitoTox HepG2 \u2013 239 Axiom Training cmpds, Milestone 1 (EF-MT-TRAIN-2)"],
   ["US034-0023503","US034-0029939-O","Eurofins","2026-04-22","Assay Services",80500,0,80500,"Custom MitoTox HepG2 \u2013 700 Axiom Training cmpds, full study (EF-MT-TRAIN)"],
-  ["M2640393","MCE-GSH-PHARMARON","MCE","2026-05-07","Compound Sourcing",800,0,800,"MCE HY-L001 27 items \u2013 ships to Pharmaron (MCE-GSH-PHARMARON)"],
-  ["M2640394","MCE-GSH-WUXI","MCE","2026-05-07","Compound Sourcing",800,0,800,"MCE HY-L001 27 items \u2013 ships to WuXi (MCE-GSH-WUXI)"],
   ["M2630521","2026040151947-3","MCE","2026-04-13","Compound Sourcing",937,0,937,"MCE Q2 compounds \u2013 20-compound blinded set to Eurofins (MCE-Q2-EF)"],
   ["M2630520","2026040151947-2","MCE","2026-04-10","Compound Sourcing",977,0,977,"MCE Q2 compounds \u2013 20-compound blinded set to Partex (MCE-Q2-PARTEX)"],
-  ["1799","20003798","Partex","2026-03-31","Materials",509010,0,509010,"Truvivo cells + media \u2013 LifeNet Health PO 20709 (PTX-TRUV-CELLS; +$61,340 above LNH quote)"],
-  ["1800","20699","Partex","2026-03-31","FD",52388,0,52388,"2D PHH validation full prod run 700 cmpds incl. Isomorphic (15 FD)"],
-  ["1801","20711","Partex","2026-03-31","FD",6994,0,6994,"Alithea Pilot reproducibility plate (repeat of PO20704)"],
-  ["US034-0023370","US034-0029756-O","Eurofins","2026-03-31","Assay Services",14412,0,14412,"Mito Tox Automation Pilot \u2013 Milestone 2 (final; quote fully invoiced)"],
   ["US034-0023386","US034-0028902-O","Eurofins","2026-03-31","Assay Services",370698,-370178,520,"Q02 umbrella prepayment draw \u2013 high-vol discount applied (scope TBD)"],
+  ["US034-0023370","US034-0029756-O","Eurofins","2026-03-31","Assay Services",14412,0,14412,"Mito Tox Automation Pilot \u2013 Milestone 2 (final; quote fully invoiced)"],
   ["INV000000241","MSA-4129","Mercor","2026-03-31","Assay Services",400,0,400,"Mass Spectrometry \u2013 March 2026"],
+  ["1801","20711","Partex","2026-03-31","FD",6994,0,6994,"Alithea Pilot reproducibility plate (repeat of PO20704)"],
+  ["1800","20699","Partex","2026-03-31","FD",52388,0,52388,"2D PHH validation full prod run 700 cmpds incl. Isomorphic (15 FD)"],
+  ["1799","20003798","Partex","2026-03-31","Materials",509010,0,509010,"Truvivo cells + media \u2013 LifeNet Health PO 20709 (PTX-TRUV-CELLS; +$61,340 above LNH quote)"],
   ["US034-0023304","US034-0029862-O","Eurofins","2026-03-25","Assay Services",5520,0,5520,"Isomorphic Mito Tox Pilot - 50 cmpds"],
   ["M2619561","2026021952225-5","MCE","2026-03-20","Compound Sourcing",6384,0,6384,"BTK+Obesity 43 liquid + 5 solid to Partex"],
   ["US034-0023266","US034-0029756-O","Eurofins","2026-03-19","Assay Services",13314,0,13314,"Mito Tox Automation Pilot - Milestone 1"],
@@ -661,49 +677,49 @@ const invoices = [
   ["INV-NB-616","25-00704","Nomic","2026-03-12","Assay Services",153600,0,153600,"Nomic Scale-up 6,144 Flex In vitro wells (UCID 25-00704.5)"],
   ["M2619565","2026022046100-5","MCE","2026-03-10","Compound Sourcing",7044,0,7044,"BTK+Obesity 48 cmpds to Eurofins"],
   ["US034-0023199","US034-0029617-O","Eurofins","2026-03-09","Assay Services",41234,0,41234,"BSEP Pilot 52 cmpds 7-conc"],
-  ["M2616664","2026021942801-2","MCE","2026-03-04","Compound Sourcing",2027,0,2027,"Replacement 50 cmpds to Partex"],
   ["M2616665","2026021943470-2","MCE","2026-03-04","Compound Sourcing",2257,0,2257,"Replacement 50 cmpds to Eurofins"],
+  ["M2616664","2026021942801-2","MCE","2026-03-04","Compound Sourcing",2027,0,2027,"Replacement 50 cmpds to Partex"],
   ["INV-NB-623","26-00078","Nomic","2026-03-02","Assay Services",288000,0,288000,"Nomic 60-plate extension upfront payment \u2013 Flex 77 Plex, Cell Sup (UCID 26-00078.0)"],
   ["IN6255","SOW-1","iMerit","2026-02-28","Annotations",1200,0,1200,"Image annotations 50 hrs"],
-  ["1790","20704","Partex","2026-02-28","FD",6994,0,6994,"Alithea Pilot DRUG-seq"],
-  ["1791","20705","Partex","2026-02-28","FD",6985,0,6985,"Test PHH lots LOC and UWM"],
-  ["1792","20705","Partex","2026-02-28","Materials",3000,0,3000,"PHH lot testing boutique materials"],
-  ["1793","20703","Partex","2026-02-28","FD",104775,0,104775,"Truvivo additional 250 cmpds"],
-  ["1794","20703","Partex","2026-02-28","Materials",10000,0,10000,"Truvivo additional 250 boutique materials"],
-  ["1795","20695","Partex","2026-02-28","FD",195482,0,195482,"Truvivo customer compounds (57 FD)"],
-  ["1796","20695","Partex","2026-02-28","Materials",25000,0,25000,"Truvivo customer boutique materials"],
-  ["1797","20700","Partex","2026-02-28","FD",27436,0,27436,"Truvivo donor testing (8 FD)"],
   ["1798","20700","Partex","2026-02-28","Materials",10000,0,10000,"Truvivo donor testing boutique materials"],
+  ["1797","20700","Partex","2026-02-28","FD",27436,0,27436,"Truvivo donor testing (8 FD)"],
+  ["1796","20695","Partex","2026-02-28","Materials",25000,0,25000,"Truvivo customer boutique materials"],
+  ["1795","20695","Partex","2026-02-28","FD",195482,0,195482,"Truvivo customer compounds (57 FD)"],
+  ["1794","20703","Partex","2026-02-28","Materials",10000,0,10000,"Truvivo additional 250 boutique materials"],
+  ["1793","20703","Partex","2026-02-28","FD",104775,0,104775,"Truvivo additional 250 cmpds"],
+  ["1792","20705","Partex","2026-02-28","Materials",3000,0,3000,"PHH lot testing boutique materials"],
+  ["1791","20705","Partex","2026-02-28","FD",6985,0,6985,"Test PHH lots LOC and UWM"],
+  ["1790","20704","Partex","2026-02-28","FD",6994,0,6994,"Alithea Pilot DRUG-seq"],
   ["INV-NB-566","25-00704","Nomic","2026-02-25","Assay Services",422400,0,422400,"Nomic Scale up upfront payment"],
   ["US034-0023098","US034-0028902-O","Eurofins","2026-02-23","Assay Services",18454,-18454,0,"RM credit + Spheroids 186 samples"],
   ["INV-NB-573","25-00704","Nomic","2026-02-13","Assay Services",144000,0,144000,"Nomic 77-plex 5760 wells"],
-  ["1778","20707","Partex","2026-01-31","Materials",275000,0,275000,"Capacity expansion - liquid handler + incubator"],
-  ["1780","20693","Partex","2026-01-31","FD",260642,0,260642,"Truvivo (76 FD)"],
-  ["1781","20693","Partex","2026-01-31","Materials",32875,0,32875,"Truvivo materials"],
-  ["1782","20694","Partex","2026-01-31","FD",68590,0,68590,"2D PHH (20 FD)"],
   ["1783","20694","Partex","2026-01-31","Materials",178636,0,178636,"PHH cells for 8 production runs"],
-  ["M2596887","2025122408609","MCE","2026-01-13","Compound Sourcing",55335,0,55335,"363 cmpds to Eurofins"],
+  ["1782","20694","Partex","2026-01-31","FD",68590,0,68590,"2D PHH (20 FD)"],
+  ["1781","20693","Partex","2026-01-31","Materials",32875,0,32875,"Truvivo materials"],
+  ["1780","20693","Partex","2026-01-31","FD",260642,0,260642,"Truvivo (76 FD)"],
+  ["1778","20707","Partex","2026-01-31","Materials",275000,0,275000,"Capacity expansion - liquid handler + incubator"],
   ["M2596902","2025122407730-2","MCE","2026-01-13","Compound Sourcing",54795,0,54795,"363 cmpds to Partex"],
-  ["1776","20693","Partex","2025-12-31","FD",130321,0,130321,"Truvivo Prod Run (38 FD)"],
-  ["1777","20695","Partex","2025-12-31","Materials",459502,0,459502,"Truvivo customer run cells + boutique materials"],
+  ["M2596887","2025122408609","MCE","2026-01-13","Compound Sourcing",55335,0,55335,"363 cmpds to Eurofins"],
   ["US034-0022711","US034-0028902-O","Eurofins","2025-12-31","Assay Services",49838,-49838,0,"Reactive metabolite cocktail trapping, 193 samples"],
+  ["1777","20695","Partex","2025-12-31","Materials",459502,0,459502,"Truvivo customer run cells + boutique materials"],
+  ["1776","20693","Partex","2025-12-31","FD",130321,0,130321,"Truvivo Prod Run (38 FD)"],
   ["INV-NB-524","25-00735 v2","Nomic","2025-12-05","Assay Services",26112,0,26112,"Nomic Omni 1000 Pilot 384 samples (NOMIC-OMNI-25-00735; UCID 25-00735.1; PO 94383)"],
-  ["M2588483","2025110601750-11-18-1","MCE","2025-12-02","Compound Sourcing",32075,0,32075,"429 FDA cmpds to Eurofins"],
   ["M2588484","2025110601750-11-18-2","MCE","2025-12-02","Compound Sourcing",19125,0,19125,"429 FDA cmpds to Partex"],
-  ["1765","20693","Partex","2025-11-30","FD",288078,0,288078,"Truvivo Full Prod Runs (84 FD)"],
-  ["1766","20693","Partex","2025-11-30","Materials",75000,0,75000,"Boutique materials"],
-  ["1767","20694","Partex","2025-11-30","FD",17148,0,17148,"2D PHH Validation (5 FD)"],
-  ["1768","20694","Partex","2025-11-30","Materials",25000,0,25000,"PHH culture medium, LDH, MT-Glo and dyes"],
-  ["1769","20695","Partex","2025-11-30","FD",130321,0,130321,"Truvivo Customer Compounds (38 FD)"],
+  ["M2588483","2025110601750-11-18-1","MCE","2025-12-02","Compound Sourcing",32075,0,32075,"429 FDA cmpds to Eurofins"],
   ["1770","20695","Partex","2025-11-30","Materials",45000,0,45000,"Boutique materials"],
+  ["1769","20695","Partex","2025-11-30","FD",130321,0,130321,"Truvivo Customer Compounds (38 FD)"],
+  ["1768","20694","Partex","2025-11-30","Materials",25000,0,25000,"PHH culture medium, LDH, MT-Glo and dyes"],
+  ["1767","20694","Partex","2025-11-30","FD",17148,0,17148,"2D PHH Validation (5 FD)"],
+  ["1766","20693","Partex","2025-11-30","Materials",75000,0,75000,"Boutique materials"],
+  ["1765","20693","Partex","2025-11-30","FD",288078,0,288078,"Truvivo Full Prod Runs (84 FD)"],
   ["M2584696","2025110601750-2","MCE","2025-11-19","Compound Sourcing",79666,0,79666,"1600 cmpds to Partex"],
   ["M2584452","2025110601750","MCE","2025-11-18","Compound Sourcing",126862,0,126862,"1600 cmpds to Eurofins"],
   ["US034-0022367","US034-0028902-O","Eurofins","2025-11-13","Prepayment",453569,0,453569,"50% prepayment on ADME+MitoTox umbrella"],
   ["1761","20693","Partex","2025-11-09","Materials",481320,0,481320,"Truvivo Prod Run cells + Nomic media"],
-  ["1757","20686","Partex","2025-10-31","FD",27770,0,27770,"Truvivo Exp 11"],
-  ["1758","20686","Partex","2025-10-31","Materials",4700,0,4700,"Truvivo Exp 11 materials"],
-  ["1759","20691","Partex","2025-10-31","FD",100000,0,100000,"Sandwich Exp 1-4"],
   ["1760","20691","Partex","2025-10-31","Materials",22601,0,22601,"Sandwich Exp 1-4 materials"],
+  ["1759","20691","Partex","2025-10-31","FD",100000,0,100000,"Sandwich Exp 1-4"],
+  ["1758","20686","Partex","2025-10-31","Materials",4700,0,4700,"Truvivo Exp 11 materials"],
+  ["1757","20686","Partex","2025-10-31","FD",27770,0,27770,"Truvivo Exp 11"],
   ["1754","20686","Partex","2025-10-15","Materials",26688,0,26688,"ELISA Kit, human albumin"]
 ];
 
@@ -730,42 +746,64 @@ invBody.innerHTML += `<tr class="total">
 
 // PO progress table
 const pos = [
+  ["20693","Partex",1319127,1268236,96.1],
+  ["US034-0028902-Q02","Eurofins",1306550,1101179,84.3],
+  ["20695","Partex",861289,855304,99.3],
+  ["25-00704","Nomic",844800,720000,85.2],
+  ["26-00078","Nomic",576000,336000,58.3],
+  ["US034-0029192-Q02","Eurofins",511557,243068,47.5],
   ["20003798","Partex",509010,509010,100],
-  ["20693","Partex",1319127,1268236,96.1],["US034-0028902-Q02","Eurofins",1306550,1101179,84.3],
-  ["US034-0029192-Q02","Eurofins",511557,243068,47.5],["US034-0030157-Q01","Eurofins",42287,19563,46.3],
-  ["20695","Partex",861289,855304,99.3],["25-00704","Nomic",844800,720000,85.2],
-  ["26-00078","Nomic",576000,288000,50.0],
-  ["25-00735 v2","Nomic",26112,26112,100],
-  ["20694","Partex",320948,289373,90.2],["20707","Partex",275000,275000,100],
-  ["M2584452/M2584696","MCE",208354,206528,99.1],["20700","Partex",137940,37436,27.1],
-  ["20703","Partex",114775,114775,100],["2025122408609","MCE",109930,110130,100],
-  ["20706","Partex",107313,0,0],["20699","Partex",52388,52388,100],
-  ["AXIB-20250819-ANaJ","WuXi",95500,0,0],["US034-0028928-Q03","Eurofins",32480,32480,100],
-  ["25-00690","Nomic",78336,0,0],["US034-0029837","Eurofins",23791,0,0],
-  ["M2588483/M2588484","MCE",51200,51200,100],["M2619561","MCE",13278,13428,100],
-  ["M2616664","MCE",1952,4284,100],
-  ["US034-0029617-Q01","Eurofins",41237,41234,100],["US034-0029576-Q04","Eurofins",35803,0,0],
-  ["US034-0029756-Q02","Eurofins",27726,27726,100],["U3444","MCule",25402,0,0],
-  ["0759BC5D","Selleck",19430,0,0],["20704","Alithea",6994,6994,100],
-  ["20705","Partex",9985,9985,100],["20711","Partex",6994,6994,100],
-  ["AXIB-20260306","WuXi",35000,0,0],["PH-AXIO-ADME-2026-01","Pharmaron",37400,0,0],
-  ["US034-0029862-Q01","Eurofins",5750,5520,96.0],["US034-0029939-Q03","Eurofins",80500,0,0],
-  ["SOW-1","iMerit",1200,1200,100],
-  ["SOW-2","micro1",20000,0,0],
-  ["SOW-1","micro1",2060,0,0],
-  ["MSA-4129","Mercor",1800,1600,88.9],
-  ["20717","Partex",27940,0,0],
-  ["20718","Partex",19200,0,0],
-  ["20719","Partex",9600,0,0],
-  ["2026040151947","MCE",1804,0,0],
-  ["2026040953787/4087","MCE",2950,0,0],
-  ["20003952","LifeNet Health",9779,0,0],
-  ["US034-0030464-Q01","Eurofins",20753,0,0],
-  ["US034-0030500-Q01","Eurofins",1495,0,0],
-  ["US034-0030516-Q02","Eurofins",9386,0,0],
-  ["US034-0030159-Q01","Eurofins",12227,2300,18.8],
+  ["20694","Partex",320948,289373,90.2],
+  ["20707","Partex",275000,275000,100],
+  ["M2584452/M2584696","MCE",208354,206528,99.1],
+  ["20700","Partex",137940,37436,27.1],
+  ["20703","Partex",114775,114775,100],
+  ["2025122408609","MCE",109930,110130,100],
+  ["20706","Partex",107313,0,0],
+  ["20004094","LifeNet Health",97158.75,0,0.0],
+  ["AXIB-20250819-ANaJ","WuXi",95500,0,0],
+  ["PTX-00810","Partex",94100,0,0.0],
+  ["US034-0029939-Q03","Eurofins",80500,0,0],
+  ["25-00690","Nomic",78336,0,0],
+  ["PTX-00755","Partex",60800,32500,53.5],
+  ["20699","Partex",52388,52388,100],
+  ["M2588483/M2588484","MCE",51200,51200,100],
+  ["AXIB-20260306","WuXi",42290,42290,100],
+  ["US034-0030157-Q01","Eurofins",42287,19563,46.3],
+  ["US034-0029617-Q01","Eurofins",41237,41234,100],
+  ["PH-AXIO-ADME-2026-01","Pharmaron",37400,0,0],
+  ["US034-0029576-Q04","Eurofins",35803,0,0],
+  ["US034-0030130-Q01","Eurofins",33291,33291,100],
+  ["US034-0028928-Q03","Eurofins",32480,32480,100],
   ["US034-0030241-Q02","Eurofins",28985,5520,19.0],
-  ["US034-0030261-Q03","Eurofins",15797,1610,10.2]
+  ["20717","Partex",27940,0,0],
+  ["US034-0029756-Q02","Eurofins",27726,27726,100],
+  ["25-00735 v2","Nomic",26112,26112,100],
+  ["U3444","MCule",25402,0,0],
+  ["US034-0029837","Eurofins",23791,0,0],
+  ["US034-0030464-Q01","Eurofins",20753,0,0],
+  ["SOW-2","micro1",20000,0,0],
+  ["0759BC5D","Selleck",19430,0,0],
+  ["20718","Partex",19200,0,0],
+  ["PTX-00789","Partex",17200,17200,100],
+  ["US034-0030261-Q03","Eurofins",15797,1610,10.2],
+  ["M2619561","MCE",13278,13428,100],
+  ["US034-0030159-Q01","Eurofins",12227,2300,18.8],
+  ["20705","Partex",9985,9985,100],
+  ["20003952","LifeNet Health",9779,0,0],
+  ["20719","Partex",9600,0,0],
+  ["US034-0030516-Q02","Eurofins",9386,0,0],
+  ["US034-0030532-Q02","Eurofins",7410,0,0.0],
+  ["20704","Alithea",6994,6994,100],
+  ["20711","Partex",6994,6994,100],
+  ["US034-0029862-Q01","Eurofins",5750,5520,96.0],
+  ["2026040953787/4087","MCE",2950,0,0],
+  ["SOW-1","micro1",2060,0,0],
+  ["M2616664","MCE",1952,4284,100],
+  ["2026040151947","MCE",1804,0,0],
+  ["MSA-4129","Mercor",1800,1600,88.9],
+  ["US034-0030500-Q01","Eurofins",1495,0,0],
+  ["SOW-1","iMerit",1200,1200,100]
 ];
 
 const poBody = document.getElementById('poBody');
