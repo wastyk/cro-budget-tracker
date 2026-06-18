@@ -210,9 +210,9 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
       <div><div class="kpi-val">$9.2M</div><div class="kpi-label">Total Quoted</div></div>
-      <div><div class="kpi-val blue">$7.0M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
-      <div><div class="kpi-val green">$6.5M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">76%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val blue">$7.1M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
+      <div><div class="kpi-val green">$6.6M</div><div class="kpi-label">Total Payable (Net)</div></div>
+      <div><div class="kpi-val orange">77%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -595,7 +595,7 @@ function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ["Partex","Eurofins","Nomic","MCE","WuXi","Excelra","Pharmaron","MCule","Selleck","Cyprotex","micro1","Alithea","WuXi/MCE","Mercor","iMerit","LifeNet Health"];
   const quoted = [4376337,2400035,1525248,391068,142522,92650,37400,25402,19430,21250,22060,6994,5153,1800,1200,148133];
-  const invoiced = [3739656,1655846,1082112,389084,94286,0,0,21951,7475,0,0,0,0,1600,1200,0];
+  const invoiced = [3804152,1655846,1082112,389084,94286,0,0,21951,7475,0,0,0,0,1600,1200,0];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
@@ -641,6 +641,7 @@ const invoices = [
   ["D29260605028C","AXIB-20260306","WuXi","2026-06-05","Assay Services",24790,0,24790,"ADME study 50% balance ($17,500) + GSH Change Order 1 add 27 compounds ($7,290)"],
   ["INV-NB-690","26-00078","Nomic","2026-06-04","Assay Services",48000,0,48000,"Nomic Flex in vitro, 1,920 wells (UCID 26-00078.3)"],
   ["115-2026-00789","PTX-00789","Partex","2026-05-31","Assay Services",17200,0,17200,"2D PHH half production run - Shionogi, L'Oreal, and RevMed"],
+  ["116-2026-00788","PTX-00788","Partex","2026-05-31","Materials",64495.85,0,64495.85,"Boutique reagents for future 10 Truvivo production runs incl. 15% handling fee"],
   ["114-2026-00755","PTX-00755","Partex","2026-05-31","FD",60800,-28300,32500,"TruVivo full production run with Shionogi, L'Oreal, RevMed, and internal training set"],
   ["US034-0023821","US034-0030130-O","Eurofins","2026-05-29","Assay Services",16169,0,16169,"GSH depletion validation - final milestone invoice (EF-GSH-VALIDATION)"],
   ["US034-0023818","US034-0030157-Q01","Eurofins","2026-05-28","Assay Services",9128.64,0,9128.64,"ADME sub-study milestone invoice - EF-ADME-SCALE3 (split from US034-0029447)"],
