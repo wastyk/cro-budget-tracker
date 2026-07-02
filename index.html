@@ -145,7 +145,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
       <div><div class="kpi-val">$10.2M</div><div class="kpi-label">Total Committed</div></div>
       <div><div class="kpi-val blue">$7.3M</div><div class="kpi-label">Axiom Training</div></div>
       <div><div class="kpi-val orange">$2.8M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">122</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val">123</div><div class="kpi-label">Unique Quotes</div></div>
     </div>
 
     <div class="section">
@@ -448,6 +448,7 @@ const allQuotes = [
   ["PTX-00823","Cell Assays","TruVivo 26q3_backfill","Axiom Training","Partex","26q3_backfill: 81 DMSO compounds + 1 water compound, TruVivo assay",82,38400,"Quote Generated","Internal R&D",""],
   ["PTX-00824","Cell Assays","2D PHH 26q3_backfill","Axiom Training","Partex","26q3_backfill: 49 DMSO compounds + 4 water compounds, 2D PHH assay",53,13440,"Quote Generated","Internal R&D",""],
   ["MCE-2026062548443-2","Compound Sourcing","Custom compounds","Axiom Training","MCE","Droxidopa, BMS-986202, Zongertinib, Isotretinoin",4,725,"Completed","Internal R&D",""],
+  ["MCE-2026061032521","Compound Sourcing","Custom compounds","Axiom Training","MCE","Custom Library order: 83 solution-form items + 15 solid-form items - ships to WuXi",98,5397,"Completed","Internal R&D",""],
   ["MCE-BTK-OBESITY-2","Compound Sourcing","BTK + Obesity","Axiom Training","MCE","New BTK+Obesity order: 43 solution + 5 solid compounds",48,6969,"Completed","Internal R&D",""],
   ["MCE-26Q3-BACKFILL-EF","Compound Sourcing","26q3 backfill compounds","Axiom Training","MCE","26q3_backfill procured for Eurofins: 20 solution + 28 solid items",48,32444,"Quote Generated","Internal R&D",""],
   ["MCE-26Q3-BACKFILL-PARTEX","Compound Sourcing","26q3 backfill compounds","Axiom Training","MCE","26q3_backfill procured for Partex: 35 solution + 13 solid compounds",48,8055,"Quote Generated","Internal R&D",""],
@@ -603,11 +604,11 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: csLabels,
-    datasets: [{ data: [7208567, 1243381, 564149, 211165, 76200, 69565, 28791, 30852, 154711], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e','#9ca3af'], borderRadius: 4, barThickness: 22 }]
+    datasets: [{ data: [7213964, 1243381, 564149, 211165, 76200, 69565, 28791, 30852, 154711], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e','#9ca3af'], borderRadius: 4, barThickness: 22 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/10224082*100).toFixed(1)+'%)'}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/10229479*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
 
@@ -615,8 +616,8 @@ new Chart(document.getElementById('csChart'), {
 function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ["Partex", "Eurofins", "Nomic", "MCE", "LifeNet Health", "WuXi", "Excelra", "Pharmaron", "MCule", "micro1", "Cyprotex", "Selleck", "Alithea", "WuXi/MCE", "Mercor", "iMerit"];
-  const quoted = [5241107, 2481588, 1525248, 452145, 148133, 142522, 92650, 37400, 25402, 22060, 21250, 19430, 6994, 5153, 1800, 1200];
-  const invoiced = [4160681, 1683137, 1254912, 399803, 0, 124286, 0, 0, 21951, 0, 0, 7475, 0, 0, 1600, 1200];
+  const quoted = [5241107, 2481588, 1525248, 457542, 148133, 142522, 92650, 37400, 25402, 22060, 21250, 19430, 6994, 5153, 1800, 1200];
+  const invoiced = [4160681, 1683137, 1254912, 405200, 0, 124286, 0, 0, 21951, 0, 0, 7475, 0, 0, 1600, 1200];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
@@ -670,6 +671,7 @@ const invoices = [
   ["US034-0023912","US034-0029742-O","Eurofins","2026-06-18","Assay Services",9000,0,9000,"Reactive metabolite cocktail trapping, 50 samples"],
   ["INV-NB-722","26-00078.5","Nomic","2026-06-17","Assay Services",48000,0,48000,"Nomic Flex in vitro, 1,920 wells (UCID 26-00078.5)"],
   ["INV-NB-721","25-00704.6","Nomic","2026-06-17","Assay Services",124800,0,124800,"Nomic Flex in vitro, 4,992 wells (UCID 25-00704.6)"],
+  ["M2655937","2026061032521","MCE","2026-06-17","Compound Sourcing",5397,0,5397,"Custom Library order: 83 solution-form items + 15 solid-form items - ships to WuXi"],
   ["M2656486","2026022046100-6","MCE","2026-06-11","Compound Sourcing",7044,0,7044,"New BTK+Obesity order; invoice includes $75 shipping"],
   ["D29260605028C","AXIB-20260306","WuXi","2026-06-05","Assay Services",24790,0,24790,"ADME study 50% balance ($17,500) + GSH Change Order 1 add 27 compounds ($7,290)"],
   ["D29260605009C","AXIB-20260520-ASH","WuXi","2026-06-05","Assay Services",30000,0,30000,"ADEM study - 50% upfront"],
@@ -862,6 +864,7 @@ const pos = [
   ["20711","Partex",6994,6994,100],
   ["Wuxi-BTK+Obesity compounds","MCE",6969,6969,100.0],
   ["US034-0029862-Q01","Eurofins",5750,5520,96.0],
+  ["2026061032521","MCE",5397,5397,100.0],
   ["AXIB-20250819-ASH","WuXi",4732,4732,100],
   ["2026040953787/4087","MCE",2950,0,0],
   ["M2616664","MCE",1952,1952,100],
