@@ -210,9 +210,9 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
       <div><div class="kpi-val">$10.2M</div><div class="kpi-label">Total Quoted</div></div>
-      <div><div class="kpi-val blue">$7.6M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
-      <div><div class="kpi-val green">$7.1M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">74%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val blue">$7.7M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
+      <div><div class="kpi-val green">$7.2M</div><div class="kpi-label">Total Payable (Net)</div></div>
+      <div><div class="kpi-val orange">75%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -616,7 +616,7 @@ function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ["Partex", "Eurofins", "Nomic", "MCE", "LifeNet Health", "WuXi", "Excelra", "Pharmaron", "MCule", "micro1", "Cyprotex", "Selleck", "Alithea", "WuXi/MCE", "Mercor", "iMerit"];
   const quoted = [5241107, 2481588, 1525248, 452145, 148133, 142522, 92650, 37400, 25402, 22060, 21250, 19430, 6994, 5153, 1800, 1200];
-  const invoiced = [4084481, 1683137, 1254912, 399803, 0, 124286, 0, 0, 21951, 0, 0, 7475, 0, 0, 1600, 1200];
+  const invoiced = [4160681, 1683137, 1254912, 399803, 0, 124286, 0, 0, 21951, 0, 0, 7475, 0, 0, 1600, 1200];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
@@ -660,6 +660,7 @@ function drawInvCharts() {
 // Invoice detail table
 const invoices = [
   ["M2662548","2026062661528","MCE","2026-07-01","Compound Sourcing",725,0,725,"Four compound order: Droxidopa, BMS-986202, Zongertinib, Isotretinoin"],
+  ["121-2026-00793","PTX-00793","Partex","2026-06-30","Assay Services",76200,0,76200,"2D + TruVivo + Transcriptomics, 7 / 14 days for Isomorphic compounds"],
   ["122-2026-00794","PTX-00794","Partex","2026-06-30","Assay Services",29600,0,29600,"2D + TruVivo + Transcriptomics, 7 days for L'Oreal, RevMed, and Shionogi"],
   ["119-2026-00786","PTX-00786","Partex","2026-06-30","Assay Services",250728.7,0,250728.7,"3 TruVivo full production runs with brightfield plus Alithea DRUG-seq service and consumables"],
   ["2046631","SAMPLE EVALUATION","LifeNet Health","2026-06-24","Materials",0,0,0,"Free-of-charge sample evaluation delivery"],
@@ -800,6 +801,7 @@ const pos = [
   ["20707","Partex",275000,275000,100],
   ["PTX-00786","Partex",250728.7,250728.7,100.0],
   ["M2584452/M2584696","MCE",208354,206528,99.1],
+  ["PTX-00793","Partex",152400,76200,50.0],
   ["PTX-00818","Partex",154362.88,0,0.0],
   ["PTX-00819","Partex",154362.88,0,0.0],
   ["PTX-00817","Partex",143162.88,0,0.0],
