@@ -901,7 +901,7 @@ pos.forEach(r => {
 });
 
 // ── COST BUILDER ──────────────────────────────────────────────────────────────
-// Data sourced from cost_per_compound sheet tab and WuXi ADME quote AXIB-20260520 V02
+// Data sourced from cost_per_compound sheet tab, WuXi ADME quote AXIB-20260520 V02, and Eurofins quote US034-0030813-Q01
 // [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes]
 const cbRaw = [
   ['Standard PHH',       'Standard PHH',    'Partex',  8,3,'full',         210, 116.67, ''],
@@ -918,18 +918,18 @@ const cbRaw = [
   ['LogD',               'ADME',            'WuXi',    1,2, null,  null,    30.00, 'AXIB-20260520 V02'],
   ['Caco-2',             'ADME',            'WuXi',    1,2, null,  null,   210.00, 'AXIB-20260520 V02'],
   ['Aq Sol',             'ADME',            'WuXi',    1,2, null,  null,    39.00, 'AXIB-20260520 V02'],
-  ['GSH Consumption',    'RM - GSH',        'Eurofins',7,3, null,  null,   170.00, 'estimate – pre-validation'],
+  ['GSH Consumption',    'RM - GSH',        'Eurofins',7,2, null,  null,   235.00, 'US034-0030813-Q01'],
   ['RM Complex Trapping','RM - Complex',    'WuXi',    1,1, null,  null,   171.00, 'AXIB-20260520 V02; six-assay bundle totals $600/cpd at 100 compounds'],
-  ['BSEP',               'Transporters',    'Eurofins',1,3, null,  null,   141.61, ''],
-  ['BSEP',               'Transporters',    'Eurofins',8,2, null,  null,   581.12, ''],
-  ['MRP2',               'Transporters',    'Eurofins',1,3, null,  null,   141.61, 'assume same as BSEP'],
-  ['MRP3',               'Transporters',    'Eurofins',1,3, null,  null,   141.61, 'assume same as BSEP'],
-  ['OATP1B1',            'Transporters',    'Eurofins',1,3, null,  null,   141.61, 'assume same as BSEP'],
-  ['OATP1B3',            'Transporters',    'Eurofins',1,3, null,  null,   141.61, 'assume same as BSEP'],
-  ['MRP2',               'Transporters',    'Eurofins',8,2, null,  null,   581.12, 'unofficial quote'],
-  ['MRP3',               'Transporters',    'Eurofins',8,2, null,  null,   581.12, 'unofficial quote'],
-  ['OATP1B1',            'Transporters',    'Eurofins',8,2, null,  null,   581.12, 'unofficial quote'],
-  ['OATP1B3',            'Transporters',    'Eurofins',8,2, null,  null,   581.12, 'unofficial quote'],
+  ['BSEP',               'Transporters',    'Eurofins',1,3, null,  null,   283.22, ''],
+  ['BSEP',               'Transporters',    'Eurofins',8,2, null,  null,   283.22, ''],
+  ['MRP2',               'Transporters',    'Eurofins',1,3, null,  null,   231.32, ''],
+  ['MRP3',               'Transporters',    'Eurofins',1,3, null,  null,   231.32, ''],
+  ['OATP1B1',            'Transporters',    'Eurofins',1,3, null,  null,   231.32, ''],
+  ['OATP1B3',            'Transporters',    'Eurofins',1,3, null,  null,   231.32, ''],
+  ['MRP2',               'Transporters',    'Eurofins',8,2, null,  null,   231.32, ''],
+  ['MRP3',               'Transporters',    'Eurofins',8,2, null,  null,   231.32, ''],
+  ['OATP1B1',            'Transporters',    'Eurofins',8,2, null,  null,   231.32, ''],
+  ['OATP1B3',            'Transporters',    'Eurofins',8,2, null,  null,   231.32, ''],
 ];
 
 const cbBucketOrder = ['Standard PHH','Standard Truvivo','Transcriptomics','Proteomics','ADME','RM - GSH','RM - Complex','Transporters'];
