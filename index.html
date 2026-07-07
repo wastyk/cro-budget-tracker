@@ -91,6 +91,8 @@
   .cb-opt-btn { padding:2px 8px; font-size:11px; border:1px solid #d1d5db; border-radius:4px; background:#fff; cursor:pointer; color:#6b7280; }
   .cb-opt-btn.sel { background:#0777b3; color:#fff; border-color:#0777b3; }
   .cb-cpc { font-weight:700; font-size:13px; width:68px; text-align:right; flex-shrink:0; }
+  .cb-cpc-link { color:#0777b3; text-decoration:underline; text-decoration-style:dotted; text-underline-offset:2px; }
+  .cb-cpc-link:hover { color:#065f91; }
   .cb-summary-wrap { position:sticky; top:24px; }
   .cb-batch-total { margin-top:16px; padding-top:14px; border-top:2px solid #e5e7eb; }
   .cb-cmpd-row { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
@@ -901,8 +903,14 @@ pos.forEach(r => {
 });
 
 // ── COST BUILDER ──────────────────────────────────────────────────────────────
-// Data sourced from cost_per_compound sheet tab, WuXi ADME quote AXIB-20260520 V02, and Eurofins quote US034-0030813-Q01
-// [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes]
+// Data sourced from cost_per_compound sheet tab, WuXi ADME quote AXIB-20260520 V02, and Eurofins quotes US034-0030813-Q01 and US034-0030372-A01
+// [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl]
+const cbSources = {
+  wuxiAdme: 'https://drive.google.com/open?id=1FG_Fwx1U7JGzi61ADi_u1mvek95dj0GM&usp=drive_fs',
+  eurofinsGsh: 'https://drive.google.com/file/d/1tEd-gB85y3W_cAr9jDTrcB4CQS8bAsph/view',
+  eurofinsTransporters: 'https://drive.google.com/file/d/1CqjVA_NO7xpSSF98Lut3Nnrk4mVk-To5/view'
+};
+
 const cbRaw = [
   ['Standard PHH',       'Standard PHH',    'Partex',  8,3,'full',         210, 116.67, ''],
   ['Standard PHH',       'Standard PHH',    'Partex',  8,3,'half',         105, 163.81, ''],
@@ -913,23 +921,23 @@ const cbRaw = [
   ['Truvivo + BF',       'Transcriptomics', 'Partex',  8,3,'full',         210, 480.00, ''],
   ['Alithea DRUG-seq',   'Transcriptomics', 'Alithea', 8,3,'full',         210, 298.20, ''],
   ['Nomic 77-plex',      'Proteomics',      'Nomic',   8,1, null,  null,   259.05, ''],
-  ['PPB',                'ADME',            'WuXi',    1,3, null,  null,    70.00, 'AXIB-20260520 V02'],
-  ['CLint (HLM)',        'ADME',            'WuXi',    1,2, null,  null,    80.00, 'AXIB-20260520 V02'],
-  ['LogD',               'ADME',            'WuXi',    1,2, null,  null,    30.00, 'AXIB-20260520 V02'],
-  ['Caco-2',             'ADME',            'WuXi',    1,2, null,  null,   210.00, 'AXIB-20260520 V02'],
-  ['Aq Sol',             'ADME',            'WuXi',    1,2, null,  null,    39.00, 'AXIB-20260520 V02'],
-  ['GSH Consumption',    'RM - GSH',        'Eurofins',7,2, null,  null,   235.00, 'US034-0030813-Q01'],
-  ['RM Complex Trapping','RM - Complex',    'WuXi',    1,1, null,  null,   171.00, 'AXIB-20260520 V02; six-assay bundle totals $600/cpd at 100 compounds'],
-  ['BSEP',               'Transporters',    'Eurofins',1,3, null,  null,   283.22, ''],
-  ['BSEP',               'Transporters',    'Eurofins',8,2, null,  null,   283.22, ''],
-  ['MRP2',               'Transporters',    'Eurofins',1,3, null,  null,   231.32, ''],
-  ['MRP3',               'Transporters',    'Eurofins',1,3, null,  null,   231.32, ''],
-  ['OATP1B1',            'Transporters',    'Eurofins',1,3, null,  null,   231.32, ''],
-  ['OATP1B3',            'Transporters',    'Eurofins',1,3, null,  null,   231.32, ''],
-  ['MRP2',               'Transporters',    'Eurofins',8,2, null,  null,   231.32, ''],
-  ['MRP3',               'Transporters',    'Eurofins',8,2, null,  null,   231.32, ''],
-  ['OATP1B1',            'Transporters',    'Eurofins',8,2, null,  null,   231.32, ''],
-  ['OATP1B3',            'Transporters',    'Eurofins',8,2, null,  null,   231.32, ''],
+  ['PPB',                'ADME',            'WuXi',    1,3, null,  null,    70.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
+  ['CLint (HLM)',        'ADME',            'WuXi',    1,2, null,  null,    80.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
+  ['LogD',               'ADME',            'WuXi',    1,2, null,  null,    30.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
+  ['Caco-2',             'ADME',            'WuXi',    1,2, null,  null,   210.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
+  ['Aq Sol',             'ADME',            'WuXi',    1,2, null,  null,    39.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
+  ['GSH Consumption',    'RM - GSH',        'Eurofins',7,2, null,  null,   235.00, 'US034-0030813-Q01', cbSources.eurofinsGsh],
+  ['RM Complex Trapping','RM - Complex',    'WuXi',    1,1, null,  null,   171.00, 'AXIB-20260520 V02; six-assay bundle totals $600/cpd at 100 compounds', cbSources.wuxiAdme],
+  ['BSEP',               'Transporters',    'Eurofins',1,3, null,  null,   283.22, '', cbSources.eurofinsTransporters],
+  ['BSEP',               'Transporters',    'Eurofins',8,2, null,  null,   283.22, '', cbSources.eurofinsTransporters],
+  ['MRP2',               'Transporters',    'Eurofins',1,3, null,  null,   231.32, '', cbSources.eurofinsTransporters],
+  ['MRP3',               'Transporters',    'Eurofins',1,3, null,  null,   231.32, '', cbSources.eurofinsTransporters],
+  ['OATP1B1',            'Transporters',    'Eurofins',1,3, null,  null,   231.32, '', cbSources.eurofinsTransporters],
+  ['OATP1B3',            'Transporters',    'Eurofins',1,3, null,  null,   231.32, '', cbSources.eurofinsTransporters],
+  ['MRP2',               'Transporters',    'Eurofins',8,2, null,  null,   231.32, '', cbSources.eurofinsTransporters],
+  ['MRP3',               'Transporters',    'Eurofins',8,2, null,  null,   231.32, '', cbSources.eurofinsTransporters],
+  ['OATP1B1',            'Transporters',    'Eurofins',8,2, null,  null,   231.32, '', cbSources.eurofinsTransporters],
+  ['OATP1B3',            'Transporters',    'Eurofins',8,2, null,  null,   231.32, '', cbSources.eurofinsTransporters],
 ];
 
 const cbBucketOrder = ['Standard PHH','Standard Truvivo','Transcriptomics','Proteomics','ADME','RM - GSH','RM - Complex','Transporters'];
@@ -937,9 +945,9 @@ const cbBucketOrder = ['Standard PHH','Standard Truvivo','Transcriptomics','Prot
 // Build grouped structure: bucket → { detail → {detail, cro, options[]} }
 const cbBuckets = {};
 cbBucketOrder.forEach(b => { cbBuckets[b] = {}; });
-cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes]) => {
+cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl]) => {
   if (!cbBuckets[bucket][detail]) cbBuckets[bucket][detail] = {detail, bucket, cro, options:[]};
-  cbBuckets[bucket][detail].options.push({conc, reps, batch, batchN, cpc, notes});
+  cbBuckets[bucket][detail].options.push({conc, reps, batch, batchN, cpc, notes, sourceUrl});
 });
 
 // State
@@ -1001,13 +1009,16 @@ function cbRender() {
       }
 
       const noteHtml = opt.notes ? `<span class="cb-note">${opt.notes}</span>` : '';
+      const cpcHtml = opt.sourceUrl
+        ? `<a class="cb-cpc-link" href="${opt.sourceUrl}" target="_blank" rel="noopener noreferrer" title="Open quote source" onclick="event.stopPropagation()">${fmtCpc(opt.cpc)}</a>`
+        : fmtCpc(opt.cpc);
 
       assaysHtml += `<label class="cb-row${on?'':' off'}">
         <input type="checkbox" ${on?'checked':''} onchange="cbToggle('${detail}')">
         <span class="cb-det">${detail}</span>
         <span class="cb-cro">${cro}</span>
         ${optHtml}${noteHtml}
-        <span class="cb-cpc">${fmtCpc(opt.cpc)}</span>
+        <span class="cb-cpc">${cpcHtml}</span>
       </label>`;
     });
 
