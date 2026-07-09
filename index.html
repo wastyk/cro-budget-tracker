@@ -966,10 +966,22 @@ cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sour
 });
 
 // State
+const cbDefaultSelected = new Set([
+  '2D-PHH',
+  'Truvivo 7 DIV',
+  'Partex + Alithea 7 DIV',
+  'PPB',
+  'CLint (HLM)',
+  'LogD',
+  'Caco-2',
+  'Aq Sol',
+  'RM Complex Trapping'
+]);
+
 const cbState = { checked:{}, optIdx:{} };
 cbBucketOrder.forEach(b => {
   Object.values(cbBuckets[b]).forEach(({detail}) => {
-    if (cbState.checked[detail] === undefined) cbState.checked[detail] = true;
+    if (cbState.checked[detail] === undefined) cbState.checked[detail] = cbDefaultSelected.has(detail);
     if (cbState.optIdx[detail]  === undefined) cbState.optIdx[detail]  = 0;
   });
 });
