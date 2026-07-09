@@ -901,7 +901,7 @@ pos.forEach(r => {
 
 // ── COST BUILDER ──────────────────────────────────────────────────────────────
 // Data sourced from Partex pricing workbook, cost_per_compound sheet tab, WuXi ADME quote AXIB-20260520 V02, and Eurofins quotes US034-0030813-Q01 and US034-0030372-A01
-// [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, calc]
+// [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages]
 const cbSources = {
   partexPricing: 'https://docs.google.com/spreadsheets/d/1FhNkx1Iy72545ZfDYTPgKgMtF3wsomqN?rtpof=true&usp=drive_fs',
   wuxiAdme: 'https://drive.google.com/open?id=1FG_Fwx1U7JGzi61ADi_u1mvek95dj0GM&usp=drive_fs',
@@ -925,9 +925,11 @@ const cbRaw = [
     {label:'Half', plates:9,  capacity:105, cost:89700},
     {label:'Mini', plates:3,  capacity:26,  cost:44850}
   ]],
-  ['Truvivo + BF',       'Transcriptomics', 'Partex',  8,3,'full',         210, 480.00, ''],
-  ['Alithea Genomics',   'Transcriptomics', 'Alithea', null,null,'standard', null, null, '', cbSources.partexPricing, null, {kind:'alithea', mode:'standard'}],
-  ['Alithea Genomics',   'Transcriptomics', 'Alithea', null,null,'fast',     null, null, '', cbSources.partexPricing, null, {kind:'alithea', mode:'fast'}],
+  ['Partex + Alithea 7 DIV','Transcriptomics','Partex', 8,3, null,  null,     null, '', cbSources.partexPricing, [
+    {label:'Full', plates:17, capacity:210, cost:244293.12},
+    {label:'Half', plates:9,  capacity:105, cost:132762.88},
+    {label:'Mini', plates:3,  capacity:26,  cost:61808.88}
+  ]],
   ['Nomic 77-plex',      'Proteomics',      'Nomic',   8,1, null,  null,   259.05, ''],
   ['PPB',                'ADME',            'WuXi',    1,3, null,  null,    70.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
   ['CLint (HLM)',        'ADME',            'WuXi',    1,2, null,  null,    80.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
@@ -948,25 +950,14 @@ const cbRaw = [
   ['OATP1B3',            'Transporters',    'Eurofins',8,2, null,  null,   231.32, '', cbSources.eurofinsTransporters],
 ];
 
-const cbAlitheaTiers = [
-  {label:'1 plate',   plates:1,   standard:18.34, fast:45.15},
-  {label:'3 plates',  plates:3,   standard:16.35, fast:32.69},
-  {label:'8 plates',  plates:8,   standard:13.14, fast:26.29},
-  {label:'18 plates', plates:18,  standard:10.38, fast:20.76},
-  {label:'54 plates', plates:54,  standard:8.23,  fast:null},
-  {label:'106 plates',plates:106, standard:7.43,  fast:null},
-  {label:'360 plates',plates:360, standard:6.38,  fast:null},
-  {label:'500 plates',plates:500, standard:5.96,  fast:null}
-];
-
 const cbBucketOrder = ['Standard PHH','Standard Truvivo','Transcriptomics','Proteomics','ADME','RM - GSH','RM - Complex','Transporters'];
 
 // Build grouped structure: bucket → { detail → {detail, cro, options[]} }
 const cbBuckets = {};
 cbBucketOrder.forEach(b => { cbBuckets[b] = {}; });
-cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, calc]) => {
+cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages]) => {
   if (!cbBuckets[bucket][detail]) cbBuckets[bucket][detail] = {detail, bucket, cro, options:[]};
-  cbBuckets[bucket][detail].options.push({conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, calc});
+  cbBuckets[bucket][detail].options.push({conc, reps, batch, batchN, cpc, notes, sourceUrl, packages});
 });
 
 // State
@@ -1040,42 +1031,7 @@ function cbPackagePlan(packages, compounds) {
   return {...best, mix, label, plates};
 }
 
-function cbTruvivoPlateContext(compounds) {
-  const details = ['Truvivo 7 DIV', 'Truvivo 14 DIV'];
-  return details.reduce((ctx, detail) => {
-    if (!cbState.checked[detail]) return ctx;
-    const row = cbBuckets['Standard Truvivo'][detail];
-    if (!row) return ctx;
-    const plan = cbPackagePlan(cbEffective(detail, row.options).packages, compounds);
-    ctx.plates += plan.plates || 0;
-    if (plan.plates) ctx.parts.push(`${detail}: ${plan.label}`);
-    return ctx;
-  }, {plates:0, parts:[]});
-}
-
-function cbAlitheaPlan(mode, truvivoCtx) {
-  const neededPlates = truvivoCtx.plates;
-  if (!neededPlates) {
-    return {cost:0, capacity:0, packageCount:0, mix:[], label:'select Truvivo 7/14 DIV', plates:0, neededPlates:0};
-  }
-
-  const packages = cbAlitheaTiers
-    .filter(tier => tier[mode] != null)
-    .map(tier => ({
-      label: tier.label,
-      plates: tier.plates,
-      capacity: tier.plates,
-      cost: tier.plates * 384 * tier[mode]
-    }));
-
-  const plan = cbPackagePlan(packages, neededPlates);
-  return {...plan, neededPlates};
-}
-
-function cbOptionTotal(opt, compounds, ctx = {}) {
-  if (opt.calc && opt.calc.kind === 'alithea') {
-    return cbAlitheaPlan(opt.calc.mode, ctx.truvivo || {plates:0, parts:[]});
-  }
+function cbOptionTotal(opt, compounds) {
   if (opt.packages) return cbPackagePlan(opt.packages, compounds);
   return {
     cost: opt.cpc * compounds,
@@ -1089,7 +1045,6 @@ function cbOptionTotal(opt, compounds, ctx = {}) {
 function cbRender() {
   const fmtCost = v => '$'+v.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
   const compounds = cbCompoundCount();
-  const ctx = {truvivo: cbTruvivoPlateContext(compounds)};
   let assaysHtml = '', summaryHtml = '', grandTotal = 0;
 
   cbBucketOrder.forEach(bucket => {
@@ -1098,7 +1053,7 @@ function cbRender() {
 
     let bucketTotal = 0;
     details.forEach(({detail, options}) => {
-      if (cbState.checked[detail]) bucketTotal += cbOptionTotal(cbEffective(detail, options), compounds, ctx).cost;
+      if (cbState.checked[detail]) bucketTotal += cbOptionTotal(cbEffective(detail, options), compounds).cost;
     });
     grandTotal += bucketTotal;
 
@@ -1113,8 +1068,8 @@ function cbRender() {
     details.forEach(({detail, cro, options}) => {
       const on  = cbState.checked[detail];
       const opt = cbEffective(detail, options);
-      const total = cbOptionTotal(opt, compounds, ctx);
-      const batchLabel = {full:'Full',half:'Half',intermediate:'Int',mini:'Mini',standard:'Standard',fast:'Fast'};
+      const total = cbOptionTotal(opt, compounds);
+      const batchLabel = {full:'Full',half:'Half',intermediate:'Int',mini:'Mini'};
 
       let optHtml = '';
       if (opt.packages) {
@@ -1134,10 +1089,7 @@ function cbRender() {
       const packageNote = opt.packages
         ? `<span class="cb-note gray">${total.label}; ${total.plates} plates; cap ${total.capacity} cmpds</span>`
         : '';
-      const alitheaNote = opt.calc && opt.calc.kind === 'alithea'
-        ? `<span class="cb-note gray">${total.label}; billed ${total.plates} plates from ${total.neededPlates} Truvivo plates</span>`
-        : '';
-      const noteHtml = opt.notes ? `<span class="cb-note">${opt.notes}</span>` : (alitheaNote || packageNote);
+      const noteHtml = opt.notes ? `<span class="cb-note">${opt.notes}</span>` : packageNote;
       const cpcHtml = opt.sourceUrl
         ? `<a class="cb-cpc-link" href="${opt.sourceUrl}" target="_blank" rel="noopener noreferrer" title="Open quote source" onclick="event.stopPropagation()">${fmtCost(total.cost)}</a>`
         : fmtCost(total.cost);
