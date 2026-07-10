@@ -86,11 +86,12 @@
   .cb-det { flex:1; font-weight:500; }
   .cb-cro { font-size:11px; color:#9ca3af; width:52px; flex-shrink:0; }
   .cb-tag { font-size:11px; background:#f3f4f6; color:#6b7280; padding:2px 6px; border-radius:4px; white-space:nowrap; }
-  .cb-note { font-size:10px; color:#d97706; font-style:italic; }
+  .cb-note { display:inline-block; max-width:135px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:10px; color:#d97706; font-style:italic; }
   .cb-note.gray { color:#6b7280; font-style:normal; }
   .cb-opts { display:flex; gap:2px; flex-shrink:0; }
   .cb-opt-btn { padding:2px 8px; font-size:11px; border:1px solid #d1d5db; border-radius:4px; background:#fff; cursor:pointer; color:#6b7280; }
   .cb-opt-btn.sel { background:#0777b3; color:#fff; border-color:#0777b3; }
+  .cb-unit { font-size:12px; font-weight:600; color:#6b7280; width:78px; text-align:right; flex-shrink:0; }
   .cb-cpc { font-weight:700; font-size:13px; width:92px; text-align:right; flex-shrink:0; }
   .cb-cpc-link { color:#0777b3; text-decoration:underline; text-decoration-style:dotted; text-underline-offset:2px; }
   .cb-cpc-link:hover { color:#065f91; }
@@ -958,6 +959,7 @@ const cbRaw = [
 ];
 
 const cbBucketOrder = ['Standard PHH','Standard Truvivo','Transcriptomics','Proteomics','ADME','RM - GSH','RM - Complex','Transporters'];
+const cbUnitCostBuckets = new Set(['ADME','RM - GSH','RM - Complex','Transporters']);
 
 // Build grouped structure: bucket → { detail → {detail, cro, options[]} }
 const cbBuckets = {};
@@ -1109,6 +1111,12 @@ function cbRender() {
         ? `<span class="cb-note gray">${total.label}; ${total.plates} plates; cap ${total.capacity} cmpds</span>`
         : '';
       const noteHtml = opt.notes ? `<span class="cb-note">${opt.notes}</span>` : packageNote;
+      const unitCost = cbUnitCostBuckets.has(bucket) && opt.cpc
+        ? `$${opt.cpc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}/cpd`
+        : '';
+      const unitCostHtml = opt.sourceUrl && unitCost
+        ? `<a class="cb-cpc-link" href="${opt.sourceUrl}" target="_blank" rel="noopener noreferrer" title="Open quote source" onclick="event.stopPropagation()">${unitCost}</a>`
+        : unitCost;
       const cpcHtml = opt.sourceUrl
         ? `<a class="cb-cpc-link" href="${opt.sourceUrl}" target="_blank" rel="noopener noreferrer" title="Open quote source" onclick="event.stopPropagation()">${fmtCost(total.cost)}</a>`
         : fmtCost(total.cost);
@@ -1118,6 +1126,7 @@ function cbRender() {
         <span class="cb-det">${detail}</span>
         <span class="cb-cro">${cro}</span>
         ${optHtml}${noteHtml}
+        <span class="cb-unit">${unitCostHtml}</span>
         <span class="cb-cpc">${cpcHtml}</span>
       </label>`;
     });
