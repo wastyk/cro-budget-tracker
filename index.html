@@ -154,10 +154,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 1: OVERVIEW ========== -->
   <div id="tab-overview">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$8.9M</div><div class="kpi-label">Total Committed</div></div>
-      <div><div class="kpi-val blue">$6.3M</div><div class="kpi-label">Axiom Training</div></div>
-      <div><div class="kpi-val orange">$2.5M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">123</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val">$9.5M</div><div class="kpi-label">Total Committed</div></div>
+      <div><div class="kpi-val blue">$6.6M</div><div class="kpi-label">Axiom Training</div></div>
+      <div><div class="kpi-val orange">$2.8M</div><div class="kpi-label">Customer Work</div></div>
+      <div><div class="kpi-val">131</div><div class="kpi-label">Unique Quotes</div></div>
     </div>
 
     <div class="section">
@@ -192,8 +192,8 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
           <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
           <tbody>
             <tr><td>In process</td><td class="r gray">33</td><td class="r bold">$5,338,116</td></tr>
-            <tr><td>Quote Generated</td><td class="r gray">44</td><td class="r bold">$2,097,130</td></tr>
-            <tr><td>Completed</td><td class="r gray">26</td><td class="r bold">$989,424</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">49</td><td class="r bold">$2,455,902</td></tr>
+            <tr><td>Completed</td><td class="r gray">29</td><td class="r bold">$1,221,893</td></tr>
             <tr><td>Quote Signed</td><td class="r gray">13</td><td class="r bold">$280,477</td></tr>
             <tr><td>Quote signed</td><td class="r gray">10</td><td class="r bold">$187,222</td></tr>
             <tr><td>PO Issued</td><td class="r gray">2</td><td class="r bold">$50,974</td></tr>
@@ -222,10 +222,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 2: INVOICES ========== -->
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$8.9M</div><div class="kpi-label">Total Quoted</div></div>
+      <div><div class="kpi-val">$9.5M</div><div class="kpi-label">Total Quoted</div></div>
       <div><div class="kpi-val blue">$7.4M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
       <div><div class="kpi-val green">$7.4M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">83%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val orange">78%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -346,6 +346,9 @@ const allQuotes = [
   ["MICRO1-ANNOT-PILOT","Annotations","Image Annotation Pilot (Pathologist)","Axiom Training","micro1","Expert pathologist annotation of fluorescence microscopy images",null,20000,"Quote signed","Internal R&D","April 2026"],
   ["MICRO1-ANNOT-INTRO","Annotations","Chromatogram Annotation Intro Campaign","Axiom Training","micro1","Expert sourcing, training, test annotation of chromatograms",null,2060,"Quote Generated","Internal R&D","April 2026"],
   ["MERCOR-MS","Annotations","Mass Spectrometry Specialist","Axiom Training","Mercor","Expert services via Mercor platform, $120/hr, $1,800 cap",null,1800,"In process","Internal R&D",""],
+  ["AW-20686-LAB","Cell Assays","2D+ TruVivo assay development Exp 11 (Labor + Reagents)","Axiom Training","Partex","2D+ TruVivo iDILI model assay development experiment 11 labor",null,27769.5,"Completed","Internal R&D",""],
+  ["AW-20686-MAT","Cell Assays","2D+ TruVivo assay development Exp 11 (Materials)","Axiom Training","Partex","Boutique material TMRM, plates, and related materials for assay development experiment 11",null,4700,"Completed","Internal R&D",""],
+  ["AW-20691","Cell Assays","Sandwich culture assay development capacity booking","Axiom Training","Partex","Feature day capacity booking for Sandwich Culture Assay Development, 57 FDi",null,200000,"Completed","Internal R&D",""],
   ["AW-20693","Cell Assays","2D+ Truvivo (Labor + Reagents)","Axiom Training","Partex","Full prod run, 2200 clinical compounds",2200,729932.5,"In process","Internal R&D",""],
   ["AW-20693","Cell Assays","2D+ Truvivo (Cells)","Axiom Training","Partex","Full prod run, 2200 clinical compounds - boutique materials and LNH cells",2200,455000,"In process","Internal R&D",""],
   ["AW-20695-GNE","Cell Assays","2D+ Truvivo (Cells)","Genentech","Partex","700 GNE compounds - boutique materials/cells estimate",700,157500,"In process","Customer",""],
@@ -448,7 +451,10 @@ const allQuotes = [
   ["WUXI-20260703B-HRAM-LC","Off-the-Shelf ADME + MitoTox","HRAM adduct MS2 spectra acquisition","Axiom Training","WuXi","Selected AXIB-20260703B item 2: adduct screening MS2 spectra acquisition with LC method development",300,14700,"Quote Signed","Internal R&D",""],
   ["EF-RM-FAST-50","Off-the-Shelf ADME + MitoTox","Reactive Metabolites","Axiom Training","Eurofins","Reactive metabolite cocktail trapping, 50 samples",50,9000,"Completed","Internal R&D",""],
   ["PTX-00788","Cell Assays","TruVivo boutique materials","Axiom Training","Partex","Boutique reagents for future 10 TruVivo full production runs",null,64495.85,"Completed","Internal R&D",""],
+  ["PTX-00797","Cell Assays","2D PHH + TruVivo + Transcriptomics 7 DIV","AbbVie","Partex","100 AbbVie compounds tested n=3 in 2D PHH, TruVivo, and transcriptomics; 7 DIV option",100,143163.12,"Quote Generated","Customer",""],
   ["PTX-00796","Cell Assays","TruVivo LNH cells","Axiom Training","Partex","TruVivo LNH cells / boutique cells including 15% handling fee",null,111732.59,"Quote Generated","Internal R&D",""],
+  ["PTX-00811","Cell Assays","2D PHH + TruVivo + Transcriptomics","Eli Lilly","Partex","105 Eli Lilly compounds tested n=3 in 2D PHH, TruVivo, and transcriptomics assay",105,94400,"Quote Generated","Customer",""],
+  ["PTX-00812","Cell Assays","2D PHH + TruVivo + Transcriptomics","Eli Lilly","Partex","12 Eli Lilly compounds tested n=3 in 2D PHH, TruVivo, and transcriptomics assay",12,43802,"Quote Generated","Customer",""],
   ["PTX-00816","Cell Assays","2D PHH + TruVivo + Transcriptomics","Pfizer","Partex","26 Pfizer compounds tested n=3 in 2D PHH, TruVivo, and transcriptomics",26,50937.6,"Quote Generated","Customer",""],
   ["PTX-00817","Cell Assays","2D PHH + TruVivo + Transcriptomics","Terray","Partex","50 Terray compounds tested n=3 in 2D PHH, TruVivo, and transcriptomics",50,143162.88,"Quote Generated","Customer",""],
   ["PTX-00818","Cell Assays","TruVivo + Transcriptomics 14 DIV","Terray","Partex","50 Terray compounds tested n=3 in TruVivo and transcriptomics 14 DIV",50,154362.88,"Quote Generated","Customer",""],
@@ -458,6 +464,8 @@ const allQuotes = [
   ["PTX-00822","Cell Assays","TruVivo 96-well plate","Pfizer","Partex","26 Pfizer compounds tested n=2 in TruVivo 96-well plate",26,28800,"Quote Generated","Customer",""],
   ["PTX-00823","Cell Assays","TruVivo 26q3_backfill","Axiom Training","Partex","26q3_backfill: 81 DMSO compounds + 1 water compound, TruVivo assay",82,38400,"Quote Generated","Internal R&D",""],
   ["PTX-00824","Cell Assays","2D PHH 26q3_backfill","Axiom Training","Partex","26q3_backfill: 49 DMSO compounds + 4 water compounds, 2D PHH assay",53,13440,"Quote Generated","Internal R&D",""],
+  ["PTX-00832","Cell Assays","2D PHH production run boutique materials","Axiom Training","Partex","Boutique material ordered for 2D PHH production runs; 25,800 Euro plus 15% handling and shipment",null,29670,"Quote Generated","Internal R&D",""],
+  ["PTX-00833","Cell Assays","2D PHH + TruVivo + Transcriptomics 7 DIV","Gilead","Partex","25 Gilead compounds tested n=3 in 2D PHH, TruVivo, and transcriptomics; 7 DIV option",25,47737.6,"Quote Generated","Customer",""],
   ["MCE-2026062548443-2","Compound Sourcing","Custom compounds","Axiom Training","MCE","Droxidopa, BMS-986202, Zongertinib, Isotretinoin",4,725,"Completed","Internal R&D",""],
   ["MCE-2026061032521","Compound Sourcing","Custom compounds","Axiom Training","MCE","Custom Library order: 83 solution-form items + 15 solid-form items - ships to WuXi",98,5397,"Completed","Internal R&D",""],
   ["MCE-BTK-OBESITY-2","Compound Sourcing","BTK + Obesity","Axiom Training","MCE","New BTK+Obesity order: 43 solution + 5 solid compounds",48,6969,"Completed","Internal R&D",""],
@@ -616,11 +624,11 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: csLabels,
-    datasets: [{ data: [6297301, 1012730, 465298, 177443, 76200, 69565, 28791, 30852, 154711], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e','#9ca3af'], borderRadius: 4, barThickness: 22 }]
+    datasets: [{ data: [6600993, 1012730, 465298, 135890, 76200, 69565, 28791, 30852, 154711], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e','#9ca3af'], borderRadius: 4, barThickness: 22 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/8949592*100).toFixed(1)+'%)'}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/9540834*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
 
@@ -628,7 +636,7 @@ new Chart(document.getElementById('csChart'), {
 function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ['Partex', 'Eurofins', 'Nomic', 'MCE', 'LifeNet Health', 'WuXi', 'Excelra', 'Pharmaron', 'MCule', 'micro1', 'Cyprotex', 'Selleck', 'Alithea', 'WuXi/MCE', 'Mercor', 'iMerit'];
-  const quoted = [3758765, 2538773, 1525248, 457542, 148133, 287792, 92650, 37400, 25402, 22060, 21250, 19430, 6994, 5153, 1800, 1200];
+  const quoted = [4350007, 2538773, 1525248, 457542, 148133, 287792, 92650, 37400, 25402, 22060, 21250, 19430, 6994, 5153, 1800, 1200];
   const invoiced = [4132377, 1427085, 1307136, 405200, 0, 124286, 0, 0, 21951, 0, 0, 7475, 0, 0, 1600, 1200];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
@@ -816,10 +824,12 @@ const pos = [
   ["20694","Partex",117312.5,110737.5,94.4],
   ["PTX-00786","Partex",250728.7,250728.7,100],
   ["M2584452/M2584696","MCE",208354,206528,99.1],
+  ["20691","Partex",200000,122600.76,61.3],
   ["PTX-00793","Partex",152400,76200,50],
   ["PTX-00818","Partex",154362.88,0,0],
   ["PTX-00819","Partex",154362.88,0,0],
   ["PTX-00817","Partex",143162.88,0,0],
+  ["PTX-00797","Partex",143163.12,0,0],
   ["20700","Partex",37940,37436,98.7],
   ["AXIB-20260703A","WuXi",130570,0,0],
   ["20703","Partex",114775,114775,100],
@@ -829,12 +839,15 @@ const pos = [
   ["20004094","LifeNet Health",97158.75,0,0],
   ["AXIB-20250819-ANaJ","WuXi",95500,47265,49.5],
   ["PTX-00810","Partex",94100,0,0],
+  ["PTX-00811","Partex",94400,0,0],
   ["US034-0029939-Q03","Eurofins",80500,0,0],
   ["25-00690","Nomic",78336,52224,66.7],
   ["PTX-00755","Partex",60800,32500,53.5],
   ["US034-0029447-Q02","Eurofins",57185.1,57185.1,100],
   ["PTX-00820","Partex",52537.6,0,0],
   ["PTX-00821","Partex",52537.6,0,0],
+  ["PTX-00833","Partex",47737.6,0,0],
+  ["PTX-00812","Partex",43802,0,0],
   ["20699","Partex",96387.5,52387.5,54.4],
   ["M2588483/M2588484","MCE",51200,51200,100],
   ["PTX-00816","Partex",50937.6,0,0],
@@ -847,8 +860,10 @@ const pos = [
   ["US034-0029576-Q04","Eurofins",35803,0,0],
   ["US034-0030130-Q01","Eurofins",33291,33291,100],
   ["US034-0028928-Q03","Eurofins",32480,32480,100],
+  ["20686","Partex",32469.5,59157.5,182.2],
   ["26q3_backfill_procured_Eurofins","MCE",32444,0,0],
   ["PTX-00794","Partex",29600,29600,100],
+  ["PTX-00832","Partex",29670,0,0],
   ["US034-0030241-Q02","Eurofins",28985,5520,19],
   ["PTX-00822","Partex",28800,0,0],
   ["20717","Partex",27940,0,0],
