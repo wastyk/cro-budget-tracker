@@ -930,13 +930,30 @@ pos.forEach(r => {
 
 // ── COST BUILDER ──────────────────────────────────────────────────────────────
 // Data sourced from Partex pricing workbook, cost_per_compound sheet tab, WuXi ADME quote AXIB-20260520 V02, and Eurofins quotes US034-0030813-Q01 and US034-0030372-A01
-// [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages]
+// [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, alithea]
 const cbSources = {
   partexPricing: 'https://docs.google.com/spreadsheets/d/1FhNkx1Iy72545ZfDYTPgKgMtF3wsomqN?rtpof=true&usp=drive_fs',
   wuxiAdme: 'https://drive.google.com/open?id=1FG_Fwx1U7JGzi61ADi_u1mvek95dj0GM&usp=drive_fs',
   eurofinsGsh: 'https://drive.google.com/file/d/1tEd-gB85y3W_cAr9jDTrcB4CQS8bAsph/view',
   eurofinsTransporters: 'https://drive.google.com/file/d/1CqjVA_NO7xpSSF98Lut3Nnrk4mVk-To5/view'
 };
+
+const cbTranscriptomicsPackages = [
+  {label:'Full', plates:17, capacity:210, cost:100800},
+  {label:'Half', plates:9,  capacity:105, cost:52000},
+  {label:'Mini', plates:3,  capacity:26,  cost:24150}
+];
+
+const cbAlitheaTiers = [
+  {plates:1,   standardUsd:18.34, fastUsd:45.15},
+  {plates:3,   standardUsd:16.35, fastUsd:32.69},
+  {plates:8,   standardUsd:13.14, fastUsd:26.29},
+  {plates:18,  standardUsd:10.38, fastUsd:20.76},
+  {plates:54,  standardUsd:8.23,  fastUsd:null},
+  {plates:106, standardUsd:7.43,  fastUsd:null},
+  {plates:360, standardUsd:6.38,  fastUsd:null},
+  {plates:500, standardUsd:5.96,  fastUsd:null}
+];
 
 const cbRaw = [
   ['2D-PHH',             'Standard PHH',    'Partex',  8,3, null,  null,     null, '', cbSources.partexPricing, [
@@ -954,11 +971,8 @@ const cbRaw = [
     {label:'Half', plates:9,  capacity:105, cost:89700},
     {label:'Mini', plates:3,  capacity:26,  cost:44850}
   ]],
-  ['Partex + Alithea 7 DIV','Transcriptomics','Partex', 8,3, null,  null,     null, '', cbSources.partexPricing, [
-    {label:'Full', plates:17, capacity:210, cost:244293.12},
-    {label:'Half', plates:9,  capacity:105, cost:132762.88},
-    {label:'Mini', plates:3,  capacity:26,  cost:61808.88}
-  ]],
+  ['Partex + Alithea 7 DIV','Transcriptomics','Partex', 8,3, null,  null,     null, '', cbSources.partexPricing, cbTranscriptomicsPackages, {tat:'standard', label:'Slow'}],
+  ['Partex + Alithea 7 DIV','Transcriptomics','Partex', 8,3, null,  null,     null, '', cbSources.partexPricing, cbTranscriptomicsPackages, {tat:'fast', label:'Fast'}],
   ['Nomic 77-plex',      'Proteomics',      'Nomic',   8,1, null,  null,   259.05, ''],
   ['PPB',                'ADME',            'WuXi',    1,3, null,  null,    70.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
   ['CLint (HLM)',        'ADME',            'WuXi',    1,2, null,  null,    80.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
@@ -985,9 +999,9 @@ const cbUnitCostBuckets = new Set(['ADME','RM - GSH','RM - Complex','Transporter
 // Build grouped structure: bucket → { detail → {detail, cro, options[]} }
 const cbBuckets = {};
 cbBucketOrder.forEach(b => { cbBuckets[b] = {}; });
-cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages]) => {
+cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, alithea]) => {
   if (!cbBuckets[bucket][detail]) cbBuckets[bucket][detail] = {detail, bucket, cro, options:[]};
-  cbBuckets[bucket][detail].options.push({conc, reps, batch, batchN, cpc, notes, sourceUrl, packages});
+  cbBuckets[bucket][detail].options.push({conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, alithea});
 });
 
 // State
@@ -1035,7 +1049,7 @@ function cbComparePlans(a, b) {
 
 function cbPackagePlan(packages, compounds) {
   if (!packages || !packages.length || !compounds) {
-    return {cost:0, capacity:0, packageCount:0, mix:[], label:'—'};
+    return {cost:0, capacity:0, packageCount:0, mix:[], label:'—', plates:0};
   }
   const maxCap = Math.max(...packages.map(p => p.capacity));
   const limit = compounds + maxCap;
@@ -1073,8 +1087,43 @@ function cbPackagePlan(packages, compounds) {
   return {...best, mix, label, plates};
 }
 
+function cbAlitheaTier(plates) {
+  return cbAlitheaTiers.find(tier => plates <= tier.plates) || cbAlitheaTiers[cbAlitheaTiers.length - 1];
+}
+
+function cbAlitheaPlan(plates, tat) {
+  const samples = plates * 384;
+  const tier = cbAlitheaTier(plates);
+  const requestedTat = tat === 'fast' ? 'fast' : 'standard';
+  const hasFastPrice = requestedTat === 'fast' && tier.fastUsd != null;
+  const appliedTat = hasFastPrice ? 'fast' : 'standard';
+  const rate = hasFastPrice ? tier.fastUsd : tier.standardUsd;
+  return {
+    samples,
+    tierPlates: tier.plates,
+    rate,
+    cost: samples * rate,
+    requestedTat,
+    appliedTat,
+    fallback: requestedTat !== appliedTat
+  };
+}
+
 function cbOptionTotal(opt, compounds) {
-  if (opt.packages) return cbPackagePlan(opt.packages, compounds);
+  if (opt.packages) {
+    const packagePlan = cbPackagePlan(opt.packages, compounds);
+    if (opt.alithea) {
+      const alithea = cbAlitheaPlan(packagePlan.plates, opt.alithea.tat);
+      return {
+        ...packagePlan,
+        baseCost: packagePlan.cost,
+        alithea,
+        alitheaCost: alithea.cost,
+        cost: packagePlan.cost + alithea.cost
+      };
+    }
+    return packagePlan;
+  }
   return {
     cost: opt.cpc * compounds,
     capacity: compounds,
@@ -1114,23 +1163,28 @@ function cbRender() {
       const batchLabel = {full:'Full',half:'Half',intermediate:'Int',mini:'Mini'};
 
       let optHtml = '';
-      if (opt.packages) {
-        optHtml = `<span class="cb-tag">triplicate</span>`;
-      } else if (options.length > 1) {
+      if (options.length > 1) {
         const hasBatch = options[0].batch != null;
         optHtml = `<span class="cb-opts">` +
           options.map((o,i) => {
             const sel = cbState.optIdx[detail] === i;
-            const label = hasBatch ? (batchLabel[o.batch] || o.batch) : `${o.conc}c/${o.reps}r`;
+            const label = o.alithea ? o.alithea.label : hasBatch ? (batchLabel[o.batch] || o.batch) : `${o.conc}c/${o.reps}r`;
             return `<button class="cb-opt-btn${sel?' sel':''}" onclick="cbSelOpt('${detail}',${i});event.preventDefault()">${label}</button>`;
           }).join('') + `</span>`;
+      } else if (opt.packages) {
+        optHtml = `<span class="cb-tag">triplicate</span>`;
       } else {
         optHtml = `<span class="cb-tag">${opt.conc}c/${opt.reps}r</span>`;
       }
 
-      const packageNote = opt.packages
-        ? `<span class="cb-note gray">${total.label}; ${total.plates} plates; cap ${total.capacity} cmpds</span>`
-        : '';
+      let packageNote = '';
+      if (opt.packages && total.alithea) {
+        const fallback = total.alithea.fallback ? '; standard fallback' : '';
+        const note = `${total.label}; ${total.plates} plates; ${total.alithea.samples.toLocaleString('en-US')} samples; $${total.alithea.rate.toFixed(2)}/sample${fallback}`;
+        packageNote = `<span class="cb-note gray" title="${note}">${note}</span>`;
+      } else if (opt.packages) {
+        packageNote = `<span class="cb-note gray">${total.label}; ${total.plates} plates; cap ${total.capacity} cmpds</span>`;
+      }
       const noteHtml = opt.notes ? `<span class="cb-note">${opt.notes}</span>` : packageNote;
       const unitCost = cbUnitCostBuckets.has(bucket) && opt.cpc
         ? `$${opt.cpc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}/cpd`
