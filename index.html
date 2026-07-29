@@ -143,7 +143,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 </script>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
-  <p class="subtitle">Q4 2025 &ndash; Q2 2026 &bull; Updated 2026-07-28</p>
+  <p class="subtitle">Q4 2025 &ndash; Q2 2026 &bull; Updated 2026-07-29</p>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
@@ -154,10 +154,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 1: OVERVIEW ========== -->
   <div id="tab-overview">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$10.8M</div><div class="kpi-label">Total Committed</div></div>
+      <div><div class="kpi-val">$11.1M</div><div class="kpi-label">Total Committed</div></div>
       <div><div class="kpi-val blue">$7.9M</div><div class="kpi-label">Axiom Training</div></div>
       <div><div class="kpi-val orange">$2.8M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">137</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val">142</div><div class="kpi-label">Unique Quotes</div></div>
     </div>
 
     <div class="section">
@@ -192,9 +192,9 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
           <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
           <tbody>
             <tr><td>In process</td><td class="r gray">33</td><td class="r bold">$5,338,116</td></tr>
-            <tr><td>Quote Generated</td><td class="r gray">50</td><td class="r bold">$2,950,065</td></tr>
-            <tr><td>Completed</td><td class="r gray">33</td><td class="r bold">$2,026,178</td></tr>
-            <tr><td>Quote Signed</td><td class="r gray">14</td><td class="r bold">$286,677</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">51</td><td class="r bold">$2,960,485</td></tr>
+            <tr><td>Completed</td><td class="r gray">34</td><td class="r bold">$2,086,178</td></tr>
+            <tr><td>Quote Signed</td><td class="r gray">17</td><td class="r bold">$478,309</td></tr>
             <tr><td>Quote signed</td><td class="r gray">10</td><td class="r bold">$187,222</td></tr>
             <tr><td>PO Issued</td><td class="r gray">2</td><td class="r bold">$50,974</td></tr>
             <tr><td>No Quote</td><td class="r gray">1</td><td class="r bold">$6,250</td></tr>
@@ -222,10 +222,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 2: INVOICES ========== -->
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$10.8M</div><div class="kpi-label">Total Quoted</div></div>
-      <div><div class="kpi-val blue">$7.9M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
-      <div><div class="kpi-val green">$7.5M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">69%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val">$11.1M</div><div class="kpi-label">Total Quoted</div></div>
+      <div><div class="kpi-val blue">$8.1M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
+      <div><div class="kpi-val green">$7.6M</div><div class="kpi-label">Total Payable (Net)</div></div>
+      <div><div class="kpi-val orange">68%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -449,6 +449,10 @@ const allQuotes = [
   ["WUXI-GSH-CHANGE-1","Off-the-Shelf ADME + MitoTox","GSH Consumption","Axiom Training","WuXi","Change Order 1: add 27 compounds for GSH",27,7290,"Completed","Internal R&D",""],
   ["WUXI-REAGENT-20250819-ASH","Off-the-Shelf ADME + MitoTox","Reagent fee","Axiom Training","WuXi","Reagent fee associated with AXIB-20250819-ASH",null,4731.6,"Completed","Internal R&D",""],
   ["WUXI-20260703B-HRAM-LC","Off-the-Shelf ADME + MitoTox","HRAM adduct MS2 spectra acquisition","Axiom Training","WuXi","Selected AXIB-20260703B item 2: adduct screening MS2 spectra acquisition with LC method development",300,14700,"Quote Signed","Internal R&D",""],
+  ["WUXI-20260520-ASH","Off-the-Shelf ADME + MitoTox","ADEM study",null,"WuXi","Backfilled ADEM study from WuXi 50% upfront and 50% balance invoices",null,60000,"Completed",null,""],
+  ["WUXI-20260717","Off-the-Shelf ADME + MitoTox","ADME and Mito tox study",null,"WuXi","Caco-2, HLM, PPB, LogD, solubility, RM trapping, transporter assays, GSH, and HepG2 Glucose/Galactose; 105 compounds",105,157080,"Quote Signed",null,""],
+  ["WUXI-20260717A","Off-the-Shelf ADME + MitoTox","ADME and Mito tox study",null,"WuXi","Transporter/GSH/HepG2 study: 15 compounds for transporter/GSH assays and 8 compounds for HepG2 Glucose/Galactose",null,15040,"Quote Signed",null,""],
+  ["WUXI-20260724","Off-the-Shelf ADME + MitoTox","ADME and Mito tox study",null,"WuXi","Caco-2, HLM, PPB, LogD, solubility, RM trapping, transporter assays, GSH, and HepG2 Glucose/Galactose; 12 compounds",12,19512,"Quote Signed",null,""],
   ["EF-RM-FAST-50","Off-the-Shelf ADME + MitoTox","Reactive Metabolites","Axiom Training","Eurofins","Reactive metabolite cocktail trapping, 50 samples",50,9000,"Completed","Internal R&D",""],
   ["PTX-00788","Cell Assays","TruVivo boutique materials","Axiom Training","Partex","Boutique reagents for future 10 TruVivo full production runs",null,64495.85,"Completed","Internal R&D",""],
   ["PTX-00797","Cell Assays","2D PHH + TruVivo + Transcriptomics 7 DIV","AbbVie","Partex","100 AbbVie compounds tested n=3 in 2D PHH, TruVivo, and transcriptomics; 7 DIV option",100,143163.12,"Quote Generated","Customer",""],
@@ -476,6 +480,7 @@ const allQuotes = [
   ["MCE-26Q3-BACKFILL-EF","Compound Sourcing","26q3 backfill compounds","Axiom Training","MCE","26q3_backfill procured for Eurofins: 20 solution + 28 solid items",48,32444,"Quote Generated","Internal R&D",""],
   ["MCE-26Q3-BACKFILL-PARTEX","Compound Sourcing","26q3 backfill compounds","Axiom Training","MCE","26q3_backfill procured for Partex: 35 solution + 13 solid compounds",48,8055,"Completed","Internal R&D",""],
   ["MCE-26Q3-BACKFILL-WUXI","Compound Sourcing","26q3 backfill compounds","Axiom Training","MCE","26q3_backfill procured for WuXi: 31 solution + 9 solid compounds",40,12884,"Quote Generated","Internal R&D",""],
+  ["MCE-2026072408672-2","Compound Sourcing","Compound library",null,"MCE","Compound library 85 solution items and 15 solid items; ships to WuXi CN",100,10420,"Quote Generated",null,""],
   ["EF-CACO2-0029447","Off-the-Shelf ADME + MitoTox","Bidirectional permeability (Caco-2)","Axiom Training","Eurofins","Bidirectional permeability (Caco-2; pH 7.4/7.4), 313 samples",313,57185.1,"Completed","Internal R&D",""],
   ["EF-ADME-RM-0030601","Off-the-Shelf ADME + MitoTox","T1 ADME + RM",null,"Eurofins","Aqueous solubility, Caco-2, LogD, intrinsic clearance, plasma protein binding, reactive metabolite - 50 samples",50,43589,"Quote Signed",null,""],
   ["EF-ADME-RM-0030761","Off-the-Shelf ADME + MitoTox","T1 ADME + RM",null,"Eurofins","Aqueous solubility, Caco-2, LogD, intrinsic clearance, plasma protein binding, reactive metabolite - 2 samples",2,1743.56,"Quote Signed",null,""],
@@ -630,11 +635,11 @@ new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: csLabels,
-    datasets: [{ data: [7887222, 1012730, 465298, 135890, 76200, 69565, 28791, 30852, 168811], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e','#9ca3af'], borderRadius: 4, barThickness: 22 }]
+    datasets: [{ data: [7887222, 1012730, 465298, 135890, 76200, 69565, 28791, 30852, 430863], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e','#9ca3af'], borderRadius: 4, barThickness: 22 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/10845482*100).toFixed(1)+'%)'}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/11107534*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
 
@@ -642,8 +647,8 @@ new Chart(document.getElementById('csChart'), {
 function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ['Partex', 'Eurofins', 'Nomic', 'MCE', 'LifeNet Health', 'WuXi', 'Excelra', 'Pharmaron', 'MCule', 'micro1', 'Cyprotex', 'Selleck', 'Alithea', 'WuXi/MCE', 'Mercor', 'iMerit'];
-  const quoted = [5636236, 2557193, 1525248, 457542, 148133, 287792, 92650, 37400, 25402, 22060, 21250, 19430, 6994, 5153, 1800, 1200];
-  const invoiced = [4132377, 1439305, 1307136, 420299, 0, 124286, 0, 0, 21951, 0, 0, 7475, 0, 0, 1600, 1200];
+  const quoted = [5636236, 2557193, 1525248, 467962, 148133, 539424, 92650, 37400, 25402, 22060, 21250, 19430, 6994, 5153, 1800, 1200];
+  const invoiced = [4132377, 1439305, 1307136, 420299, 0, 250102, 0, 0, 21951, 0, 0, 7475, 0, 0, 1600, 1200];
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
@@ -686,6 +691,10 @@ function drawInvCharts() {
 
 // Invoice detail table
 const invoices = [
+  ["D29260729022C","AXIB-20260724","WuXi","2026-07-29","Assay Services",9756,0,9756,"ADME and Mito tox study - 50% upfront (WUXI-20260724)"],
+  ["D29260729021C","AXIB-20260717A","WuXi","2026-07-29","Assay Services",7520,0,7520,"ADME and Mito tox study - 50% upfront (WUXI-20260717A)"],
+  ["D29260729020C","AXIB-20260717","WuXi","2026-07-29","Assay Services",78540,0,78540,"ADME and Mito tox study - 50% upfront (WUXI-20260717)"],
+  ["D29260719013C","AXIB-20260520-ASH","WuXi","2026-07-19","Assay Services",30000,0,30000,"ADEM study - 50% balance (WUXI-20260520-ASH)"],
   ["US034-0024150-INV","EF-GSH-MTGLO-0030813","Eurofins","2026-07-20","Assay Services",12220,0,12220,"GSH Consumption with MT-Glo invoice for 52 samples"],
   ["M2663860","MCE-26Q3-BACKFILL-PARTEX","MCE","2026-07-14","Compound Sourcing",8130,0,8130,"26q3 backfill procured for Partex; includes $75 shipping"],
   ["M2663098","MCE-BTK-OBESITY-2","MCE","2026-07-08","Compound Sourcing",6969,0,6969,"Separate BTK+Obesity compound invoice for WuXi/MCE source quote"],
@@ -844,6 +853,8 @@ const pos = [
   ["PTX-00797","Partex",143163.12,0,0],
   ["20700","Partex",37940,37436,98.7],
   ["AXIB-20260703A","WuXi",130570,0,0],
+  ["AXIB-20260717","WuXi",157080,78540,50],
+  ["WUXI-20260520-ASH","WuXi",60000,60000,100],
   ["20703","Partex",114775,114775,100],
   ["PTX-00796","Partex",111732.59,0,0],
   ["2025122408609","MCE",109930,109930,100],
@@ -892,6 +903,9 @@ const pos = [
   ["US034-0030261-Q03","Eurofins",15797,1610,10.2],
   ["US034-0030838-Q01","Eurofins",15000,0,0],
   ["AXIB-20260703B","WuXi",14700,0,0],
+  ["AXIB-20260724","WuXi",19512,9756,50],
+  ["AXIB-20260717A","WuXi",15040,7520,50],
+  ["2026072408672-2","MCE",10420,0,0],
   ["US034-0030956-Q01","Eurofins",14100,0,0],
   ["PTX-00824","Partex",13440,0,0],
   ["M2619561","MCE",13278,13278,100],
