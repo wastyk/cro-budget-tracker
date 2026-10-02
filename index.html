@@ -143,7 +143,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 </script>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
-  <p class="subtitle">Q4 2025 &ndash; Q3 2026 &bull; Updated 2026-09-28</p>
+  <p class="subtitle">Q4 2025 &ndash; Q4 2026 &bull; Updated 2026-10-02</p>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
@@ -154,10 +154,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 1: OVERVIEW ========== -->
   <div id="tab-overview">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$11.7M</div><div class="kpi-label">Total Committed</div></div>
+      <div><div class="kpi-val">$12.7M</div><div class="kpi-label">Total Committed</div></div>
       <div><div class="kpi-val blue">$8.4M</div><div class="kpi-label">Axiom Training</div></div>
-      <div><div class="kpi-val orange">$2.8M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">154</div><div class="kpi-label">Unique Quotes</div></div>
+      <div><div class="kpi-val orange">$3.6M</div><div class="kpi-label">Customer Work</div></div>
+      <div><div class="kpi-val">165</div><div class="kpi-label">Quote Line Items</div></div>
     </div>
 
     <div class="section">
@@ -222,10 +222,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 2: INVOICES ========== -->
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$11.7M</div><div class="kpi-label">Total Quoted</div></div>
+      <div><div class="kpi-val">$12.7M</div><div class="kpi-label">Total Quoted</div></div>
       <div><div class="kpi-val blue">$10.3M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
       <div><div class="kpi-val green">$9.8M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">89%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val orange">82%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -500,6 +500,11 @@ const allQuotes = [
   ["EF-HPLC-MS-0030838","Proteomics","HPLC-MS optimization","Axiom Training","Eurofins","HRAM spectra / HPLC-MS optimization for 300 training molecules",300,15000,"Quote Signed","Internal R&D",""]
   ,["WUXI-20260910","Off-the-Shelf ADME + MitoTox","ADME study","Axiom Training","WuXi","AXIB-20260910 ADME study; 50% upfront and 50% upon delivery of draft report",null,39039,"Quote Signed","Internal R&D",""]
   ,["PTX-00873","Cell Assays","2D PHH","Axiom Training","Partex","Additional compound solubilization plus 2D PHH half production run for 48 backfill compounds in DMSO, Aditum, and Talica",48,12800,"Quote Generated","Internal R&D",""]
+  ,["NOMIC-26-00797-INT","Proteomics","Flexplex Custom Panel","Axiom Training","Nomic","10% Internal R&D share of signed 10,752-sample Flexplex Custom Panel agreement",null,26880,"Quote Signed","Internal R&D",""]
+  ,["NOMIC-26-00797-CUST","Proteomics","Flexplex Custom Panel","Customer","Nomic","90% Customer share of signed 10,752-sample Flexplex Custom Panel agreement",null,241920,"Quote Signed","Customer",""]
+  ,["PTX-CAPACITY-20260901","Instruments","Capacity expansion - Operetta CLS",null,"Partex","Unconditional upfront capacity-expansion commitment; contingent additional $200,000 excluded",null,150000,"Quote Signed",null,""]
+  ,["PTX-00957","Cell Assays","2D PHH + TruVivo + Transcriptomics + Proteomics","AbbVie","Partex","Fast-track program for 127 AbbVie compounds: 102 small molecules and 25 PROTACs",127,564914.18,"Quote Generated","Customer",""]
+  ,["EF-ADME-MT-0029542","Off-the-Shelf ADME + MitoTox","T1 ADME + MitoTox","Customer","Eurofins","27-compound ADME and mitochondrial toxicity panel",27,11567.88,"Quote Signed","Customer",""]
 ];
 
 const catLabels = ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'];
@@ -550,7 +555,7 @@ function closeDrilldown() {
   document.getElementById('catDrilldown').classList.add('hidden');
 }
 
-const csLabels = ["Axiom Training","Genentech","BI","Isomorphic","BMS","Shionogi","L\u2019Or\u00e9al","RevMed","AbbVie","Eli Lilly","Pfizer","Terray","Unallocated"];
+const csLabels = ["Axiom Training","Genentech","BI","Isomorphic","BMS","Shionogi","L\u2019Or\u00e9al","RevMed","AbbVie","Eli Lilly","Pfizer","Terray","Customer","Unallocated"];
 const isoQuoteIds = ['EF-ISO-MT','EF-ISO-PANEL'];
 
 function showCsDrilldown(setName) {
@@ -643,15 +648,23 @@ const catChart = new Chart(document.getElementById('catChart'), {
 });
 
 // Compound set horizontal bar
+const csData = csLabels.map(setName => Math.round(allQuotes.reduce((sum,q) => {
+  const isIso = q[3] === 'Isomorphic' || isoQuoteIds.includes(q[0]);
+  if (setName === 'Isomorphic') return sum + (isIso ? q[7] : 0);
+  if (setName === 'Axiom Training') return sum + (q[3] === 'Axiom Training' && !isIso ? q[7] : 0);
+  if (setName === 'Unallocated') return sum + (!q[3] || q[9] === 'Mixed' ? q[7] : 0);
+  return sum + (q[3] === setName ? q[7] : 0);
+}, 0)));
+const totalQuoted = allQuotes.reduce((sum,q) => sum + q[7], 0);
 new Chart(document.getElementById('csChart'), {
   type: 'bar',
   data: {
     labels: csLabels,
-    datasets: [{ data: [8212924,1012730,465298,177443,76200,69565,28791,30852,143163,349422,132275,297526,665726], backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e','#4f46e5','#a16207','#0369a1','#be123c','#9ca3af'], borderRadius: 4, barThickness: 18 }]
+    datasets: [{ data: csData, backgroundColor: ['#0777b3','#bd4e35','#2d7a00','#6d28d9','#0891b2','#b45309','#db2777','#0f766e','#4f46e5','#a16207','#0369a1','#be123c','#e18727','#9ca3af'], borderRadius: 4, barThickness: 18 }]
   },
   options: { indexAxis:'y', responsive:true,
     onClick: (evt, elements) => { if(elements.length){ showCsDrilldown(csLabels[elements[0].index]); } },
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/11661914.74*100).toFixed(1)+'%)'}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmtFull(c.raw)+' ('+(c.raw/totalQuoted*100).toFixed(1)+'%)'}}},
     scales:{x:{ticks:{callback:v=>fmt(v)},grid:{color:'#eee'}},y:{ticks:{font:{size:12}},grid:{display:false}}} }
 });
 
@@ -659,8 +672,8 @@ new Chart(document.getElementById('csChart'), {
 function drawInvCharts() {
   // Vendor stacked bar
   const vendors = ['Partex', 'Eurofins', 'Nomic', 'MCE', 'LifeNet Health', 'WuXi', 'Excelra', 'Pharmaron', 'MCule', 'micro1', 'Cyprotex', 'Selleck', 'Alithea', 'WuXi/MCE', 'Mercor', 'iMerit'];
-  const quoted = [5924950.09,2557193.08,1525248,516846,148132.75,746945.6,92650,37400,34662.22,22060,21250,19430,6994,5153,1800,1200];
-  const invoiced = [5529027.7,2357343.96,1307136,535787,0,518474.6,0,36000,31901.4,0,0,7475,0,0,1600,1200];
+  const quoted = vendors.map(v => allQuotes.reduce((sum,q) => sum + (q[4] === v ? q[7] : 0), 0));
+  const invoiced = vendors.map(v => invoices.reduce((sum,inv) => sum + (inv[2] === v ? inv[5] : 0), 0));
   const remaining = quoted.map((q,i) => q - invoiced[i]);
 
   new Chart(document.getElementById('vendorChart'), {
@@ -714,6 +727,8 @@ const invoices = [
   ["1235012","PH-AXIO-ADME-2026-02","Pharmaron","2026-08-31","Assay Services",6480,0,6480,"GSH trapping study for 27 compounds"],
   ["D29260902027C","AXIB-20260901","WuXi","2026-09-02","Assay Services",4900,0,4900,"LC-MS/MS benchmark study - 50% upfront (WUXI-20260901)"],
   ["148-2026-00873","PTX-00873","Partex","2026-08-31","Assay Services",12800,0,12800,"Additional compound logistics, cherry picking/dilution, and 2D PHH half production run"],
+  ["D29260930055C","AXIB-20260910","WuXi","2026-09-30","Assay Services",19519.5,0,19519.5,"AXIB-20260910 ADME study - 50% balance; quote now fully reconciled"],
+  ["US034-0024576-INV","US034-0029542-Q01","Eurofins","2026-09-28","Assay Services",2083.44,0,2083.44,"Partial ADME panel invoice for 6 of 27 quoted samples"],
   ["149-2026-00819","PTX-00819","Partex","2026-08-31","Assay Services",166477.31,0,166477.31,"Eli Lilly TruVivo 14 DIV and transcriptomics production run, including transcriptomics handling"],
   ["150-2026-00833","PTX-00833","Partex","2026-08-31","Assay Services",142058.24,0,142058.24,"Mixed tv_prod_044 invoice: 26q3_backfill_procured + Aditum + Gilead + Talica; 50% Customer / 50% Internal R&D"],
   ["151-2026-00816","PTX-00816","Partex","2026-08-31","Assay Services",24000,0,24000,"Pfizer 384 mini production run and 2D PHH mini production run"],
@@ -924,7 +939,8 @@ const pos = [
   ["20700","Partex",37940,37436,98.7],
   ["AXIB-20260703A","WuXi",130570,128206,98.2],
   ["AXIB-20260703A-CO1","WuXi",55783,55783,100],
-  ["AXIB-20260910","WuXi",39039,19519.5,50],
+  ["AXIB-20260910","WuXi",39039,39039,100],
+  ["US034-0029542-Q01","Eurofins",11567.88,2083.44,18.0],
   ["AXIB-20260717","WuXi",157080,78540,50],
   ["WUXI-20260520","WuXi",60000,58800,98],
   ["20703","Partex",114775,114775,100],
