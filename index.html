@@ -143,7 +143,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 </script>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
-  <p class="subtitle">Q4 2025 &ndash; Q4 2026 &bull; Updated 2026-10-13</p>
+  <p class="subtitle">Q4 2025 &ndash; Q4 2026 &bull; Updated 2026-10-14</p>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
@@ -154,10 +154,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 1: OVERVIEW ========== -->
   <div id="tab-overview">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$13.0M</div><div class="kpi-label">Total Committed</div></div>
+      <div><div class="kpi-val">$13.1M</div><div class="kpi-label">Total Committed</div></div>
       <div><div class="kpi-val blue">$8.8M</div><div class="kpi-label">Axiom Training</div></div>
-      <div><div class="kpi-val orange">$3.6M</div><div class="kpi-label">Customer Work</div></div>
-      <div><div class="kpi-val">169</div><div class="kpi-label">Quote Line Items</div></div>
+      <div><div class="kpi-val orange">$3.7M</div><div class="kpi-label">Customer Work</div></div>
+      <div><div class="kpi-val">170</div><div class="kpi-label">Quote Line Items</div></div>
     </div>
 
     <div class="section">
@@ -192,7 +192,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
           <thead><tr><th>Status</th><th class="r">Quotes</th><th class="r">Spend</th></tr></thead>
           <tbody>
             <tr><td>In process</td><td class="r gray">33</td><td class="r bold">$5,338,116</td></tr>
-            <tr><td>Quote Generated</td><td class="r gray">57</td><td class="r bold">$3,298,084</td></tr>
+            <tr><td>Quote Generated</td><td class="r gray">58</td><td class="r bold">$3,333,284</td></tr>
             <tr><td>Completed</td><td class="r gray">35</td><td class="r bold">$2,095,438</td></tr>
             <tr><td>Quote Signed</td><td class="r gray">22</td><td class="r bold">$685,831</td></tr>
             <tr><td>Quote signed</td><td class="r gray">10</td><td class="r bold">$187,222</td></tr>
@@ -222,10 +222,10 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
   <!-- ========== TAB 2: INVOICES ========== -->
   <div id="tab-invoices" class="hidden">
     <div class="kpi-grid">
-      <div><div class="kpi-val">$13.0M</div><div class="kpi-label">Total Quoted</div></div>
-      <div><div class="kpi-val blue">$10.7M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
-      <div><div class="kpi-val green">$10.2M</div><div class="kpi-label">Total Payable (Net)</div></div>
-      <div><div class="kpi-val orange">82%</div><div class="kpi-label">% Invoiced</div></div>
+      <div><div class="kpi-val">$13.1M</div><div class="kpi-label">Total Quoted</div></div>
+      <div><div class="kpi-val blue">$10.8M</div><div class="kpi-label">Total Invoiced (Gross)</div></div>
+      <div><div class="kpi-val green">$10.3M</div><div class="kpi-label">Total Payable (Net)</div></div>
+      <div><div class="kpi-val orange">83%</div><div class="kpi-label">% Invoiced</div></div>
     </div>
 
     <div class="section">
@@ -509,6 +509,7 @@ const allQuotes = [
   ,["PTX-00965","Cell Assays","TruVivo BioIVT boutique cells","Axiom Training","Partex","TruVivo/LNH BioIVT boutique cells including 15% handling fees and storage",null,184535.65,"Quote Generated","Internal R&D",""]
   ,["WUXI-20260924","Off-the-Shelf ADME + MitoTox","MS2 adduct spectra + 1H NMR","Axiom Training","WuXi","MS2 adduct spectra acquisition and 1H NMR structure elucidation for 500 compounds",500,39500,"Quote Signed","Internal R&D",""]
   ,["WUXI-20261004","Off-the-Shelf ADME + MitoTox","LC-MS/MS benchmark study","Axiom Training","WuXi","LC-MS/MS benchmark study using a 15-compound mixture at two concentrations across 1,018 injections",15,60062,"Quote Signed","Internal R&D",""]
+  ,["PTX-00906","Cell Assays","TruVivo","Nomic","Partex","59 Nomic compounds tested n=3 in TruVivo at 8-point concentration; committed base scope excludes optional transcriptomics and 2D PHH add-ons",59,35200,"Quote Generated","Customer",""]
 ];
 
 const catLabels = ['Cell Assays','Off-the-Shelf ADME + MitoTox','Proteomics','Compound Sourcing','Instruments','Annotations','Transcriptomics'];
@@ -722,7 +723,12 @@ function drawInvCharts() {
 const invoices = [
   ["158-2026-00CEA","PTX-CAPACITY-20260901","Partex","2026-09-30","Prepayment",150000,0,150000,"Capacity expansion agreement installment for the Operetta CLS commitment"],
   ["163-2026-00870","PTX-00870","Partex","2026-09-30","Assay Services",226590.83,0,226590.83,"Remaining three TruVivo runs plus the first three Alithea DRUG-seq runs and shipment"],
-  ["164-2026-00906","PTX-00906","Partex","2026-09-30","Assay Services",18573.77,0,18573.77,"Customer half production run for 59 compounds plus shipment to Nomic; invoice-only"],
+  ["D29261014004C","AXIB-20261004","WuXi","2026-10-14","Assay Services",30031,0,30031,"LC-MS/MS benchmark study - 50% upfront"],
+  ["D29260918009C","AXIB-20260901","WuXi","2026-09-18","Assay Services",4900,0,4900,"LC-MS/MS benchmark study - 50% balance; quote fully reconciled"],
+  ["D29260914048C","AXIB-20260703B","WuXi","2026-09-14","Assay Services",7350,0,7350,"HRAM adduct MS2 spectra acquisition - 50% balance; quote fully reconciled"],
+  ["D29260914049C","AXIB-20260803","WuXi","2026-09-14","Assay Services",24500,0,24500,"Adduct screening MS2 spectra acquisition - 50% balance; quote fully reconciled"],
+  ["D29260914050C","AXIB-20260818","WuXi","2026-09-14","Assay Services",26950,0,26950,"Adduct screening MS2 spectra acquisition - 50% balance; quote fully reconciled"],
+  ["164-2026-00906","PTX-00906","Partex","2026-09-30","Assay Services",18573.77,0,18573.77,"Customer half production run for 59 compounds plus shipment to Nomic; matched to PTX-00906"],
   ["D29260927010C","AXIB-20260703A","WuXi","2026-09-27","Assay Services",121068,-2364,118704,"AXIB-20260703A balance invoice plus Change Order 1; includes cancellation credit"],
   ["1237232","PH-AXIO-ADME-2026-01","Pharmaron","2026-09-21","Assay Services",29520,0,29520,"Tier 1 ADME pilot assays"],
   ["D29260911025C","AXIB-20260910","WuXi","2026-09-11","Assay Services",19519.5,0,19519.5,"AXIB-20260910 ADME study - 50% upfront"],
@@ -947,7 +953,8 @@ const pos = [
   ["PTX-00965","Partex",184535.65,0,0],
   ["2026101248961","MCE",85815.9,0,0],
   ["AXIB-20260924","WuXi",39500,0,0],
-  ["AXIB-20261004","WuXi",60062,0,0],
+  ["AXIB-20261004","WuXi",60062,30031,50],
+  ["PTX-00906","Partex",35200,18573.77,52.8],
   ["20700","Partex",37940,37436,98.7],
   ["AXIB-20260703A","WuXi",130570,128206,98.2],
   ["AXIB-20260703A-CO1","WuXi",55783,55783,100],
@@ -969,8 +976,8 @@ const pos = [
   ["US034-0029447-Q02","Eurofins",57185.1,57185.1,100],
   ["PTX-00820","Partex",52537.6,52537.6,100],
   ["PTX-00821","Partex",52537.6,25600,48.7],
-  ["AXIB-20260803","WuXi",49000,24500,50],
-  ["AXIB-20260818","WuXi",53900,26950,50],
+  ["AXIB-20260803","WuXi",49000,49000,100],
+  ["AXIB-20260818","WuXi",53900,53900,100],
   ["PTX-00833","Partex",131962.9,142058.24,107.7],
   ["PTX-00873","Partex",12800,12800,100],
   ["PTX-00812","Partex",43802,43802,100],
@@ -1010,10 +1017,10 @@ const pos = [
   ["US034-0030261-Q03","Eurofins",15797.46,15797.46,100],
   ["MCE-LARGE-WUXI-PART-2","MCE",15975,15975,100],
   ["US034-0030838-Q01","Eurofins",15000,15000,100],
-  ["AXIB-20260703B","WuXi",14700,7350,50],
+  ["AXIB-20260703B","WuXi",14700,14700,100],
   ["AXIB-20260724","WuXi",19512,9756,50],
   ["AXIB-20260717A","WuXi",15040,7520,50],
-  ["AXIB-20260901","WuXi",9800,4900,50],
+  ["AXIB-20260901","WuXi",9800,9800,100],
   ["2026072408672-2","MCE",10420,10420,100],
   ["PTX-00929","Partex",10350,10350,100],
   ["US034-0030956-Q01","Eurofins",14100,13865,98.3],
