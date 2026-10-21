@@ -1070,13 +1070,12 @@ pos.forEach(r => {
 });
 
 // ── COST BUILDER ──────────────────────────────────────────────────────────────
-// Data sourced from Partex pricing workbook, cost_per_compound sheet tab, WuXi ADME quote AXIB-20260520 V02, and Eurofins quotes US034-0030813-Q01 and US034-0030372-A01
+// Data sourced from Partex pricing workbook, cost_per_compound sheet tab, and WuXi quotes AXIB-20260520 V02 and AXIB-20260724 V02
 // [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, alithea]
 const cbSources = {
   partexPricing: 'https://docs.google.com/spreadsheets/d/1FhNkx1Iy72545ZfDYTPgKgMtF3wsomqN?rtpof=true&usp=drive_fs',
   wuxiAdme: 'https://drive.google.com/open?id=1FG_Fwx1U7JGzi61ADi_u1mvek95dj0GM&usp=drive_fs',
-  eurofinsGsh: 'https://drive.google.com/file/d/1tEd-gB85y3W_cAr9jDTrcB4CQS8bAsph/view',
-  eurofinsTransporters: 'https://drive.google.com/file/d/1CqjVA_NO7xpSSF98Lut3Nnrk4mVk-To5/view'
+  wuxiGshTransporters: 'https://drive.google.com/file/d/1z3vYeWUKcToWxnvRJ2tidtGwXtawWlEE/view'
 };
 
 const cbTranscriptomicsPackages = [
@@ -1120,18 +1119,13 @@ const cbRaw = [
   ['LogD',               'ADME',            'WuXi',    1,2, null,  null,    30.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
   ['Caco-2',             'ADME',            'WuXi',    1,2, null,  null,   210.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
   ['Aq Sol',             'ADME',            'WuXi',    1,2, null,  null,    39.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
-  ['GSH Consumption',    'RM - GSH',        'Eurofins',7,2, null,  null,   235.00, 'US034-0030813-Q01', cbSources.eurofinsGsh],
+  ['GSH Consumption',    'RM - GSH',        'WuXi',    6,3, null,  null,   350.00, 'AXIB-20260724 V02; standing 30% discount applied', cbSources.wuxiGshTransporters],
   ['RM Complex Trapping','RM - Complex',    'WuXi',    1,1, null,  null,   171.00, 'AXIB-20260520 V02; six-assay bundle totals $600/cpd at 100 compounds', cbSources.wuxiAdme],
-  ['BSEP',               'Transporters',    'Eurofins',1,3, null,  null,   283.22, '', cbSources.eurofinsTransporters],
-  ['BSEP',               'Transporters',    'Eurofins',8,2, null,  null,   283.22, '', cbSources.eurofinsTransporters],
-  ['MRP2',               'Transporters',    'Eurofins',1,3, null,  null,   231.32, '', cbSources.eurofinsTransporters],
-  ['MRP3',               'Transporters',    'Eurofins',1,3, null,  null,   231.32, '', cbSources.eurofinsTransporters],
-  ['OATP1B1',            'Transporters',    'Eurofins',1,3, null,  null,   231.32, '', cbSources.eurofinsTransporters],
-  ['OATP1B3',            'Transporters',    'Eurofins',1,3, null,  null,   231.32, '', cbSources.eurofinsTransporters],
-  ['MRP2',               'Transporters',    'Eurofins',8,2, null,  null,   231.32, '', cbSources.eurofinsTransporters],
-  ['MRP3',               'Transporters',    'Eurofins',8,2, null,  null,   231.32, '', cbSources.eurofinsTransporters],
-  ['OATP1B1',            'Transporters',    'Eurofins',8,2, null,  null,   231.32, '', cbSources.eurofinsTransporters],
-  ['OATP1B3',            'Transporters',    'Eurofins',8,2, null,  null,   231.32, '', cbSources.eurofinsTransporters],
+  ['BSEP',               'Transporters',    'WuXi',    1,3, null,  null,    74.00, 'AXIB-20260724 V02; standing 30% discount applied', cbSources.wuxiGshTransporters],
+  ['MRP2',               'Transporters',    'WuXi',    1,3, null,  null,    74.00, 'AXIB-20260724 V02; standing 30% discount applied', cbSources.wuxiGshTransporters],
+  ['MRP3',               'Transporters',    'WuXi',    1,3, null,  null,   116.00, 'AXIB-20260724 V02; standing 30% discount applied', cbSources.wuxiGshTransporters],
+  ['OATP1B1',            'Transporters',    'WuXi',    1,3, null,  null,    81.00, 'AXIB-20260724 V02; standing 30% discount applied', cbSources.wuxiGshTransporters],
+  ['OATP1B3',            'Transporters',    'WuXi',    1,3, null,  null,    81.00, 'AXIB-20260724 V02; standing 30% discount applied', cbSources.wuxiGshTransporters],
 ];
 
 const cbBucketOrder = ['Standard PHH','Standard Truvivo','Transcriptomics','Proteomics','ADME','RM - GSH','RM - Complex','Transporters'];
