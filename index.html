@@ -105,6 +105,20 @@
   .cb-batch-result { display:flex; justify-content:space-between; align-items:baseline; }
   .cb-batch-result-label { font-size:13px; font-weight:600; }
   .cb-batch-result-val { font-size:20px; font-weight:700; color:#0777b3; }
+  .cb-buffer-control { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:14px 0 4px; padding:11px 12px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:7px; }
+  .cb-buffer-toggle { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; cursor:pointer; }
+  .cb-buffer-toggle input { position:absolute; opacity:0; pointer-events:none; }
+  .cb-buffer-switch { position:relative; width:34px; height:19px; border-radius:999px; background:#d1d5db; transition:background .15s ease; flex-shrink:0; }
+  .cb-buffer-switch::after { content:''; position:absolute; width:15px; height:15px; top:2px; left:2px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.22); transition:transform .15s ease; }
+  .cb-buffer-toggle input:checked + .cb-buffer-switch { background:#0777b3; }
+  .cb-buffer-toggle input:checked + .cb-buffer-switch::after { transform:translateX(15px); }
+  .cb-buffer-toggle input:focus-visible + .cb-buffer-switch { outline:3px solid rgba(7,119,179,.22); outline-offset:2px; }
+  .cb-buffer-pct-wrap { display:flex; align-items:center; gap:4px; font-size:12px; font-weight:600; color:#6b7280; }
+  .cb-buffer-pct { width:58px; padding:5px 7px; border:1px solid #d1d5db; border-radius:5px; background:#fff; color:#231f20; font-size:14px; font-weight:700; text-align:right; }
+  .cb-buffer-pct:focus { outline:none; border-color:#0777b3; box-shadow:0 0 0 3px rgba(7,119,179,.12); }
+  .cb-subtotal-row td { border-top:1px solid #d1d5db; padding-top:9px; font-weight:600; }
+  .cb-buffer-row td { color:#6a6a6a; font-size:12px; }
+  .cb-buffer-row.off td { color:#9ca3af; }
   .cb-total-row td { border-top:2px solid #231f20; font-weight:700; padding-top:10px; font-size:15px; }
   @media (max-width: 760px) {
     .two-col { grid-template-columns:1fr; }
@@ -143,7 +157,7 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
 </script>
 <div class="container">
   <h1>CRO Budget Tracker</h1>
-  <p class="subtitle">Q4 2025 &ndash; Q4 2026 &bull; Updated 2026-10-14</p>
+  <p class="subtitle">Q4 2025 &ndash; Q4 2026 &bull; Updated 2026-10-22</p>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('overview')">Budget Overview</button>
@@ -308,8 +322,23 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
         <table>
           <thead><tr><th>Assay Group</th><th class="r">Cost</th></tr></thead>
           <tbody id="cb-summary-body"></tbody>
-          <tbody><tr class="cb-total-row"><td><strong>Total</strong></td><td class="r" id="cb-total">—</td></tr></tbody>
+          <tbody>
+            <tr class="cb-subtotal-row"><td>Subtotal</td><td class="r" id="cb-subtotal">—</td></tr>
+            <tr class="cb-buffer-row" id="cb-buffer-row"><td>Buffer <span id="cb-buffer-label">(20%)</span></td><td class="r" id="cb-buffer-amount">—</td></tr>
+            <tr class="cb-total-row"><td><strong>Final cost</strong></td><td class="r" id="cb-total">—</td></tr>
+          </tbody>
         </table>
+        <div class="cb-buffer-control">
+          <label class="cb-buffer-toggle" for="cb-buffer-enabled">
+            <input type="checkbox" id="cb-buffer-enabled" checked onchange="cbRender()">
+            <span class="cb-buffer-switch" aria-hidden="true"></span>
+            <span>Apply buffer</span>
+          </label>
+          <label class="cb-buffer-pct-wrap" for="cb-buffer-pct">
+            <input type="number" id="cb-buffer-pct" class="cb-buffer-pct" value="20" min="0" step="0.1" inputmode="decimal" oninput="cbRender()">
+            <span>%</span>
+          </label>
+        </div>
       </div>
     </div>
   </div>
@@ -1168,6 +1197,17 @@ function cbCompoundCount() {
   return Number.isFinite(n) && n > 0 ? n : 0;
 }
 
+function cbBufferPercent() {
+  const el = document.getElementById('cb-buffer-pct');
+  const n = parseFloat(el && el.value);
+  return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+
+function cbBufferEnabled() {
+  const el = document.getElementById('cb-buffer-enabled');
+  return !!(el && el.checked);
+}
+
 function cbEffective(detail, options) {
   if (options.length > 1) {
     return options[Math.min(cbState.optIdx[detail] || 0, options.length-1)];
@@ -1348,10 +1388,19 @@ function cbRender() {
     </tr>`;
   });
 
-  cbGrandTotal = grandTotal;
+  const bufferPercent = cbBufferPercent();
+  const bufferEnabled = cbBufferEnabled();
+  const bufferAmount = bufferEnabled ? grandTotal * bufferPercent / 100 : 0;
+  const finalTotal = grandTotal + bufferAmount;
+
+  cbGrandTotal = finalTotal;
   document.getElementById('cb-assays').innerHTML = assaysHtml;
   document.getElementById('cb-summary-body').innerHTML = summaryHtml;
-  document.getElementById('cb-total').innerHTML = '<strong>'+fmtCost(grandTotal)+'</strong>';
+  document.getElementById('cb-subtotal').textContent = fmtCost(grandTotal);
+  document.getElementById('cb-buffer-label').textContent = `(${bufferPercent.toLocaleString('en-US',{maximumFractionDigits:2})}%)`;
+  document.getElementById('cb-buffer-amount').textContent = bufferEnabled ? fmtCost(bufferAmount) : 'Off';
+  document.getElementById('cb-buffer-row').classList.toggle('off', !bufferEnabled);
+  document.getElementById('cb-total').innerHTML = '<strong>'+fmtCost(finalTotal)+'</strong>';
 }
 
 function cbToggle(detail) {
