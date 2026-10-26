@@ -1252,7 +1252,7 @@ function cbEffective(detail, options) {
 
 function cbPackagePlan(packages, compounds) {
   if (!packages || !packages.length || !compounds) {
-    return {cost:0, capacity:0, packageCount:0, mix:[], label:'—', runEquivalents:0};
+    return {cost:0, capacity:0, packageCount:0, mix:[], label:'—'};
   }
   const mini = packages.find(pkg => pkg.capacity === 26);
   const half = packages.find(pkg => pkg.capacity === 105);
@@ -1268,8 +1268,7 @@ function cbPackagePlan(packages, compounds) {
     capacity,
     packageCount,
     mix,
-    label,
-    runEquivalents: compounds / full.capacity
+    label
   };
 }
 
@@ -1334,7 +1333,9 @@ function cbRender() {
       if (opt.packages) {
         const runWord = total.packageCount === 1 ? 'run' : 'runs';
         const effectiveCpc = compounds ? total.cost / compounds : 0;
-        const note = `${total.label} production ${runWord}; ${total.runEquivalents.toFixed(3)} full-run equivalents; capacity ${total.capacity}; effective $${effectiveCpc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}/cpd`;
+        const filledPercent = total.capacity ? compounds / total.capacity * 100 : 0;
+        const filledLabel = filledPercent.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:1});
+        const note = `${total.label} production ${runWord}; ${compounds.toLocaleString('en-US')} of ${total.capacity.toLocaleString('en-US')} compounds (${filledLabel}% filled); effective $${effectiveCpc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}/cpd`;
         packageNote = `<span class="cb-note gray">${note}</span>`;
       }
       const noteParts = `${opt.notes ? `<span class="cb-note">${opt.notes}</span>` : ''}${packageNote}`;
