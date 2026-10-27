@@ -1200,7 +1200,7 @@ pos.forEach(r => {
 // ── COST BUILDER ──────────────────────────────────────────────────────────────
 // Batch-priced assays use authoritative total costs from the Assay pricing calculations tab.
 // Unit-priced assays use the cited WuXi quotes.
-// [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, variant]
+// [detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, variant, displayLabel]
 const cbSources = {
   partexPricing: 'https://docs.google.com/spreadsheets/d/11OogbgZ7CKzZjifpY3ICCgR-tib3LgB6Y86VqF3a91M/edit?gid=1517920873#gid=1517920873',
   wuxiAdme: 'https://drive.google.com/open?id=1FG_Fwx1U7JGzi61ADi_u1mvek95dj0GM&usp=drive_fs',
@@ -1216,10 +1216,12 @@ const cbPackages = (miniCost, halfCost, fullCost) => [
 
 const cbRaw = [
   ['2D PHH Imaging',          '2D PHH Imaging',          'Partex', 8,3, null, null, null, '', cbSources.partexPricing, cbPackages(13000, 17200, 24500)],
-  ['TruVivo Imaging 7 Day',   'TruVivo Imaging 7 Day',   'Partex', 8,3, null, null, null, '', cbSources.partexPricing, cbPackages(30000, 57300, 108200)],
-  ['TruVivo Imaging 14 Day',  'TruVivo Imaging 14 Day',  'Partex', 8,3, null, null, null, '', cbSources.partexPricing, cbPackages(41100, 82200, 145200)],
-  ['TruVivo Transcriptomics', 'TruVivo Transcriptomics', 'Partex', 8,3, null, null, null, '', cbSources.partexPricing, cbPackages(39235.20, 83511.84, 143960.64), {label:'Standard'}],
-  ['TruVivo Transcriptomics', 'TruVivo Transcriptomics', 'Partex', 8,3, null, null, null, '', cbSources.partexPricing, cbPackages(58058.88, 128958.24, 211721.28), {label:'Fast'}],
+  ['TruVivo 7 Day Imaging',   'TruVivo 7 Day',           'Partex', 8,3, null, null, null, '', cbSources.partexPricing, cbPackages(30000, 57300, 108200), null, 'Imaging'],
+  ['TruVivo 7 Day Transcriptomics', 'TruVivo 7 Day',      'Partex', 8,3, null, null, null, '7-day transcriptomics pricing', cbSources.partexPricing, cbPackages(39235.20, 83511.84, 143960.64), {label:'Standard'}, 'Transcriptomics'],
+  ['TruVivo 7 Day Transcriptomics', 'TruVivo 7 Day',      'Partex', 8,3, null, null, null, '7-day transcriptomics pricing', cbSources.partexPricing, cbPackages(58058.88, 128958.24, 211721.28), {label:'Fast'}, 'Transcriptomics'],
+  ['TruVivo 14 Day Imaging',  'TruVivo 14 Day',          'Partex', 8,3, null, null, null, '', cbSources.partexPricing, cbPackages(41100, 82200, 145200), null, 'Imaging'],
+  ['TruVivo 14 Day Transcriptomics', 'TruVivo 14 Day',    'Partex', 8,3, null, null, null, 'Uses the published 7-day Standard/Fast transcriptomics schedule; no separate 14-day schedule is listed', cbSources.partexPricing, cbPackages(39235.20, 83511.84, 143960.64), {label:'Standard'}, 'Transcriptomics'],
+  ['TruVivo 14 Day Transcriptomics', 'TruVivo 14 Day',    'Partex', 8,3, null, null, null, 'Uses the published 7-day Standard/Fast transcriptomics schedule; no separate 14-day schedule is listed', cbSources.partexPricing, cbPackages(58058.88, 128958.24, 211721.28), {label:'Fast'}, 'Transcriptomics'],
   ['TruVivo Proteomics',      'TruVivo Proteomics',      'Nomic',  8,1, null, null, null, '7-day marginal only; excludes TruVivo imaging', cbSources.partexPricing, cbPackages(28800, 86400, 163200)],
   ['PPB',                'ADME',            'WuXi',    1,3, null,  null,    70.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
   ['CLint (HLM)',        'ADME',            'WuXi',    1,2, null,  null,    80.00, 'AXIB-20260520 V02', cbSources.wuxiAdme],
@@ -1236,23 +1238,23 @@ const cbRaw = [
   ['OATP1B3',            'Transporters',    'WuXi',    1,3, null,  null,    81.00, 'AXIB-20260724 V02; standing 30% discount applied', cbSources.wuxiGshTransporters],
 ];
 
-const cbBucketOrder = ['2D PHH Imaging','TruVivo Imaging 7 Day','TruVivo Imaging 14 Day','TruVivo Transcriptomics','TruVivo Proteomics','ADME','RM - GSH','Mito Tox','RM - Complex','Transporters'];
-const cbCellBasedBuckets = new Set(['2D PHH Imaging','TruVivo Imaging 7 Day','TruVivo Imaging 14 Day','TruVivo Transcriptomics','TruVivo Proteomics']);
+const cbBucketOrder = ['2D PHH Imaging','TruVivo 7 Day','TruVivo 14 Day','TruVivo Proteomics','ADME','RM - GSH','Mito Tox','RM - Complex','Transporters'];
+const cbCellBasedBuckets = new Set(['2D PHH Imaging','TruVivo 7 Day','TruVivo 14 Day','TruVivo Proteomics']);
 const cbUnitCostBuckets = new Set(['ADME','RM - GSH','Mito Tox','RM - Complex','Transporters']);
 
 // Build grouped structure: bucket → { detail → {detail, cro, options[]} }
 const cbBuckets = {};
 cbBucketOrder.forEach(b => { cbBuckets[b] = {}; });
-cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, variant]) => {
-  if (!cbBuckets[bucket][detail]) cbBuckets[bucket][detail] = {detail, bucket, cro, options:[]};
+cbRaw.forEach(([detail, bucket, cro, conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, variant, displayLabel]) => {
+  if (!cbBuckets[bucket][detail]) cbBuckets[bucket][detail] = {detail, displayLabel:displayLabel || detail, bucket, cro, options:[]};
   cbBuckets[bucket][detail].options.push({conc, reps, batch, batchN, cpc, notes, sourceUrl, packages, variant});
 });
 
 // State
 const cbDefaultSelected = new Set([
   '2D PHH Imaging',
-  'TruVivo Imaging 7 Day',
-  'TruVivo Transcriptomics',
+  'TruVivo 7 Day Imaging',
+  'TruVivo 7 Day Transcriptomics',
   'PPB',
   'CLint (HLM)',
   'LogD',
@@ -1375,7 +1377,7 @@ function cbRender() {
         </span>
       </div>`;
 
-    details.forEach(({detail, cro, options}) => {
+    details.forEach(({detail, displayLabel, cro, options}) => {
       const on  = cbState.checked[detail];
       const opt = cbEffective(detail, options);
       const total = cbOptionTotal(opt, compounds);
@@ -1421,7 +1423,7 @@ function cbRender() {
 
       assaysHtml += `<label class="cb-row${on?'':' off'}">
         <input type="checkbox" ${on?'checked':''} onchange="cbToggle('${detail}')">
-        <span class="cb-det">${detail}</span>
+        <span class="cb-det">${displayLabel}</span>
         <span class="cb-cro">${cro}</span>
         ${optHtml}${noteHtml}
         <span class="cb-unit">${unitCostHtml}</span>
