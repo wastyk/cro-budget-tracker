@@ -1313,12 +1313,12 @@ function cbOptionTotal(opt, compounds) {
     capacity: compounds,
     packageCount: 0,
     mix: [],
-    label: opt.cpc ? `$${opt.cpc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}/cpd` : '—'
+    label: opt.cpc ? `$${opt.cpc.toLocaleString('en-US',{maximumFractionDigits:0})}/cpd` : '—'
   };
 }
 
 function cbRender() {
-  const fmtCost = v => '$'+v.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2});
+  const fmtCost = v => '$'+v.toLocaleString('en-US',{maximumFractionDigits:0});
   const compounds = cbCompoundCount();
   let assaysHtml = '', summaryHtml = '';
   let standaloneGrandTotal = 0, addonGrandTotal = 0;
@@ -1384,13 +1384,13 @@ function cbRender() {
         const unroundedLabel = unroundedRuns.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:3});
         const unroundedRunWord = unroundedRuns === 1 ? 'run' : 'runs';
         const billedRunWord = total.packageCount === 1 ? 'run' : 'runs';
-        const note = `Unrounded: ${unroundedLabel} ${run.label} production ${unroundedRunWord}; billed: ${total.packageCount} ${run.label} production ${billedRunWord}; effective $${effectiveCpc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}/cpd`;
+        const note = `Unrounded: ${unroundedLabel} ${run.label} production ${unroundedRunWord}; billed: ${total.packageCount} ${run.label} production ${billedRunWord}; effective $${effectiveCpc.toLocaleString('en-US',{maximumFractionDigits:0})}/cpd`;
         packageNote = `<span class="cb-note gray">${note}</span>`;
       }
       const noteParts = `${opt.notes ? `<span class="cb-note">${opt.notes}</span>` : ''}${packageNote}`;
       const noteHtml = noteParts ? `<span class="cb-note-wrap">${noteParts}</span>` : '';
       const unitCost = cbUnitCostBuckets.has(bucket) && opt.cpc
-        ? `$${opt.cpc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}/cpd`
+        ? `$${opt.cpc.toLocaleString('en-US',{maximumFractionDigits:0})}/cpd`
         : '';
       const unitCostHtml = opt.sourceUrl && unitCost
         ? `<a class="cb-cpc-link" href="${opt.sourceUrl}" target="_blank" rel="noopener noreferrer" title="Open quote source" onclick="event.stopPropagation()">${unitCost}</a>`
