@@ -1344,11 +1344,13 @@ function cbRender() {
 
       let packageNote = '';
       if (opt.packages) {
-        const runWord = total.packageCount === 1 ? 'run' : 'runs';
         const effectiveCpc = compounds ? total.cost / compounds : 0;
-        const filledPercent = total.capacity ? compounds / total.capacity * 100 : 0;
-        const filledLabel = filledPercent.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:1});
-        const note = `${total.label} production ${runWord}; ${compounds.toLocaleString('en-US')} of ${total.capacity.toLocaleString('en-US')} compounds (${filledLabel}% filled); effective $${effectiveCpc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}/cpd`;
+        const run = total.mix[0];
+        const unroundedRuns = compounds / run.capacity;
+        const unroundedLabel = unroundedRuns.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:3});
+        const unroundedRunWord = unroundedRuns === 1 ? 'run' : 'runs';
+        const billedRunWord = total.packageCount === 1 ? 'run' : 'runs';
+        const note = `Unrounded: ${unroundedLabel} ${run.label} production ${unroundedRunWord}; billed: ${total.packageCount} ${run.label} production ${billedRunWord}; effective $${effectiveCpc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}/cpd`;
         packageNote = `<span class="cb-note gray">${note}</span>`;
       }
       const noteParts = `${opt.notes ? `<span class="cb-note">${opt.notes}</span>` : ''}${packageNote}`;
