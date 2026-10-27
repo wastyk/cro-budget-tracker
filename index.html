@@ -105,16 +105,9 @@
   .cb-run-reference-name { font-size:13px; font-weight:700; color:#231f20; }
   .cb-run-reference-count { font-size:12px; font-weight:600; color:#6b7280; white-space:nowrap; }
   .cb-run-reference-note { margin-top:8px; font-size:11px; color:#6b7280; }
-  .cb-pricing-guide { margin:0 0 16px; padding:13px 14px; border:1px solid #e5e7eb; border-radius:7px; background:#fff; }
-  .cb-pricing-guide-title { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#0777b3; margin-bottom:9px; }
-  .cb-pricing-guide-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-  .cb-pricing-guide-card { border:1px solid #e5e7eb; border-radius:6px; overflow:hidden; }
-  .cb-pricing-guide-card h3 { margin:0; padding:9px 11px; font-size:14px; background:#f8fbfd; border-bottom:1px solid #e5e7eb; }
-  .cb-pricing-guide-row { display:grid; grid-template-columns:72px minmax(0,1fr); gap:9px; padding:8px 11px; border-bottom:1px solid #f0f1f2; font-size:11px; line-height:1.4; }
-  .cb-pricing-guide-row:last-child { border-bottom:0; }
-  .cb-pricing-guide-label { font-weight:700; color:#231f20; }
-  .cb-pricing-guide-value { color:#6b7280; }
-  .cb-pricing-guide-note { margin-top:8px; font-size:11px; color:#6b7280; }
+  .cb-pricing-note { margin:-4px 0 16px; padding:0 2px; font-size:11px; line-height:1.5; color:#6b7280; }
+  .cb-pricing-note p { margin:2px 0; }
+  .cb-pricing-note strong { color:#4b5563; }
   .cb-driver { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px 0 18px; margin:4px 0 22px; border-top:2px solid #231f20; border-bottom:2px solid #e5e7eb; }
   .cb-driver-kicker { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#0777b3; margin-bottom:3px; }
   .cb-driver-label { display:block; font-size:18px; font-weight:700; color:#231f20; }
@@ -153,7 +146,6 @@
     .cb-driver { align-items:flex-start; flex-direction:column; gap:10px; }
     .cb-driver-input { width:100%; text-align:left; }
     .cb-run-reference-grid { grid-template-columns:1fr; }
-    .cb-pricing-guide-grid { grid-template-columns:1fr; }
     .cb-row { grid-template-columns:18px minmax(0,1fr) auto; row-gap:5px; }
     .cb-row > input { grid-column:1; grid-row:1; }
     .cb-det { grid-column:2; grid-row:1; }
@@ -353,23 +345,9 @@ if(sessionStorage.getItem('cro_auth')==='1') document.getElementById('pwOverlay'
       <div class="cb-run-reference-note">Counts above 210 are billed in full-run increments.</div>
     </div>
 
-    <div class="cb-pricing-guide" aria-label="Standalone and add-on cost definitions">
-      <div class="cb-pricing-guide-title">Cell-based pricing scenarios</div>
-      <div class="cb-pricing-guide-grid">
-        <div class="cb-pricing-guide-card">
-          <h3>Standalone cost</h3>
-          <div class="cb-pricing-guide-row"><span class="cb-pricing-guide-label">Definition</span><span class="cb-pricing-guide-value">Fully loaded cost of running an assay independently</span></div>
-          <div class="cb-pricing-guide-row"><span class="cb-pricing-guide-label">Includes</span><span class="cb-pricing-guide-value">Labor, cells, reagents, setup, and unused well capacity</span></div>
-          <div class="cb-pricing-guide-row"><span class="cb-pricing-guide-label">Economics</span><span class="cb-pricing-guide-value">Uses Mini, Half, or Full package pricing and reflects actual plate utilization</span></div>
-        </div>
-        <div class="cb-pricing-guide-card">
-          <h3>Add-on cost</h3>
-          <div class="cb-pricing-guide-row"><span class="cb-pricing-guide-label">Definition</span><span class="cb-pricing-guide-value">Incremental cost of adding compounds to an existing full production run</span></div>
-          <div class="cb-pricing-guide-row"><span class="cb-pricing-guide-label">Includes</span><span class="cb-pricing-guide-value">Additional assay-specific labor, reagents, and processing</span></div>
-          <div class="cb-pricing-guide-row"><span class="cb-pricing-guide-label">Economics</span><span class="cb-pricing-guide-value">Prorates the 210-compound Full-run price and leverages existing infrastructure and shared costs</span></div>
-        </div>
-      </div>
-      <div class="cb-pricing-guide-note">Cell-assay amounts in the assay list use Standalone cost. Both scenarios are shown in the Summary; non-cell assay costs are the same in both.</div>
+    <div class="cb-pricing-note" aria-label="Standalone and add-on assay pricing definitions">
+      <p>* <strong>Standalone Assay Pricing:</strong> Fully loaded cost of an independent assay run, including labor, cells, reagents, and unused well capacity.</p>
+      <p>* <strong>Add-On Assay Pricing:</strong> Incremental cost of adding an assay to an existing run, assuming shared costs and well capacity are already covered.</p>
     </div>
 
     <div class="cb-driver">
