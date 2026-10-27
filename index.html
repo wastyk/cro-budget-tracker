@@ -74,6 +74,7 @@
   .pw-box button:hover { background:#065f91; }
   .pw-error { color:#bc1200; font-size:12px; margin-top:8px; display:none; }
   /* ── Cost Builder ── */
+  #tab-builder { width:min(1180px,calc(100vw - 48px)); margin-left:50%; transform:translateX(-50%); }
   .cb-bucket { margin-bottom:18px; }
   .cb-bucket-hdr { display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:2px solid #e5e7eb; margin-bottom:2px; }
   .cb-bucket-name { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#6a6a6a; }
@@ -114,8 +115,9 @@
   .cb-driver-sub { font-size:12px; color:#6a6a6a; margin-top:3px; }
   .cb-driver-input { width:140px; padding:8px 12px; font-size:28px; line-height:1.1; font-weight:700; border:2px solid #0777b3; border-radius:6px; text-align:right; color:#231f20; background:#fff; }
   .cb-driver-input:focus { outline:none; box-shadow:0 0 0 3px rgba(7,119,179,.15); }
+  #cb-assays, .cb-summary-wrap { min-width:0; }
   .cb-summary-wrap { position:sticky; top:24px; }
-  .cb-builder-grid { grid-template-columns:minmax(0,1.45fr) minmax(370px,1fr); gap:28px; }
+  .cb-builder-grid { grid-template-columns:minmax(600px,1.45fr) minmax(390px,1fr); gap:32px; }
   .cb-summary-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
   .cb-summary-compounds { display:flex; align-items:baseline; gap:7px; padding:5px 8px; border:1px solid #dbe6ed; border-radius:5px; background:#f8fbfd; color:#6b7280; font-size:11px; }
   .cb-summary-compounds strong { color:#0777b3; font-size:17px; line-height:1; }
@@ -139,10 +141,12 @@
   .cb-buffer-row td { color:#6a6a6a; font-size:12px; }
   .cb-buffer-row.off td { color:#9ca3af; }
   .cb-total-row td { border-top:2px solid #231f20; font-weight:700; padding-top:10px; font-size:15px; }
+  .cb-summary-table { table-layout:fixed; }
   .cb-summary-table th { font-size:11px; line-height:1.25; vertical-align:bottom; }
+  .cb-summary-table th:first-child { width:46%; }
   .cb-summary-table th:first-child, .cb-summary-table td:first-child { white-space:nowrap; padding-right:14px; }
   .cb-summary-table th:not(:first-child), .cb-summary-table td:not(:first-child) { white-space:nowrap; }
-  @media (max-width: 960px) {
+  @media (max-width: 1100px) {
     .cb-builder-grid { grid-template-columns:1fr; }
     .cb-summary-wrap { position:static; }
   }
