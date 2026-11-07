@@ -146,6 +146,9 @@
   .cb-summary-table th:first-child { width:46%; }
   .cb-summary-table th:first-child, .cb-summary-table td:first-child { white-space:nowrap; padding-right:14px; }
   .cb-summary-table th:not(:first-child), .cb-summary-table td:not(:first-child) { white-space:nowrap; }
+  .cb-summary-group-row td:first-child { font-weight:600; }
+  .cb-summary-detail-row td { padding-top:4px; padding-bottom:4px; font-size:12px; color:#6b7280; }
+  .cb-summary-detail-row td:first-child { padding-left:16px; }
   @media (max-width: 1100px) {
     .cb-builder-grid { grid-template-columns:1fr; }
     .cb-summary-wrap { position:static; }
@@ -1436,11 +1439,23 @@ function cbRender() {
     });
 
     assaysHtml += `</div>`;
-    summaryHtml += `<tr>
+    const showDetailBreakdown = bucket === 'TruVivo 7 Day' || bucket === 'TruVivo 14 Day';
+    summaryHtml += `<tr${showDetailBreakdown ? ' class="cb-summary-group-row"' : ''}>
       <td>${bucket}</td>
       <td class="r bold${bucketStandaloneTotal===0?' gray':''}">${bucketStandaloneTotal>0?fmtCost(bucketStandaloneTotal):'—'}</td>
       <td class="r bold${bucketAddonTotal===0?' gray':''}">${bucketAddonTotal>0?fmtCost(bucketAddonTotal):'—'}</td>
     </tr>`;
+    if (showDetailBreakdown) {
+      details.forEach(({detail, displayLabel, options}) => {
+        const selected = cbState.checked[detail];
+        const detailTotal = selected ? cbOptionTotal(cbEffective(detail, options), compounds) : {cost:0, addonCost:0};
+        summaryHtml += `<tr class="cb-summary-detail-row">
+          <td>${displayLabel}</td>
+          <td class="r${selected?'':' gray'}">${selected?fmtCost(detailTotal.cost):'—'}</td>
+          <td class="r${selected?'':' gray'}">${selected?fmtCost(detailTotal.addonCost):'—'}</td>
+        </tr>`;
+      });
+    }
   });
 
   const bufferPercent = cbBufferPercent();
